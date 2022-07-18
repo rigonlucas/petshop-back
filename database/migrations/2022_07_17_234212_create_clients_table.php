@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('name', 500);
             $table->string('email', 255);
             $table->string('phone', 100);
+            $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('account_id')->references('id')->on('accounts');
-            $table->timestamps();
         });
     }
 
