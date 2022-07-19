@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\ProductsEnum;
+use App\Models\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,14 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $costPrice = random_int(20, 100);
         return [
-            //
+            'account_id' => Account::factory(),
+            'name' => $this->faker->name(),
+            'description' => $this->faker->text(),
+            'type' => ProductsEnum::random(),
+            'cost_price' => $costPrice,
+            'price' => $costPrice + ($costPrice * (random_int(10, 35)/100)),
         ];
     }
 }

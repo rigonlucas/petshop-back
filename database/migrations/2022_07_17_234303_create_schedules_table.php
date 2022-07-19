@@ -19,7 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('pet_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('schedule_type');
+            $table->unsignedBigInteger('type');
+            $table->unsignedBigInteger('status');
             $table->timestamp('start_at');
             $table->unsignedBigInteger('duration');
             $table->text('description');

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class AccountFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => null,
+            'name' => $this->faker->name(),
         ];
     }
 }
