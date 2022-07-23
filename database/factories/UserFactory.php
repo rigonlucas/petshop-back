@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -23,7 +24,7 @@ class UserFactory extends Factory
             'account_id' => Account::factory(),
             'email' => fake()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make('123'), // password
             'remember_token' => Str::random(10),
         ];
     }
