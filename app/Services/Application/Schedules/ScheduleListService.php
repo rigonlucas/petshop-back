@@ -3,6 +3,7 @@
 namespace App\Services\Application\Schedules;
 
 use App\Models\Schedule;
+use App\Services\Application\Schedules\DTO\ScheduleListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
 use Carbon\Carbon;
@@ -29,31 +30,31 @@ class ScheduleListService extends BaseService
         ];
     }
 
-    public function openSchedules(): self
+    public function openSchedules(ScheduleListData $data): self
     {
         $this->schedule = Schedule::openSchedule();
+        $this->setRequestedIncludes(explode(',', $data->include));
+
+        $this->schedule->when(
+            $data->user_id,
+            function ($query) use ($data){
+                $query->where('user_id', '=', $data->user_id);
+            }
+        );
+
+        $this->schedule->when(
+            Carbon::canBeCreatedFromFormat($data->period_date, 'Y-m'),
+            function ($query) use ($data) {
+                $date = Carbon::create($data->period_date);
+                $this->schedule
+                    ->whereMonth('start_at', '=', $date->month)
+                    ->whereYear('start_at', '=', $date->year);
+
+            }
+        );
+
         return $this;
     }
-
-    public function filterBy(?int $userId): self
-    {
-        if ($userId) {
-            $this->schedule->where('user_id', '=', $userId);
-        }
-        return $this;
-    }
-
-    public function setPeriodDate(?string $date): self
-    {
-        if (Carbon::canBeCreatedFromFormat($date, 'Y-m')) {
-            $date = Carbon::create($date);
-            $this->schedule
-                ->whereMonth('start_at', '=', $date->month)
-                ->whereYear('start_at', '=', $date->year);
-        }
-        return $this;
-    }
-
 
     public function getQuery(): Builder
     {
