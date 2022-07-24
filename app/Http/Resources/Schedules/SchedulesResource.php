@@ -15,6 +15,10 @@ class SchedulesResource extends AppJsonResource
     {
         return [
             "id" => $this->id,
+            "user_id" => $this->user_id,
+            "client_id" => $this->client_id,
+            "account_id" => $this->client_id,
+            "pet_id" => $this->client_id,
             "type" => $this->type,
             "status" => $this->status,
             "start_at" => $this->start_at,

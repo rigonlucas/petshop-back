@@ -35,6 +35,14 @@ class ScheduleListService extends BaseService
         return $this;
     }
 
+    public function filterBy(?int $userId): self
+    {
+        if ($userId) {
+            $this->schedule->where('user_id', '=', $userId);
+        }
+        return $this;
+    }
+
     public function setPeriodDate(?string $date): self
     {
         if (Carbon::canBeCreatedFromFormat($date, 'Y-m')) {

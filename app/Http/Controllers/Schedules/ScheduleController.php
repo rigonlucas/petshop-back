@@ -19,10 +19,12 @@ class ScheduleController extends Controller
     {
         $includes = $request->query('include', '');
         $periodDate = $request->query('period_date');
+        $userId = $request->query('user_id');
 
         $schedules = $service
             ->setRequestedIncludes(explode(',', $includes))
             ->openSchedules()
+            ->filterBy($userId)
             ->setPeriodDate($periodDate)
             ->getQuery()
             ->paginate($request->query('per_page', 10));
