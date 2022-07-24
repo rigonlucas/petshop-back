@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Pet\PetResource;
-use App\Services\App\Pets\PetsListService;
+use App\Services\Application\Pets\PetsListService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PetController extends Controller
 {
-    public function index(Request $request, PetsListService $service)
+    public function index(Request $request, PetsListService $service): AnonymousResourceCollection
     {
         $includes = $request->query('include', '');
         $perPage = $request->query('per_page', 10);

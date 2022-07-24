@@ -20,6 +20,18 @@ class Schedule extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        "account_id",
+        "client_id",
+        "pet_id",
+        "type",
+        "status",
+        "user_id",
+        "start_at",
+        "duration",
+        "description",
+    ];
+
     /**
      * The "booted" method of the model.
      *
@@ -36,7 +48,7 @@ class Schedule extends Model
      */
     public function scopeOpenSchedule(Builder $query): Builder
     {
-        return $query->whereStatus(SchedulesStatusEnum::OPEN);
+        return $query->where('status', '=', SchedulesStatusEnum::OPEN);
     }
 
 

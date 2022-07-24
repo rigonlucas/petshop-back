@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Product\ProductResource;
-use App\Services\App\Products\ProductListService;
+use App\Services\Application\Products\ProductListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 

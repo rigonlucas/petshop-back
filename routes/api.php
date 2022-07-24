@@ -38,6 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', [ScheduleController::class, 'index']);
         });
 
+        Route::prefix('schedule')->group(function () {
+            Route::post('store', [ScheduleController::class, 'store']);
+        });
+
         /**
          * Clients
          */

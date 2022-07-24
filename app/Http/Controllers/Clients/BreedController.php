@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Breed\BreedResource;
-use App\Services\App\Breeds\BreedsListService;
+use App\Services\Application\Breeds\BreedsListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 

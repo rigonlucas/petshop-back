@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Client\ClientResource;
-use App\Services\App\Clients\ClientListService;
-use App\Services\App\Clients\ClientShowService;
+use App\Services\Application\Clients\ClientListService;
+use App\Services\Application\Clients\ClientShowService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 

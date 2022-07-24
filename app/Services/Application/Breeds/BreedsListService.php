@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\App\Breeds;
+namespace App\Services\Application\Breeds;
 
 use App\Models\Breed;
 use App\Services\BaseService;

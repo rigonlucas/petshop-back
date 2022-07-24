@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\App\Clients;
+namespace App\Services\Application\Clients;
 
 use App\Models\Client;
 use App\Services\BaseService;

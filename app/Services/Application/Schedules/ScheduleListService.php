@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\App\Schedules;
+namespace App\Services\Application\Schedules;
 
 use App\Models\Schedule;
 use App\Services\BaseService;

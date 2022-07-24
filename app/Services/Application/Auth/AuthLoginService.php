@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\App\Auth;
+namespace App\Services\Application\Auth;
 
 use App\Exceptions\Auth\CredendialsWrongException;
 use App\Models\User;
