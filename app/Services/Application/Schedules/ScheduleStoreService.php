@@ -31,13 +31,14 @@ class ScheduleStoreService extends BaseService
         $data->account_id = $user->account_id;
         $this->validate($data);
 
-        return Schedule::query()->create($data->toArray());
+        return Schedule::query()
+            ->create($data->toArray());
     }
 
     /**
      * @throws ValidationException
      */
-    public function validate(ScheduleStoreData $data): void
+    private function validate(ScheduleStoreData $data): void
     {
         Validator::make($data->toArray(), [
             "client_id" => [

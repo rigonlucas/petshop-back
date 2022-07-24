@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Schedule\ScheduleStoreRequest;
 use App\Http\Requests\Application\Schedule\ScheduleUpdateRequest;
 use App\Http\Resources\Schedules\SchedulesResource;
+use App\Services\Application\Schedules\DTO\ScheduleDeleteData;
 use App\Services\Application\Schedules\DTO\ScheduleListData;
 use App\Services\Application\Schedules\DTO\ScheduleStoreData;
 use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
+use App\Services\Application\Schedules\ScheduleDeleteService;
 use App\Services\Application\Schedules\ScheduleListService;
 use App\Services\Application\Schedules\ScheduleStoreService;
 use App\Services\Application\Schedules\ScheduleUpdateService;
@@ -56,5 +58,14 @@ class ScheduleController extends Controller
             $request->user()
         );
         return response()->json(['row_updated' => $result], ResponseAlias::HTTP_OK);
+    }
+
+    public function delete(Request $request, int $scheduleId, ScheduleDeleteService $service)
+    {
+        $data = new ScheduleDeleteData();
+        $data->schedule_id = $scheduleId;
+
+        $service->delete($data, $request->user());
+        return response()->noContent();
     }
 }

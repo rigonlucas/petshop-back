@@ -26,14 +26,15 @@ class ScheduleUpdateService extends BaseService
         $data->account_id = $user->account_id;
         $this->validate($data);
 
-        return Schedule::query()->where('id', '=', $data->schedule_id)
+        return Schedule::query()
+            ->where('id', '=', $data->schedule_id)
             ->update($data->except('schedule_id')->toArray());
     }
 
     /**
      * @throws ValidationException
      */
-    public function validate(ScheduleUpdateData $data): void
+    private function validate(ScheduleUpdateData $data): void
     {
         Validator::make($data->toArray(), [
             "schedule_id" => [
