@@ -16,6 +16,16 @@ trait HasEagerLoadingIncludes
         return $this;
     }
 
+    public function setDefaultInclude(array $defaults): self
+    {
+        $difference = array_diff($defaults, $this->requestedIncludes);
+        if ($this->requestedIncludes[0] === '') {
+            $this->requestedIncludes = [];
+        }
+        $this->requestedIncludes = array_merge($this->requestedIncludes, [...$difference]);
+        return $this;
+    }
+
     protected function applyIncludesEagerLoading(Builder $query): void
     {
         $includes = array_intersect_key(

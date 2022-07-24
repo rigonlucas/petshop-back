@@ -15,6 +15,7 @@ class PetResource extends AppJsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'client_id' => $this->client_id
         ];
     }
 

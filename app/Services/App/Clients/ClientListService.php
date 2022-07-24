@@ -28,7 +28,6 @@ class ClientListService extends BaseService
     public function accountClients(): self
     {
         $this->client = Client::query();
-        $this->applyIncludesEagerLoading($this->client);
         return $this;
     }
 
@@ -48,6 +47,7 @@ class ClientListService extends BaseService
 
     public function getQuery(): Builder
     {
+        $this->applyIncludesEagerLoading($this->client);
         return $this->client;
     }
 

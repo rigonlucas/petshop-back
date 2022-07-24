@@ -4,6 +4,7 @@ use App\Http\Controllers\Accounts\AccountController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Clients\BreedController;
 use App\Http\Controllers\Clients\ClientController;
+use App\Http\Controllers\Clients\PetController;
 use App\Http\Controllers\Products\ProductController;
 use App\Http\Controllers\Schedules\ScheduleController;
 use Illuminate\Http\Request;
@@ -48,6 +49,13 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::get('/', [ClientController::class, 'show'])
                     ->where('clientId', '[0-9]+');
             });
+        });
+
+        /**
+         * Pets
+         */
+        Route::prefix('pets')->group(function () {
+            Route::get('/', [PetController::class, 'index']);
         });
 
         /**
