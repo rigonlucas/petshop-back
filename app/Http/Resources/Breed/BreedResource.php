@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Admin\Breed;
+namespace App\Http\Resources\Breed;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

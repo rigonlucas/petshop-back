@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Services\Admin\Auth;
+namespace App\Services\App\Auth;
 
 use App\Exceptions\Auth\CredendialsWrongException;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+
+use function config;
 
 class AuthLoginService
 {

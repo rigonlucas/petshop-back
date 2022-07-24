@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Clients\ClientController;
 use App\Http\Controllers\Schedules\ScheduleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,11 +32,13 @@ Route::middleware('auth:sanctum')->group(function () {
          */
         Route::prefix('schedules')->group(function () {
             Route::get('/', [ScheduleController::class, 'index']);
-
         });
 
         /**
          * ...
          */
+        Route::prefix('clients')->group(function () {
+            Route::get('/', [ClientController::class, 'index']);
+        });
     });
 });

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Admin\Pet;
+namespace App\Http\Resources\Pet;
 
-use App\Http\Resources\Admin\Breed\BreedResource;
+use App\Http\Resources\Breed\BreedResource;
 use App\Support\AppJsonResource;
 
 class PetResource extends AppJsonResource

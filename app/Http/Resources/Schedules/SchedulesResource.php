@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Admin\Schedules;
+namespace App\Http\Resources\Schedules;
 
-use App\Http\Resources\Admin\Client\ClientResource;
-use App\Http\Resources\Admin\Pet\PetResource;
-use App\Http\Resources\Admin\User\UserResource;
+use App\Http\Resources\Client\ClientResource;
+use App\Http\Resources\Pet\PetResource;
+use App\Http\Resources\User\UserResource;
 use App\Support\AppJsonResource;
 
 class SchedulesResource extends AppJsonResource

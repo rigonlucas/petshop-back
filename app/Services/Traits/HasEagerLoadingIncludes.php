@@ -18,7 +18,10 @@ trait HasEagerLoadingIncludes
 
     protected function applyIncludesEagerLoading(Builder $query): void
     {
-        $includes = array_intersect_key(self::eagerIncludesRelations(), array_flip($this->requestedIncludes));
+        $includes = array_intersect_key(
+            self::eagerIncludesRelations(),
+            array_flip($this->requestedIncludes)
+        );
         $includesRelations = array_merge(...array_values($includes));
 
         $query->with($includesRelations);

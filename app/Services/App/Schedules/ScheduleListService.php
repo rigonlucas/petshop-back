@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Admin\Schedules;
+namespace App\Services\App\Schedules;
 
 use App\Models\Schedule;
 use App\Services\BaseService;
@@ -30,13 +30,6 @@ class ScheduleListService extends BaseService
     {
         $query = Schedule::openSchedule();
         $this->applyIncludesEagerLoading($query);
-        return $query
-//            ->with([
-//                'client:id,name',
-//                'pet:id,name,breed_id',
-//                'pet.breed:id,name',
-//                'user:id,name'
-//            ])
-            ->orderBy('start_at', 'asc')    ;
+        return $query->orderBy('start_at');
     }
 }

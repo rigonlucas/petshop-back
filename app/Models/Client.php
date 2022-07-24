@@ -6,6 +6,7 @@ use App\Models\Scopes\ByAccount;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
@@ -23,9 +24,14 @@ class Client extends Model
         static::addGlobalScope(new ByAccount());
     }
 
-    public function account (): BelongsTo
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function pets(): HasMany
+    {
+        return $this->hasMany(Pet::class, 'client_id', 'id');
     }
 
 }
