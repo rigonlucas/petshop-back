@@ -3,6 +3,7 @@
 namespace App\Services\Application\Clients;
 
 use App\Models\Client;
+use App\Services\Application\Clients\DTO\ClientListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,29 +26,29 @@ class ClientListService extends BaseService
         ];
     }
 
-    public function accountClients(): self
+    public function accountClients(ClientListData $data): self
     {
         $this->client = Client::query();
-        return $this;
-    }
+        $this->setRequestedIncludes(explode(',', $data->include));
+        $this->client->when(
+            $data->name,
+            function ($query) use ($data) {
+                $query->where('name', 'like', '%'. $data->name . '%');
+            }
+        );
 
-    public function filterByName(?string $name): self
-    {
-        if ($name) {
-            $this->client->where('name', 'like', '%'. $name . '%');
-        }
-        return $this;
-    }
-
-    public function setOrderBy(): self
-    {
-        $this->client->orderBy('name');
+        $this->client->when(
+            $data->order_by,
+            function ($query) use ($data) {
+                $query->orderBy('name');
+            }
+        );
+        $this->applyIncludesEagerLoading($this->client);
         return $this;
     }
 
     public function getQuery(): Builder
     {
-        $this->applyIncludesEagerLoading($this->client);
         return $this->client;
     }
 

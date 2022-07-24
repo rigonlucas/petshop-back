@@ -3,6 +3,7 @@
 namespace App\Services\Application\Pets;
 
 use App\Models\Pet;
+use App\Services\Application\Pets\DTO\PetListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,18 +26,25 @@ class PetsListService extends BaseService
         ];
     }
 
-    public function accountPets(): self
+    public function accountPets(PetListData $data): self
     {
         $this->pets = Pet::query();
+        $this->setRequestedIncludes(explode(',', $data->include));
         $this->setDefaultInclude(['breed']);
-        return $this;
-    }
 
-    public function filterByName(?string $name): self
-    {
-        if ($name) {
-            $this->pets->where('name', 'like', '%'. $name . '%');
-        }
+        $this->pets->when(
+            $data->name,
+            function ($query) use ($data) {
+                $query->where('name', 'like', '%'. $data->name . '%');
+            }
+        );
+
+        $this->pets->when(
+            $data->client_id,
+            function ($query) use ($data) {
+                $query->where('account_id', $data->client_id);
+            }
+        );
         return $this;
     }
 
@@ -44,13 +52,5 @@ class PetsListService extends BaseService
     {
         $this->applyIncludesEagerLoading($this->pets);
         return $this->pets;
-    }
-
-    public function filterByClient(?int $clientId): self
-    {
-        if ($clientId) {
-            $this->pets->where('account_id', $clientId);
-        }
-        return $this;
     }
 }
