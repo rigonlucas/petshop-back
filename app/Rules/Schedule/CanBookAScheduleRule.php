@@ -6,7 +6,7 @@ use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
-class CanBookAnScheduleRule implements Rule
+class CanBookAScheduleRule implements Rule
 {
     public function __construct(private int $userId, private int $duration)
     {

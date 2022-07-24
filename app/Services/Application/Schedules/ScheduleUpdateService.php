@@ -8,38 +8,40 @@ use App\Models\Client;
 use App\Models\Pet;
 use App\Models\Schedule;
 use App\Models\User;
-use App\Rules\Account\AccountHasClientRule;
 use App\Rules\AccountHasEntityRule;
-use App\Rules\Pet\PetHasClientRule;
 use App\Rules\Schedule\CanBookAScheduleRule;
-use App\Services\Application\Clients\Validators\AccountClientValidator;
-use App\Services\Application\Pets\Validator\AccountPetValidator;
-use App\Services\Application\Schedules\DTO\ScheduleStoreData;
+use App\Rules\Schedule\CanUpdateAScheduleRule;
+use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
 use App\Services\BaseService;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\ValidationException;
 
-class ScheduleStoreService extends BaseService
+class ScheduleUpdateService extends BaseService
 {
 
-    public function store(ScheduleStoreData $data, User $user): Builder|Model
+    public function update(ScheduleUpdateData $data, User $user): int
     {
         $data->account_id = $user->account_id;
         $this->validate($data);
 
-        return Schedule::query()->create($data->toArray());
+        return Schedule::query()->where('id', '=', $data->schedule_id)
+            ->update($data->except('schedule_id')->toArray());
     }
 
     /**
      * @throws ValidationException
      */
-    public function validate(ScheduleStoreData $data): void
+    public function validate(ScheduleUpdateData $data): void
     {
         Validator::make($data->toArray(), [
+            "schedule_id" => [
+                'required',
+                'int',
+                'min:1',
+                new AccountHasEntityRule(Schedule::class, $data->account_id),
+            ],
             "client_id" => [
                 'required',
                 'int',
@@ -77,7 +79,7 @@ class ScheduleStoreService extends BaseService
             "start_at" => [
                 'required',
                 'date_format:Y-m-d H:i:s',
-                new CanBookAScheduleRule($data->user_id, $data->duration)
+                new CanUpdateAScheduleRule($data->schedule_id, $data->user_id, $data->duration)
             ],
             "description" => [
                 'nullable',
