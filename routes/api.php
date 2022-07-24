@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Clients\BreedController;
 use App\Http\Controllers\Clients\ClientController;
 use App\Http\Controllers\Products\ProductController;
 use App\Http\Controllers\Schedules\ScheduleController;
@@ -53,6 +54,14 @@ Route::middleware('auth:sanctum')->group(function () {
          */
         Route::prefix('products')->group(function () {
             Route::get('/', [ProductController::class, 'index']);
+        });
+
+        /**
+         * Breeds
+         */
+        Route::prefix('breeds')->group(function () {
+            Route::get('/', [BreedController::class, 'index']);
+
         });
 
     });
