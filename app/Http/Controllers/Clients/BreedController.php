@@ -14,6 +14,7 @@ class BreedController extends Controller
     {
         $schedules = $service
             ->breeds()
+            ->filterByType($request->query('type'))
             ->getQuery()
             ->paginate($request->query('per_page', 10));
         return BreedResource::collection($schedules);

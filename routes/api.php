@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Accounts\AccountController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Clients\BreedController;
 use App\Http\Controllers\Clients\ClientController;
@@ -64,5 +65,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
         });
 
+        /**
+         * Accounts
+         */
+        Route::prefix('account')->group(function () {
+            Route::get('users', [AccountController::class, 'indexUsers']);
+        });
     });
 });

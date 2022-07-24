@@ -17,6 +17,14 @@ class BreedsListService extends BaseService
         return $this;
     }
 
+    public function filterByType(?string $type): self
+    {
+        if ($type) {
+            $this->breeds->whereType($type);
+        }
+        return $this;
+    }
+
     public function getQuery(): Builder
     {
         return $this->breeds;

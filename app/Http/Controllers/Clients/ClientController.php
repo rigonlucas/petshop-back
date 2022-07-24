@@ -15,11 +15,14 @@ class ClientController extends Controller
     public function index(Request $request, ClientListService $service): AnonymousResourceCollection
     {
         $includes = $request->query('include', '');
+        $perPage = $request->query('per_page', 10);
+        $name = $request->query('name');
         $schedules = $service
             ->setRequestedIncludes(explode(',', $includes))
             ->accountClients()
+            ->filterByName($name)
             ->getQuery()
-            ->paginate($request->query('per_page', 10));
+            ->paginate($perPage);
         return ClientResource::collection($schedules);
     }
 

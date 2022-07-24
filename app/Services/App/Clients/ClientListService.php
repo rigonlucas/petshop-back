@@ -32,6 +32,14 @@ class ClientListService extends BaseService
         return $this;
     }
 
+    public function filterByName(?string $name): self
+    {
+        if ($name) {
+            $this->client->where('name', 'like', '%'. $name . '%');
+        }
+        return $this;
+    }
+
     public function setOrderBy(): self
     {
         $this->client->orderBy('name');
