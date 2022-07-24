@@ -17,6 +17,7 @@ use App\Services\Application\Schedules\ScheduleUpdateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ScheduleController extends Controller
@@ -60,9 +61,15 @@ class ScheduleController extends Controller
         return response()->json(['row_updated' => $result], ResponseAlias::HTTP_OK);
     }
 
-    public function delete(Request $request, int $scheduleId, ScheduleDeleteService $service)
+    /**
+     * @param Request $request
+     * @param int $scheduleId
+     * @param ScheduleDeleteService $service
+     * @return Response
+     */
+    public function delete(Request $request, int $scheduleId, ScheduleDeleteService $service): Response
     {
-        $data = new ScheduleDeleteData();
+        $data = ScheduleDeleteData::fromRequest($request);
         $data->schedule_id = $scheduleId;
 
         $service->delete($data, $request->user());
