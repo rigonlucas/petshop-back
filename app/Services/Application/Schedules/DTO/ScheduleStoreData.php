@@ -3,7 +3,6 @@
 namespace App\Services\Application\Schedules\DTO;
 
 use App\Http\Requests\Application\Schedule\ScheduleStoreRequest;
-use Carbon\Carbon;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class ScheduleStoreData extends DataTransferObject
@@ -14,8 +13,7 @@ class ScheduleStoreData extends DataTransferObject
     public int $type;
     public int $status;
     public ?int $user_id = null;
-    public Carbon $start_at;
-    public ?Carbon $finish_at;
+    public string $start_at;
     public int $duration;
     public ?string $description = null;
 
