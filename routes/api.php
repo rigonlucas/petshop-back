@@ -41,6 +41,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('clients')->group(function () {
             Route::get('/', [ClientController::class, 'index']);
         });
+        Route::prefix('client')->group(function (){
+            Route::prefix('{clientId}')->group(function () {
+                Route::get('/', [ClientController::class, 'show'])
+                    ->where('clientId', '[0-9]+');
+            });
+        });
 
         /**
          * Products

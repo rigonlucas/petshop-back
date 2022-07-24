@@ -11,6 +11,8 @@ class ClientListService extends BaseService
 {
     use HasEagerLoadingIncludes;
 
+    private Builder $client;
+
     protected function eagerIncludesRelations(): array
     {
         return [
@@ -23,11 +25,22 @@ class ClientListService extends BaseService
         ];
     }
 
-    public function accountClients(): Builder
+    public function accountClients(): self
     {
-        $query = Client::query();
-        $this->applyIncludesEagerLoading($query);
-        return $query->orderBy('name');
+        $this->client = Client::query();
+        $this->applyIncludesEagerLoading($this->client);
+        return $this;
+    }
+
+    public function setOrderBy(): self
+    {
+        $this->client->orderBy('name');
+        return $this;
+    }
+
+    public function getQuery(): Builder
+    {
+        return $this->client;
     }
 
 }
