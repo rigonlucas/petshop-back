@@ -3,7 +3,7 @@
 namespace App\Services\Application\Clients;
 
 use App\Models\Client;
-use App\Services\Application\Clients\DTO\ClientListData;
+use App\Services\Application\Clients\DTO\BreedListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,7 +26,7 @@ class ClientListService extends BaseService
         ];
     }
 
-    public function accountClients(ClientListData $data): self
+    public function accountClients(BreedListData $data): self
     {
         $this->client = Client::query();
         $this->setRequestedIncludes(explode(',', $data->include));
