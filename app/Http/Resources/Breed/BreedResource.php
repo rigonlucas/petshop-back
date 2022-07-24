@@ -2,17 +2,11 @@
 
 namespace App\Http\Resources\Breed;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Support\AppJsonResource;
 
-class BreedResource extends JsonResource
+class BreedResource extends AppJsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
-    public function toArray($request)
+    function resource($request)
     {
         return [
             'id' => $this->id,
