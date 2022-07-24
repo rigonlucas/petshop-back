@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\Auth\CredendialsWrongException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Auth\LoginRequest;
+use App\Http\Requests\App\Auth\LoginRequest;
 use App\Services\App\Auth\AuthLoginService;
 use Illuminate\Http\JsonResponse;
 

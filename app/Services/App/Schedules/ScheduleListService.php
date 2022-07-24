@@ -5,11 +5,14 @@ namespace App\Services\App\Schedules;
 use App\Models\Schedule;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 class ScheduleListService extends BaseService
 {
     use HasEagerLoadingIncludes;
+
+    private Builder $schedule;
 
     protected function eagerIncludesRelations(): array
     {
@@ -26,10 +29,29 @@ class ScheduleListService extends BaseService
         ];
     }
 
-    public function openSchedules(): Builder
+    public function openSchedules(): self
     {
-        $query = Schedule::openSchedule();
-        $this->applyIncludesEagerLoading($query);
-        return $query->orderBy('start_at');
+        $this->schedule = Schedule::openSchedule();
+        return $this;
+    }
+
+    public function setPeriodDate(?string $date): self
+    {
+        if (Carbon::canBeCreatedFromFormat($date, 'Y-m')) {
+            $date = Carbon::create($date);
+            $this->schedule
+                ->whereMonth('start_at', '=', $date->month)
+                ->whereYear('start_at', '=', $date->year);
+        }
+        return $this;
+    }
+
+
+    public function getQuery(): Builder
+    {
+        $this->applyIncludesEagerLoading($this->schedule);
+        $this->schedule->orderBy('start_at');
+
+        return $this->schedule;
     }
 }

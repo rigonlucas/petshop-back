@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Clients\ClientController;
+use App\Http\Controllers\Products\ProductController;
 use App\Http\Controllers\Schedules\ScheduleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,10 +36,18 @@ Route::middleware('auth:sanctum')->group(function () {
         });
 
         /**
-         * ...
+         * Clients
          */
         Route::prefix('clients')->group(function () {
             Route::get('/', [ClientController::class, 'index']);
         });
+
+        /**
+         * Products
+         */
+        Route::prefix('products')->group(function () {
+            Route::get('/', [ProductController::class, 'index']);
+        });
+
     });
 });

@@ -23,7 +23,7 @@ abstract class AppJsonResource extends JsonResource
     {
         $this->request = $request;
 
-        $requestIncludes = explode(',', $request->query('include'));
+        $requestIncludes = explode(',', $request->query('include', ''));
         $includes = array_merge(
             $this->defaultIncludes,
             array_intersect(
