@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Services\Application\Schedules\DTO;
+namespace App\Services\Application\Products\DTO;
 
 use App\Services\PaginatedDataTransferObject;
 use Illuminate\Http\Request;
 
-class ScheduleListData extends PaginatedDataTransferObject
+class ProductListData extends PaginatedDataTransferObject
 {
     public ?string $period_date = null;
-    public ?string $user_id = null;
 
     public static function fromRequest(Request $request): self
     {

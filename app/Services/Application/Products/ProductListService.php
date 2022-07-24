@@ -3,6 +3,7 @@
 namespace App\Services\Application\Products;
 
 use App\Models\Product;
+use App\Services\Application\Products\DTO\ProductListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasOrderBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,15 +31,16 @@ class ProductListService extends BaseService
         ];
     }
 
-    public function accountProducts(): self
+    public function accountProducts(ProductListData $data): self
     {
+        $this->setOrderBy($data->order_by, $data->order_direction);
         $this->products = Product::query();
+        $this->products->orderBy($this->orderBy, $this->orderDirection);
         return $this;
     }
 
     public function appliesOrderBy(): self
     {
-        $this->products->orderBy($this->orderBy, $this->orderDirection);
         return $this;
     }
 
