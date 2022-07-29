@@ -34,17 +34,17 @@ class Pet extends Model
         return $query->where('client_id', '=', $clientId);
     }
 
-    public function client (): BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
 
-    public function account (): BelongsTo
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
     }
 
-    public function breed (): BelongsTo
+    public function breed(): BelongsTo
     {
         return $this->belongsTo(Breed::class);
     }

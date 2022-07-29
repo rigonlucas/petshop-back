@@ -3,17 +3,14 @@
 namespace App\Services\Application\Clients;
 
 use App\Models\Client;
-use App\Services\Application\Clients\DTO\BreedListData;
+use App\Services\Application\Clients\DTO\ClientListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientListService extends BaseService
 {
     use HasEagerLoadingIncludes;
-
-    private Builder $client;
-
     protected function eagerIncludesRelations(): array
     {
         return [
@@ -26,30 +23,27 @@ class ClientListService extends BaseService
         ];
     }
 
-    public function accountClients(BreedListData $data): self
+    public function list(ClientListData $data, int $accountId): LengthAwarePaginator
     {
-        $this->client = Client::query();
+        $query = Client::byAccount($accountId);
+
         $this->setRequestedIncludes(explode(',', $data->include));
-        $this->client->when(
+        $this->applyIncludesEagerLoading($query);
+
+        $query->when(
             $data->name,
             function ($query) use ($data) {
                 $query->where('name', 'like', '%'. $data->name . '%');
             }
         );
 
-        $this->client->when(
+        $query->when(
             $data->order_by,
             function ($query) use ($data) {
                 $query->orderBy('name');
             }
         );
-        $this->applyIncludesEagerLoading($this->client);
-        return $this;
-    }
 
-    public function getQuery(): Builder
-    {
-        return $this->client;
+        return $query->paginate($data->per_page ?? 10);
     }
-
 }

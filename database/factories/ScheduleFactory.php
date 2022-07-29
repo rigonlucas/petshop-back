@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Enums\SchedulesStatusEnum;
 use App\Enums\SchedulesTypesEnum;
 use App\Models\Account;
-use App\Models\Breed;
 use App\Models\Client;
 use App\Models\Pet;
 use App\Models\User;
@@ -13,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Schedule>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Schedule\Schedule>
  */
 class ScheduleFactory extends Factory
 {

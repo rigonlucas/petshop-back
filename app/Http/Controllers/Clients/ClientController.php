@@ -6,20 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Client\ClientResource;
 use App\Services\Application\Clients\ClientListService;
 use App\Services\Application\Clients\ClientShowService;
-use App\Services\Application\Clients\DTO\BreedListData;
+use App\Services\Application\Clients\DTO\ClientListData;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ClientController extends Controller
 {
-
     public function index(Request $request, ClientListService $service): AnonymousResourceCollection
     {
-        $data = BreedListData::fromRequest($request);
-        $schedules = $service
-            ->accountClients($data)
-            ->getQuery()
-            ->paginate($data->per_page ?? 10);
+        $data = ClientListData::fromRequest($request);
+        $schedules = $service->list($data, $request->user()->account_id);
+
         return ClientResource::collection($schedules);
     }
 
@@ -27,12 +24,10 @@ class ClientController extends Controller
     {
         $includes = $request->query('include', '');
 
-        $clientPets = $service
+        $client = $service
             ->setRequestedIncludes(explode(',', $includes))
-            ->accountClient($clientId)
-            ->getQuery()
-            ->first();
+            ->show($clientId);
 
-        return ClientResource::make($clientPets);
+        return ClientResource::make($client);
     }
 }

@@ -13,17 +13,7 @@ class Product extends Model
     use HasFactory;
     use SoftDeletes;
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope(new ByAccount());
-    }
-
-    public function account (): BelongsTo
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
     }

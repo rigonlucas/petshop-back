@@ -4,11 +4,11 @@ namespace Database\Factories;
 
 use App\Enums\UnityEnum;
 use App\Models\Product;
-use App\Models\Schedule;
+use App\Models\Schedule\Schedule;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ScheduleHasProduct>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Schedule\ScheduleHasProduct>
  */
 class ScheduleHasProductFactory extends Factory
 {

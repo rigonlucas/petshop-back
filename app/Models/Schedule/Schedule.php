@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Schedule;
 
 use App\Enums\SchedulesStatusEnum;
+use App\Models\Account;
+use App\Models\Client;
+use App\Models\Pet;
 use App\Models\Scopes\ByAccount;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,16 +35,6 @@ class Schedule extends Model
         "duration",
         "description",
     ];
-
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope(new ByAccount());
-    }
 
     /**
      * @param Builder $query

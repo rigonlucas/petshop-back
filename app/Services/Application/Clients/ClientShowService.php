@@ -6,12 +6,11 @@ use App\Models\Client;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class ClientShowService extends BaseService
 {
     use HasEagerLoadingIncludes;
-
-    private Builder $client;
 
     function eagerIncludesRelations(): array
     {
@@ -22,15 +21,11 @@ class ClientShowService extends BaseService
         ];
     }
 
-    public function accountClient(int $id): self
+    public function show(int $id): Client|Model
     {
-        $this->client = Client::query()->whereId($id);
-        return $this;
-    }
+        $query = Client::query();
+        $this->applyIncludesEagerLoading($query);
 
-    public function getQuery(): Builder
-    {
-        $this->applyIncludesEagerLoading($this->client);
-        return $this->client;
+        return $query->findOrFail($id);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Services\Application\Schedules;
 
-use App\Models\Schedule;
+use App\Models\Schedule\Schedule;
 use App\Models\User;
 use App\Rules\AccountHasEntityRule;
 use App\Services\Application\Schedules\DTO\ScheduleDeleteData;

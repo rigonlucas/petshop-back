@@ -2,27 +2,23 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\ByAccount;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Ramsey\Collection\Collection;
 
-class Client extends Model
+/**
+ * @property int $id
+ *
+ * Relations:
+ * @property Account $account
+ * @property Collection|Pet[] $pets
+ */
+class Client extends BaseModel
 {
     use HasFactory;
     use SoftDeletes;
-
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope(new ByAccount());
-    }
 
     public function account(): BelongsTo
     {
@@ -33,5 +29,4 @@ class Client extends Model
     {
         return $this->hasMany(Pet::class, 'client_id', 'id');
     }
-
 }

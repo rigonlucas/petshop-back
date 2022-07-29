@@ -24,10 +24,10 @@ class AccountUsersListService extends BaseService
     }
 
 
-    public function accountUsers(AccountUserListData $data): self
+    public function accountUsers(AccountUserListData $data, int $accountId): self
     {
         $this->setRequestedIncludes(explode(',', $data->include));
-        $this->users = User::currentAccount()->withTrashed();
+        $this->users = User::byAccount($accountId);
         $this->users->when(
             $data->name,
             function ($query) use ($data) {
