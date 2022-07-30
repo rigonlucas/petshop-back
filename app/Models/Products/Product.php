@@ -13,6 +13,15 @@ class Product extends BaseModel
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'type',
+        'cost_price',
+        'price',
+        'account_id',
+    ];
+
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);

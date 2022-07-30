@@ -12,6 +12,7 @@ class ProductStoreData extends DataTransferObject
     public int $type;
     public float $cost_price;
     public float $price;
+    public ?int $account_id = null;
 
     public static function fromRequest(Request $request): self
     {
