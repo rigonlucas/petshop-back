@@ -1,13 +1,17 @@
 <?php
 
-use App\Http\Controllers\Accounts\AccountController;
+use App\Http\Controllers\Accounts\UsersOfAccountController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Clients\BreedController;
-use App\Http\Controllers\Clients\ClientController;
-use App\Http\Controllers\Clients\PetController;
-use App\Http\Controllers\Products\ProductController;
-use App\Http\Controllers\Schedules\ScheduleController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Breeds\BreedListController;
+use App\Http\Controllers\Clients\ClientListController;
+use App\Http\Controllers\Clients\ClientShowController;
+use App\Http\Controllers\Pet\PetListController;
+use App\Http\Controllers\Products\ProductListController;
+use App\Http\Controllers\Products\ProductStoreController;
+use App\Http\Controllers\Schedules\ScheduleDeleteController;
+use App\Http\Controllers\Schedules\ScheduleListController;
+use App\Http\Controllers\Schedules\ScheduleStoreController;
+use App\Http\Controllers\Schedules\ScheduleUpdateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,16 +39,16 @@ Route::middleware('auth:sanctum')->group(function () {
          * Schedules
          */
         Route::prefix('schedules')->group(function () {
-            Route::get('/', [ScheduleController::class, 'index'])
+            Route::get('/', [ScheduleListController::class, '__invoke'])
                 ->name('schedules.index');
         });
 
         Route::prefix('schedule')->group(function () {
-            Route::post('store', [ScheduleController::class, 'store'])
+            Route::post('store', [ScheduleStoreController::class, '__invoke'])
                 ->name('schedule.store');
-            Route::put('update/{scheduleId}', [ScheduleController::class, 'update'])
+            Route::put('update/{scheduleId}', [ScheduleUpdateController::class, '__invoke'])
                 ->name('schedule.update');
-            Route::delete('delete/{scheduleId}', [ScheduleController::class, 'delete'])
+            Route::delete('delete/{scheduleId}', [ScheduleDeleteController::class, '__invoke'])
                 ->name('schedule.delete');
         });
 
@@ -52,11 +56,11 @@ Route::middleware('auth:sanctum')->group(function () {
          * Clients
          */
         Route::prefix('clients')->group(function () {
-            Route::get('/', [ClientController::class, 'index']);
+            Route::get('/', [ClientListController::class, '__invoke']);
         });
         Route::prefix('client')->group(function (){
             Route::prefix('{clientId}')->group(function () {
-                Route::get('/', [ClientController::class, 'show'])
+                Route::get('/', [ClientShowController::class, '__invoke'])
                     ->where('clientId', '[0-9]+');
             });
         });
@@ -65,21 +69,24 @@ Route::middleware('auth:sanctum')->group(function () {
          * Pets
          */
         Route::prefix('pets')->group(function () {
-            Route::get('/', [PetController::class, 'index']);
+            Route::get('/', [PetListController::class, '__invoke']);
         });
 
         /**
          * Products
          */
         Route::prefix('products')->group(function () {
-            Route::get('/', [ProductController::class, 'index']);
+            Route::get('/', [ProductListController::class, '__invoke']);
+        });
+        Route::prefix('product')->group(function () {
+            Route::post('store', [ProductStoreController::class, '__invoke']);
         });
 
         /**
          * Breeds
          */
         Route::prefix('breeds')->group(function () {
-            Route::get('/', [BreedController::class, 'index']);
+            Route::get('/', [BreedListController::class, '__invoke']);
 
         });
 
@@ -87,7 +94,7 @@ Route::middleware('auth:sanctum')->group(function () {
          * Accounts
          */
         Route::prefix('account')->group(function () {
-            Route::get('users', [AccountController::class, 'indexUsers']);
+            Route::get('users', [UsersOfAccountController::class, '__invoke']);
         });
     });
 });

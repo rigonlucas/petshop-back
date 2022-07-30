@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Clients;
+namespace App\Http\Controllers\Pet;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Pet\PetResource;
@@ -9,9 +9,9 @@ use App\Services\Application\Pets\PetsListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class PetController extends Controller
+class PetListController extends Controller
 {
-    public function index(Request $request, PetsListService $service): AnonymousResourceCollection
+    public function __invoke(Request $request, PetsListService $service): AnonymousResourceCollection
     {
         $data = PetListData::fromRequest($request);
 

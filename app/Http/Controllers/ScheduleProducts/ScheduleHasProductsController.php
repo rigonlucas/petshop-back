@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Schedules;
+namespace App\Http\Controllers\ScheduleProducts;
 
 use App\Http\Controllers\Controller;
 

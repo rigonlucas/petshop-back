@@ -9,9 +9,9 @@ use App\Services\Application\Accounts\DTO\AccountUserListData;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class AccountController extends Controller
+class UsersOfAccountController extends Controller
 {
-    public function indexUsers(Request $request, AccountUsersListService $service): AnonymousResourceCollection
+    public function __invoke(Request $request, AccountUsersListService $service): AnonymousResourceCollection
     {
         $data = AccountUserListData::fromRequest($request);
 

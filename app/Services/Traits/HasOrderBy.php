@@ -27,6 +27,4 @@ trait HasOrderBy
     }
 
     protected abstract function setAvailableColumns();
-
-    protected abstract function appliesOrderBy();
 }
