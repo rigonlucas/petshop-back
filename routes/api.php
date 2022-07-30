@@ -35,13 +35,17 @@ Route::middleware('auth:sanctum')->group(function () {
          * Schedules
          */
         Route::prefix('schedules')->group(function () {
-            Route::get('/', [ScheduleController::class, 'index']);
+            Route::get('/', [ScheduleController::class, 'index'])
+                ->name('schedules.index');
         });
 
         Route::prefix('schedule')->group(function () {
-            Route::post('store', [ScheduleController::class, 'store']);
-            Route::put('update/{scheduleId}', [ScheduleController::class, 'update']);
-            Route::delete('delete/{scheduleId}', [ScheduleController::class, 'delete']);
+            Route::post('store', [ScheduleController::class, 'store'])
+                ->name('schedule.store');
+            Route::put('update/{scheduleId}', [ScheduleController::class, 'update'])
+                ->name('schedule.update');
+            Route::delete('delete/{scheduleId}', [ScheduleController::class, 'delete'])
+                ->name('schedule.delete');
         });
 
         /**

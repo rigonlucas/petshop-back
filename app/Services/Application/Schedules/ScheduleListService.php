@@ -2,7 +2,7 @@
 
 namespace App\Services\Application\Schedules;
 
-use App\Models\Schedule\Schedule;
+use App\Models\Schedules\Schedule;
 use App\Services\Application\Schedules\DTO\ScheduleListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;

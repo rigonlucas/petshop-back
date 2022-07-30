@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Clients;
 
 use App\Models\Scopes\ByAccount;
+use App\Models\Types\Breed;
+use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

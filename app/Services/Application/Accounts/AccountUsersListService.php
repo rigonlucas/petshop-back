@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\Application\Accounts\DTO\AccountUserListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
 class AccountUsersListService extends BaseService
@@ -23,8 +24,7 @@ class AccountUsersListService extends BaseService
         ];
     }
 
-
-    public function accountUsers(AccountUserListData $data, int $accountId): self
+    public function list(AccountUserListData $data, int $accountId): LengthAwarePaginator
     {
         $this->setRequestedIncludes(explode(',', $data->include));
         $this->users = User::byAccount($accountId);
@@ -34,12 +34,6 @@ class AccountUsersListService extends BaseService
                 $query->where('name', 'like', '%'. $data->name .'%');
             }
         );
-        return $this;
-    }
-
-    public function getQuery(): Builder
-    {
-        $this->applyIncludesEagerLoading($this->users);
-        return $this->users;
+        return $this->users->paginate($data->per_page ?? 10);
     }
 }

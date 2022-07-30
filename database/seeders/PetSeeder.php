@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Pet;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Client\Pet;
 use Illuminate\Database\Seeder;
 
 class PetSeeder extends Seeder

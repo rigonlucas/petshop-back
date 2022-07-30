@@ -16,9 +16,7 @@ class AccountController extends Controller
         $data = AccountUserListData::fromRequest($request);
 
         $accountUsers = $service
-            ->accountUsers($data)
-            ->getQuery()
-            ->paginate($data->per_page ?? 10);
+            ->list($data, $request->user()->account_id);
         return UserResource::collection($accountUsers);
     }
 }

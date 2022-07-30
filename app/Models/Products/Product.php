@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Products;
 
+use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Account extends BaseModel
+class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    public function user(): BelongsTo
+    public function account(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Account::class);
     }
 }

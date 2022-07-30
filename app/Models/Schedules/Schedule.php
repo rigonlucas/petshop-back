@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models\Schedule;
+namespace App\Models\Schedules;
 
 use App\Enums\SchedulesStatusEnum;
-use App\Models\Account;
-use App\Models\Client;
-use App\Models\Pet;
-use App\Models\Scopes\ByAccount;
+use App\Models\Clients\Client;
+use App\Models\Clients\Pet;
 use App\Models\User;
+use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

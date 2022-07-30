@@ -2,10 +2,9 @@
 
 namespace App\Services\Application\Clients;
 
-use App\Models\Client;
+use App\Models\Clients\Client;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class ClientShowService extends BaseService

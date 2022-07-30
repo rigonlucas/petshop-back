@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\Account;
+use App\Models\User\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\Client>
  */
 class ClientFactory extends Factory
 {

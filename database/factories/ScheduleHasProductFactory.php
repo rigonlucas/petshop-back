@@ -3,12 +3,12 @@
 namespace Database\Factories;
 
 use App\Enums\UnityEnum;
-use App\Models\Product;
-use App\Models\Schedule\Schedule;
+use App\Models\Product\Product;
+use App\Models\Schedules\Schedule;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Schedule\ScheduleHasProduct>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Schedules\ScheduleHasProduct>
  */
 class ScheduleHasProductFactory extends Factory
 {

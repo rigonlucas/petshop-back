@@ -2,7 +2,7 @@
 
 namespace App\Rules\Schedule;
 
-use App\Models\Schedule\Schedule;
+use App\Models\Schedules\Schedule;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 

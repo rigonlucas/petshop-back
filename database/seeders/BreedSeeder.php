@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Breed;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Types\Breed;
 use Illuminate\Database\Seeder;
 
 class BreedSeeder extends Seeder

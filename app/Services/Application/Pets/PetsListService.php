@@ -2,7 +2,7 @@
 
 namespace App\Services\Application\Pets;
 
-use App\Models\Pet;
+use App\Models\Clients\Pet;
 use App\Services\Application\Pets\DTO\PetListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;

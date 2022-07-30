@@ -4,9 +4,9 @@ namespace App\Services\Application\Schedules;
 
 use App\Enums\SchedulesStatusEnum;
 use App\Enums\SchedulesTypesEnum;
-use App\Models\Client;
-use App\Models\Pet;
-use App\Models\Schedule\Schedule;
+use App\Models\Clients\Client;
+use App\Models\Clients\Pet;
+use App\Models\Schedules\Schedule;
 use App\Models\User;
 use App\Rules\AccountHasEntityRule;
 use App\Rules\Schedule\CanUpdateAScheduleRule;

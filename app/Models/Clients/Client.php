@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Clients;
 
+use App\Models\BaseModel;
+use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;

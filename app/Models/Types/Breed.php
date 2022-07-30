@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Schedule;
+namespace App\Models\Types;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ScheduleHasProduct extends Model
+class Breed extends Model
 {
     use HasFactory;
 }

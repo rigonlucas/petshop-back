@@ -2,7 +2,7 @@
 
 namespace App\Services\Application\Clients;
 
-use App\Models\Client;
+use App\Models\Clients\Client;
 use App\Services\Application\Clients\DTO\ClientListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;

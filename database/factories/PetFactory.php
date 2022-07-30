@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Account;
-use App\Models\Breed;
-use App\Models\Client;
+use App\Models\Client\Client;
+use App\Models\Types\Breed;
+use App\Models\User\Account;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Pet>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\Pet>
  */
 class PetFactory extends Factory
 {

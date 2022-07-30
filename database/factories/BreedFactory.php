@@ -6,7 +6,7 @@ use App\Enums\BreedsEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Breed>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Types\Breed>
  */
 class BreedFactory extends Factory
 {

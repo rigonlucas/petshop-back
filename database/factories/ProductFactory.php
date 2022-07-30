@@ -3,11 +3,11 @@
 namespace Database\Factories;
 
 use App\Enums\ProductsEnum;
-use App\Models\Account;
+use App\Models\User\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product\Product>
  */
 class ProductFactory extends Factory
 {
