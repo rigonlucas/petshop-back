@@ -6,6 +6,7 @@ use App\Http\Controllers\Breeds\BreedListController;
 use App\Http\Controllers\Clients\ClientListController;
 use App\Http\Controllers\Clients\ClientShowController;
 use App\Http\Controllers\Clients\ClientStoreController;
+use App\Http\Controllers\Clients\ClientUpdateController;
 use App\Http\Controllers\Pet\PetListController;
 use App\Http\Controllers\Products\ProductDeleteController;
 use App\Http\Controllers\Products\ProductListController;
@@ -72,6 +73,7 @@ Route::middleware('auth:sanctum')->group(function () {
                     ->where('clientId', '[0-9]+');
             });
             Route::post('store', [ClientStoreController::class, '__invoke']);
+            Route::put('update/{clientId}', [ClientUpdateController::class, '__invoke']);
         });
 
         /**

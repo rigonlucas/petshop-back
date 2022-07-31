@@ -2,7 +2,6 @@
 
 namespace App\Services\Application\Products;
 
-use App\Models\Clients\Client;
 use App\Models\Products\Product;
 use App\Models\Products\ProductPrice;
 use App\Rules\AccountHasEntityRule;

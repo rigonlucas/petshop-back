@@ -8,7 +8,6 @@ use App\Services\Application\Products\DTO\ProductUpdateData;
 use App\Services\Application\Products\ProductUpdateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ProductUpdateController extends Controller

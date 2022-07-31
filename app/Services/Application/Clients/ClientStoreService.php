@@ -16,6 +16,7 @@ class ClientStoreService extends BaseService
     public function store(ClientStoreData $data): Client|Model
     {
         $this->validate($data);
+        $data = $this->normalizeData($data);
         $query = Client::byAccount($data->account_id);
         return $query->create($data->toArray());
     }
@@ -23,12 +24,6 @@ class ClientStoreService extends BaseService
     private function validate(ClientStoreData $data)
     {
         Validator::make($data->toArray(), [
-            'account_id' => [
-                'required',
-                'int',
-                'min:1',
-                new AccountHasEntityRule(Client::class, $data->account_id),
-            ],
             'name' => [
                 'required',
                 'string',
@@ -43,5 +38,12 @@ class ClientStoreService extends BaseService
             ],
             'phone' => ['nullable', 'string', 'max:100'],
         ])->validate();
+    }
+
+    private function normalizeData(ClientStoreData $data): ClientStoreData
+    {
+        $data->email = strtolower($data->email);
+        $data->name = ucwords(strtolower($data->name));
+        return $data;
     }
 }
