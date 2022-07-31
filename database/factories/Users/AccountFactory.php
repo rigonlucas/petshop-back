@@ -1,26 +1,24 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Users;
 
-use App\Enums\BreedsEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Types\Breed>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User\Account>
  */
-class BreedFactory extends Factory
+class AccountFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
-     * @throws \Exception
      */
     public function definition()
     {
         return [
+            'user_id' => null,
             'name' => $this->faker->name(),
-            'type' => BreedsEnum::random()
         ];
     }
 }

@@ -13,9 +13,6 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ProductUpdateController extends Controller
 {
-    /**
-     * @throws ValidationException
-     */
     public function __invoke(ProductStoreRequest $request, int $productId,ProductUpdateService $service): JsonResponse
     {
         $data = ProductUpdateData::fromRequest($request);

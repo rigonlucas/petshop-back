@@ -29,8 +29,7 @@ class ProductUpdateService extends BaseService
             ->where('id', '=', $data->id);
         /** @var Product $product */
         $product = clone $productQuery;
-        $product = $product->first();
-        $priceWasModified = new PriceWasModifiedRule($product, $data->cost_price);
+        $priceWasModified = new PriceWasModifiedRule($product->first(), $data->cost_price);
         if ($priceWasModified->passes('price', $data->price)) {
             $this->createProductPrice($data);
         }
@@ -55,7 +54,7 @@ class ProductUpdateService extends BaseService
                     'required',
                     'int',
                     'min:1',
-                    new AccountHasEntityRule(Client::class, $data->account_id),
+                    new AccountHasEntityRule(Product::class, $data->account_id),
                 ]
             ]
         )->validate();

@@ -37,7 +37,7 @@ class ProductDeleteService extends BaseService
                     'required',
                     'int',
                     'min:1',
-                    new AccountHasEntityRule(Client::class, $data->account_id),
+                    new AccountHasEntityRule(Product::class, $data->account_id),
                 ],
                 'id' => ['required', 'integer', 'min:1', new ProductAccountExistsRule($data->account_id)]
             ]

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('schedules_has_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_price_id');
             $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('quantity');
             $table->string('unity', 50);
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('schedule_id')->references('id')->on('schedules');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_price_id')->references('id')->on('product_prices');
         });
     }
 

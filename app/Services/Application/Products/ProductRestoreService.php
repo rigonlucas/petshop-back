@@ -2,7 +2,6 @@
 
 namespace App\Services\Application\Products;
 
-use App\Models\Clients\Client;
 use App\Models\Products\Product;
 use App\Models\Products\ProductPrice;
 use App\Rules\AccountHasEntityRule;
@@ -22,17 +21,10 @@ class ProductRestoreService extends BaseService
     {
         $this->validate($data);
         $this->updateProductPrices($data);
-        $product = Product::withTrashed()
+        return Product::withTrashed()
             ->byAccount($data->account_id)
             ->where('id', '=', $data->id)
             ->restore();
-        ProductPrice::query()
-            ->where('product_id', '=', $data->id)
-            ->latest('created_at')
-            ->limit(1)
-            ->update(['activated_at' => now()]);
-
-        return $product;
     }
 
     /**
@@ -47,7 +39,7 @@ class ProductRestoreService extends BaseService
                     'required',
                     'int',
                     'min:1',
-                    new AccountHasEntityRule(Client::class, $data->account_id),
+                    new AccountHasEntityRule(Product::class, $data->account_id),
                 ],
                 'id' => ['required', 'integer', 'min:1', new DeletedProductAccountExistsRule($data->account_id)]
             ]
@@ -59,5 +51,10 @@ class ProductRestoreService extends BaseService
         ProductPrice::query()
             ->where('product_id', '=', $data->id)
             ->update(['activated_at' => null]);
+        ProductPrice::query()
+            ->where('product_id', '=', $data->id)
+            ->latest('created_at')
+            ->limit(1)
+            ->update(['activated_at' => now()]);
     }
 }

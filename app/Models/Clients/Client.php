@@ -22,6 +22,13 @@ class Client extends BaseModel
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'account_id',
+        'name',
+        'email',
+        'phone'
+    ];
+
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
