@@ -21,7 +21,7 @@ class ScheduleDeleteController extends Controller
         $data = ScheduleDeleteData::fromRequest($request);
         $data->schedule_id = $scheduleId;
 
-        $service->delete($data, $request->user());
+        $service->delete($data, $request->user()->account_id);
         return response()->noContent();
     }
 }

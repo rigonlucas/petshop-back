@@ -6,6 +6,7 @@ use App\Http\Controllers\Breeds\BreedListController;
 use App\Http\Controllers\Clients\ClientListController;
 use App\Http\Controllers\Clients\ClientShowController;
 use App\Http\Controllers\Pet\PetListController;
+use App\Http\Controllers\Products\ProductDeleteController;
 use App\Http\Controllers\Products\ProductListController;
 use App\Http\Controllers\Products\ProductStoreController;
 use App\Http\Controllers\Products\ProductUpdateController;
@@ -82,6 +83,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('product')->group(function () {
             Route::post('store', [ProductStoreController::class, '__invoke']);
             Route::put('update/{productId}', [ProductUpdateController::class, '__invoke']);
+            Route::delete('delete/{productId}', [ProductDeleteController::class, '__invoke']);
         });
 
         /**

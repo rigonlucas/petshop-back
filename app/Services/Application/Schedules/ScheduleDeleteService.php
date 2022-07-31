@@ -13,9 +13,9 @@ use Illuminate\Validation\ValidationException;
 class ScheduleDeleteService extends BaseService
 {
 
-    public function delete(ScheduleDeleteData $data, User $user): int
+    public function delete(ScheduleDeleteData $data, int $account_id): int
     {
-        $data->account_id = $user->account_id;
+        $data->account_id = $account_id;
         $this->validate($data);
 
         return Schedule::query()
