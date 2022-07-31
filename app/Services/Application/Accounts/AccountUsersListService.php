@@ -13,8 +13,6 @@ class AccountUsersListService extends BaseService
 {
     use HasEagerLoadingIncludes;
 
-    private Builder $users;
-
     function eagerIncludesRelations(): array
     {
         return [
@@ -27,13 +25,16 @@ class AccountUsersListService extends BaseService
     public function list(AccountUserListData $data, int $accountId): LengthAwarePaginator
     {
         $this->setRequestedIncludes(explode(',', $data->include));
-        $this->users = User::byAccount($accountId);
-        $this->users->when(
+        $users = User::byAccount($accountId);
+        $users->when(
             $data->name,
             function ($query) use ($data) {
                 $query->where('name', 'like', '%'. $data->name .'%');
             }
         );
-        return $this->users->paginate($data->per_page ?? 10);
+        $this->setRequestedIncludes(explode(',', $data->include));
+        $this->applyIncludesEagerLoading($users);
+
+        return $users->paginate($data->per_page ?? 10);
     }
 }

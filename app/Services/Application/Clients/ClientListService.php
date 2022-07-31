@@ -11,6 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class ClientListService extends BaseService
 {
     use HasEagerLoadingIncludes;
+
     protected function eagerIncludesRelations(): array
     {
         return [

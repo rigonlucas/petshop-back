@@ -15,9 +15,7 @@ class ScheduleListController extends Controller
     {
         $data = ScheduleListData::fromRequest($request);
         $schedules = $service
-            ->openSchedules($data)
-            ->getQuery()
-            ->paginate($data->per_page ?? 10);
+            ->list($data);
         return SchedulesResource::collection($schedules);
     }
 }
