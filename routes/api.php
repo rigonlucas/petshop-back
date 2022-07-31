@@ -3,6 +3,7 @@
 use App\Http\Controllers\Accounts\UsersOfAccountController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Breeds\BreedListController;
+use App\Http\Controllers\Clients\ClientDeleteController;
 use App\Http\Controllers\Clients\ClientListController;
 use App\Http\Controllers\Clients\ClientShowController;
 use App\Http\Controllers\Clients\ClientStoreController;
@@ -74,6 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
             });
             Route::post('store', [ClientStoreController::class, '__invoke']);
             Route::put('update/{clientId}', [ClientUpdateController::class, '__invoke']);
+            Route::delete('delete/{clientId}', [ClientDeleteController::class, '__invoke']);
         });
 
         /**
