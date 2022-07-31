@@ -4,6 +4,7 @@ namespace App\Services\Application\Products;
 
 use App\Enums\ProductsEnum;
 use App\Models\Products\Product;
+use App\Models\Products\ProductPrice;
 use App\Rules\Product\ProductPriceRule;
 use App\Services\Application\Products\DTO\ProductStoreData;
 use App\Services\BaseService;
@@ -22,7 +23,14 @@ class ProductStoreService extends BaseService
     public function store(ProductStoreData $data): Model|Builder
     {
         $this->validate($data);
-        return Product::byAccount($data->account_id)->create($data->toArray());
+        $product = Product::byAccount($data->account_id)->create($data->toArray());
+        ProductPrice::query()
+            ->create([
+                'product_id' => $product->id,
+                'cost_price' => $product->cost_price,
+                'price' => $product->price,
+            ]);
+        return $product;
     }
 
     /**

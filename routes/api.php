@@ -8,6 +8,7 @@ use App\Http\Controllers\Clients\ClientShowController;
 use App\Http\Controllers\Pet\PetListController;
 use App\Http\Controllers\Products\ProductListController;
 use App\Http\Controllers\Products\ProductStoreController;
+use App\Http\Controllers\Products\ProductUpdateController;
 use App\Http\Controllers\Schedules\ScheduleDeleteController;
 use App\Http\Controllers\Schedules\ScheduleListController;
 use App\Http\Controllers\Schedules\ScheduleStoreController;
@@ -80,6 +81,7 @@ Route::middleware('auth:sanctum')->group(function () {
         });
         Route::prefix('product')->group(function () {
             Route::post('store', [ProductStoreController::class, '__invoke']);
+            Route::put('update/{productId}', [ProductUpdateController::class, '__invoke']);
         });
 
         /**
