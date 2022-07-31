@@ -43,18 +43,18 @@ class ProductUpdateService extends BaseService
         Validator::make(
             $data->toArray(),
             [
-                'id' => ['required', 'integer', 'min:1', new ProductAccountExistsRule($data->account_id)],
+                'id' => [
+                    'required',
+                    'integer',
+                    'min:1',
+                    new ProductAccountExistsRule($data->account_id),
+                    new AccountHasEntityRule(Product::class, $data->account_id),
+                ],
                 'name' => ['required', 'string', 'min:3', 'max:500'],
                 'description' => ['required', 'string', 'min:3', 'max:500'],
                 'type' => ['required', 'int', 'min:1', new Enum(ProductsEnum::class)],
                 'cost_price' => ['required', 'numeric', 'gt:0', 'min:0'],
                 'price' => ['required', 'numeric', 'gt:0', 'min:0', new ProductPriceRule($data->cost_price)],
-                'account_id' => [
-                    'required',
-                    'int',
-                    'min:1',
-                    new AccountHasEntityRule(Product::class, $data->account_id),
-                ]
             ]
         )->validate();
     }

@@ -9,7 +9,7 @@ use App\Services\Traits\HasEagerLoadingIncludes;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
-class PetsListService extends BaseService
+class PetListService extends BaseService
 {
     use HasEagerLoadingIncludes;
 

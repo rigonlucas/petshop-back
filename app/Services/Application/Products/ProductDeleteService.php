@@ -32,13 +32,13 @@ class ProductDeleteService extends BaseService
         Validator::make(
             $data->toArray(),
             [
-                'account_id' => [
+                'id' => [
                     'required',
-                    'int',
+                    'integer',
                     'min:1',
-                    new AccountHasEntityRule(Product::class, $data->account_id),
-                ],
-                'id' => ['required', 'integer', 'min:1', new ProductAccountExistsRule($data->account_id)]
+                    new ProductAccountExistsRule($data->account_id),
+                    new AccountHasEntityRule(Product::class, $data->account_id)
+                ]
             ]
         )->validate();
     }

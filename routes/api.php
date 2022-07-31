@@ -8,7 +8,10 @@ use App\Http\Controllers\Clients\ClientListController;
 use App\Http\Controllers\Clients\ClientShowController;
 use App\Http\Controllers\Clients\ClientStoreController;
 use App\Http\Controllers\Clients\ClientUpdateController;
+use App\Http\Controllers\Pet\PetDeleteController;
 use App\Http\Controllers\Pet\PetListController;
+use App\Http\Controllers\Pet\PetStoreController;
+use App\Http\Controllers\Pet\PetUpdateController;
 use App\Http\Controllers\Products\ProductDeleteController;
 use App\Http\Controllers\Products\ProductListController;
 use App\Http\Controllers\Products\ProductRestoreController;
@@ -83,6 +86,11 @@ Route::middleware('auth:sanctum')->group(function () {
          */
         Route::prefix('pets')->group(function () {
             Route::get('/', [PetListController::class, '__invoke']);
+        });
+        Route::prefix('pet')->group(function () {
+            Route::post('store', [PetStoreController::class, '__invoke']);
+            Route::put('update/{petId}', [PetUpdateController::class, '__invoke']);
+            Route::delete('delete/{petId}', [PetDeleteController::class, '__invoke']);
         });
 
         /**

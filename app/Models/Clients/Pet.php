@@ -2,12 +2,12 @@
 
 namespace App\Models\Clients;
 
+use App\Models\BaseModel;
 use App\Models\Scopes\ByAccount;
 use App\Models\Types\Breed;
 use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,20 +16,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @method static Builder tutor(int $clientId)
  */
-class Pet extends Model
+class Pet extends BaseModel
 {
     use HasFactory;
     use SoftDeletes;
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope(new ByAccount());
-    }
+    protected $fillable = [
+        'name',
+        'client_id',
+        'account_id',
+        'breed_id',
+        'name',
+        'birthday'
+    ];
 
     public function scopeTutor(Builder $query, int $clientId): Builder
     {
