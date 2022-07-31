@@ -6,6 +6,7 @@ use App\Support\AppJsonResource;
 
 class ProductResource extends AppJsonResource
 {
+    protected array $availableIncludes = ['prices'];
 
     function resource($request)
     {
@@ -20,5 +21,10 @@ class ProductResource extends AppJsonResource
             "updated_at" => $this->updated_at,
             "deleted_at" => $this->when($this->deleted_at, $this->deleted_at)
         ];
+    }
+
+    public function includePrices()
+    {
+        return PricesResource::collection($this->prices);
     }
 }

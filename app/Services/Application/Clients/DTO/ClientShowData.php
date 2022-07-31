@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Services\Application\Products\DTO;
+namespace App\Services\Application\Clients\DTO;
 
 use Illuminate\Http\Request;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class ProductDeleteData extends DataTransferObject
+class ClientShowData extends DataTransferObject
 {
     public ?int $id;
-    public ?int $account_id;
+    public ?int $account_id = null;
 
     public static function fromRequest(Request $request): self
     {

@@ -7,6 +7,7 @@ use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -31,5 +32,10 @@ class Product extends BaseModel
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function prices(): HasMany
+    {
+        return $this->hasMany(ProductPrice::class);
     }
 }
