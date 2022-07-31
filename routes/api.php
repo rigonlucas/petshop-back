@@ -76,21 +76,32 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::get('/', [ClientShowController::class, '__invoke'])
                     ->where('clientId', '[0-9]+');
             });
-            Route::post('store', [ClientStoreController::class, '__invoke']);
-            Route::put('update/{clientId}', [ClientUpdateController::class, '__invoke']);
-            Route::delete('delete/{clientId}', [ClientDeleteController::class, '__invoke']);
+            Route::post('store', [ClientStoreController::class, '__invoke'])
+                ->name('client.store');
+            Route::put('update/{clientId}', [ClientUpdateController::class, '__invoke'])
+                ->where('clientId', '[0-9]+')
+                ->name('client.update');;
+            Route::delete('delete/{clientId}', [ClientDeleteController::class, '__invoke'])
+                ->where('clientId', '[0-9]+')
+                ->name('client.delete');;
         });
 
         /**
          * Pets
          */
         Route::prefix('pets')->group(function () {
-            Route::get('/', [PetListController::class, '__invoke']);
+            Route::get('/', [PetListController::class, '__invoke'])
+                ->name('pet.index');
         });
         Route::prefix('pet')->group(function () {
-            Route::post('store', [PetStoreController::class, '__invoke']);
-            Route::put('update/{petId}', [PetUpdateController::class, '__invoke']);
-            Route::delete('delete/{petId}', [PetDeleteController::class, '__invoke']);
+            Route::post('store', [PetStoreController::class, '__invoke'])
+                ->name('pet.store');;
+            Route::put('update/{petId}', [PetUpdateController::class, '__invoke'])
+                ->where('petId', '[0-9]+')
+                ->name('pet.update');;
+            Route::delete('delete/{petId}', [PetDeleteController::class, '__invoke'])
+                ->where('petId', '[0-9]+')
+                ->name('pet.delete');;
         });
 
         /**
@@ -111,7 +122,9 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('delete/{productId}', [ProductDeleteController::class, '__invoke'])
                 ->where('productId', '[0-9]+')
                 ->name('product.delete');
-            Route::get('restore/{productId}', [ProductRestoreController::class, '__invoke']);
+            Route::get('restore/{productId}', [ProductRestoreController::class, '__invoke'])
+                ->where('productId', '[0-9]+')
+                ->name('product.restore');;
         });
 
         /**
