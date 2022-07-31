@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Services\Application\Products;
+
+use App\Models\Clients\Client;
+use App\Models\Products\Product;
+use App\Models\Products\ProductPrice;
+use App\Rules\AccountHasEntityRule;
+use App\Rules\Product\DeletedProductAccountExistsRule;
+use App\Services\Application\Products\DTO\ProductRestoreData;
+use App\Services\BaseService;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+
+class ProductRestoreService extends BaseService
+{
+
+    /**
+     * @throws ValidationException
+     */
+    public function restore(ProductRestoreData $data): int
+    {
+        $this->validate($data);
+        $this->updateProductPrices($data);
+        $product = Product::withTrashed()
+            ->byAccount($data->account_id)
+            ->where('id', '=', $data->id)
+            ->restore();
+        ProductPrice::query()
+            ->where('product_id', '=', $data->id)
+            ->latest('created_at')
+            ->limit(1)
+            ->update(['activated_at' => now()]);
+
+        return $product;
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    private function validate(ProductRestoreData $data): void
+    {
+        Validator::make(
+            $data->toArray(),
+            [
+                'account_id' => [
+                    'required',
+                    'int',
+                    'min:1',
+                    new AccountHasEntityRule(Client::class, $data->account_id),
+                ],
+                'id' => ['required', 'integer', 'min:1', new DeletedProductAccountExistsRule($data->account_id)]
+            ]
+        )->validate();
+    }
+
+    private function updateProductPrices(ProductRestoreData $data): void
+    {
+        ProductPrice::query()
+            ->where('product_id', '=', $data->id)
+            ->update(['activated_at' => null]);
+    }
+}

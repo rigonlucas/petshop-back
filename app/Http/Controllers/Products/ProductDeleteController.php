@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Application\Product\ProductDeleteRequest;
 use App\Services\Application\Products\DTO\ProductDeleteData;
 use App\Services\Application\Products\ProductDeleteService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 
@@ -14,9 +14,13 @@ class ProductDeleteController extends Controller
     /**
      * @throws ValidationException
      */
-    public function __invoke(ProductDeleteRequest $request, int $productId, ProductDeleteService $service): Response
+    public function __invoke(
+        Request $request,
+        int $productId,
+        ProductDeleteService $service,
+    ): Response
     {
-        $data = ProductDeleteData::fromRequest($request);
+        $data = new ProductDeleteData();
         $data->id = $productId;
         $data->account_id = $request->user()->account_id;
 

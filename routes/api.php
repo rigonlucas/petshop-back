@@ -8,6 +8,7 @@ use App\Http\Controllers\Clients\ClientShowController;
 use App\Http\Controllers\Pet\PetListController;
 use App\Http\Controllers\Products\ProductDeleteController;
 use App\Http\Controllers\Products\ProductListController;
+use App\Http\Controllers\Products\ProductRestoreController;
 use App\Http\Controllers\Products\ProductStoreController;
 use App\Http\Controllers\Products\ProductUpdateController;
 use App\Http\Controllers\Schedules\ScheduleDeleteController;
@@ -84,6 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('store', [ProductStoreController::class, '__invoke']);
             Route::put('update/{productId}', [ProductUpdateController::class, '__invoke']);
             Route::delete('delete/{productId}', [ProductDeleteController::class, '__invoke']);
+            Route::get('restore/{productId}', [ProductRestoreController::class, '__invoke']);
         });
 
         /**
