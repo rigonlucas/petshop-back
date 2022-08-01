@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProductShowController extends Controller
 {
-    public function __invoke(Request $request, int $productId, ProductShowService $service): ProductResource
+    public function __invoke(Request $request, int $id, ProductShowService $service): ProductResource
     {
         $data = ProductShowData::fromRequest($request);
-        $data->id = $productId;
+        $data->id = $id;
         $data->account_id = $request->user()->account_id;
         $result = DB::transaction(function () use ($service, $data) {
             return $service->show($data);

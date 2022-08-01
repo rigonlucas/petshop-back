@@ -10,12 +10,12 @@ use Illuminate\Http\Request;
 
 class ClientShowController extends Controller
 {
-    public function __invoke(Request $request, int $clientId, ClientShowService $service): ClientResource
+    public function __invoke(Request $request, int $id, ClientShowService $service): ClientResource
     {
 
         $includes = $request->query('include', '');
         $data = ClientShowData::fromRequest($request);
-        $data->id = $clientId;
+        $data->id = $id;
         $data->account_id = $request->user()->account_id;
 
         $client = $service

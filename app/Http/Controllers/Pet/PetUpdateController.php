@@ -12,10 +12,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class PetUpdateController extends Controller
 {
-    public function __invoke(PetUpdateRequest $request, int $petId, PetUpdateService $service): JsonResponse
+    public function __invoke(PetUpdateRequest $request, int $id, PetUpdateService $service): JsonResponse
     {
         $data = PetUpdateData::fromRequest($request);
-        $data->id = $petId;
+        $data->id = $id;
         $data->account_id = $request->user()->account_id;
         $result = DB::transaction(function () use ($service, $data) {
             return $service->update($data);

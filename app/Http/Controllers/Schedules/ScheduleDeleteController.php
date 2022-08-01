@@ -12,14 +12,14 @@ class ScheduleDeleteController extends Controller
 {
     /**
      * @param Request $request
-     * @param int $scheduleId
+     * @param int $id
      * @param ScheduleDeleteService $service
      * @return Response
      */
-    public function __invoke(Request $request, int $scheduleId, ScheduleDeleteService $service): Response
+    public function __invoke(Request $request, int $id, ScheduleDeleteService $service): Response
     {
         $data = ScheduleDeleteData::fromRequest($request);
-        $data->schedule_id = $scheduleId;
+        $data->schedule_id = $id;
 
         $service->delete($data, $request->user()->account_id);
         return response()->noContent();

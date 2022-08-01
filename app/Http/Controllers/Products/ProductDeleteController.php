@@ -16,12 +16,12 @@ class ProductDeleteController extends Controller
      */
     public function __invoke(
         Request $request,
-        int $productId,
+        int $id,
         ProductDeleteService $service,
     ): Response
     {
         $data = new ProductDeleteData();
-        $data->id = $productId;
+        $data->id = $id;
         $data->account_id = $request->user()->account_id;
 
         $service->delete($data);

@@ -13,14 +13,14 @@ class ScheduleUpdateController extends Controller
 {
     /**
      * @param ScheduleUpdateRequest $request
-     * @param int $scheduleId
+     * @param int $id
      * @param ScheduleUpdateService $service
      * @return JsonResponse
      */
-    public function update(ScheduleUpdateRequest $request, int $scheduleId, ScheduleUpdateService $service): JsonResponse
+    public function __invoke(ScheduleUpdateRequest $request, int $id, ScheduleUpdateService $service): JsonResponse
     {
         $data = ScheduleUpdateData::fromRequest($request);
-        $data->schedule_id = $scheduleId;
+        $data->schedule_id = $id;
         $result = $service->update(
             $data,
             $request->user()

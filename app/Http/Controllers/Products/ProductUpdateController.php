@@ -12,10 +12,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ProductUpdateController extends Controller
 {
-    public function __invoke(ProductStoreRequest $request, int $productId,ProductUpdateService $service): JsonResponse
+    public function __invoke(ProductStoreRequest $request, int $id,ProductUpdateService $service): JsonResponse
     {
         $data = ProductUpdateData::fromRequest($request);
-        $data->id = $productId;
+        $data->id = $id;
         $data->account_id = $request->user()->account_id;
         $result = DB::transaction(function () use ($service, $data) {
             return $service->update($data);

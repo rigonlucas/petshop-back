@@ -49,18 +49,16 @@ Route::middleware('auth:sanctum')->group(function () {
          * Schedules
          */
         Route::prefix('schedules')->group(function () {
-            Route::get('/', [ScheduleListController::class, '__invoke'])
+            Route::get('/', ScheduleListController::class)
                 ->name('schedules.index');
         });
 
         Route::prefix('schedule')->group(function () {
-            Route::post('store', [ScheduleStoreController::class, '__invoke'])
+            Route::post('', ScheduleStoreController::class)
                 ->name('schedule.store');
-            Route::put('update/{scheduleId}', [ScheduleUpdateController::class, '__invoke'])
-                ->where('scheduleId', '[0-9]+')
+            Route::put('{id}', ScheduleUpdateController::class)
                 ->name('schedule.update');
-            Route::delete('delete/{scheduleId}', [ScheduleDeleteController::class, '__invoke'])
-                ->where('scheduleId', '[0-9]+')
+            Route::delete('{id}', ScheduleDeleteController::class)
                 ->name('schedule.delete');
         });
 
@@ -68,70 +66,62 @@ Route::middleware('auth:sanctum')->group(function () {
          * Clients
          */
         Route::prefix('clients')->group(function () {
-            Route::get('/', [ClientListController::class, '__invoke'])
+            Route::get('/', ClientListController::class)
                 ->name('client.index');
         });
         Route::prefix('client')->group(function (){
-            Route::prefix('{clientId}')->group(function () {
-                Route::get('/', [ClientShowController::class, '__invoke'])
-                    ->where('clientId', '[0-9]+');
+            Route::prefix('{id}')->group(function () {
+                Route::get('/', ClientShowController::class)
+                    ->name('client.index');
+                Route::put('/', ClientUpdateController::class)
+                    ->name('client.update');
+                Route::delete('/', ClientDeleteController::class)
+                    ->name('client.delete');
             });
-            Route::post('store', [ClientStoreController::class, '__invoke'])
+            Route::post('/', ClientStoreController::class)
                 ->name('client.store');
-            Route::put('update/{clientId}', [ClientUpdateController::class, '__invoke'])
-                ->where('clientId', '[0-9]+')
-                ->name('client.update');;
-            Route::delete('delete/{clientId}', [ClientDeleteController::class, '__invoke'])
-                ->where('clientId', '[0-9]+')
-                ->name('client.delete');;
         });
 
         /**
          * Pets
          */
         Route::prefix('pets')->group(function () {
-            Route::get('/', [PetListController::class, '__invoke'])
+            Route::get('/', PetListController::class)
                 ->name('pet.index');
         });
         Route::prefix('pet')->group(function () {
-            Route::post('store', [PetStoreController::class, '__invoke'])
-                ->name('pet.store');;
-            Route::put('update/{petId}', [PetUpdateController::class, '__invoke'])
-                ->where('petId', '[0-9]+')
-                ->name('pet.update');;
-            Route::delete('delete/{petId}', [PetDeleteController::class, '__invoke'])
-                ->where('petId', '[0-9]+')
-                ->name('pet.delete');;
+            Route::post('/', PetStoreController::class)
+                ->name('pet.store');
+            Route::put('/{id}', PetUpdateController::class)
+                ->name('pet.update');
+            Route::delete('/{id}', PetDeleteController::class)
+                ->name('pet.delete');
         });
 
         /**
          * Products
          */
         Route::prefix('products')->group(function () {
-            Route::get('/', [ProductListController::class, '__invoke']);
+            Route::get('/', ProductListController::class);
         });
         Route::prefix('product')->group(function () {
-            Route::post('store', [ProductStoreController::class, '__invoke'])
+            Route::post('/', ProductStoreController::class)
                 ->name('product.store');
-            Route::put('update/{productId}', [ProductUpdateController::class, '__invoke'])
-                ->where('productId', '[0-9]+')
+            Route::put('/{id}', ProductUpdateController::class)
                 ->name('product.update');
-            Route::get('show/{productId}', [ProductShowController::class, '__invoke'])
-                ->where('productId', '[0-9]+')
+            Route::get('/{id}', ProductShowController::class)
                 ->name('product.show');
-            Route::delete('delete/{productId}', [ProductDeleteController::class, '__invoke'])
-                ->where('productId', '[0-9]+')
+            Route::delete('{id}', ProductDeleteController::class)
                 ->name('product.delete');
-            Route::get('restore/{productId}', [ProductRestoreController::class, '__invoke'])
-                ->where('productId', '[0-9]+')
-                ->name('product.restore');;
+            Route::put('{id}/restore', ProductRestoreController::class)
+                ->name('product.restore');
         });
 
         /**
          * Breeds
          */
         Route::prefix('breeds')->group(function () {
-            Route::get('/', [BreedListController::class, '__invoke'])
+            Route::get('/', BreedListController::class)
                 ->name('breeds.index');
         });
 
@@ -139,7 +129,7 @@ Route::middleware('auth:sanctum')->group(function () {
          * Accounts
          */
         Route::prefix('account')->group(function () {
-            Route::get('users', [UsersOfAccountController::class, '__invoke'])
+            Route::get('users', UsersOfAccountController::class)
                 ->name('account.index');
         });
     });

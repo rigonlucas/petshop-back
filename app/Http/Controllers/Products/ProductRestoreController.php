@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProductRestoreController extends Controller
 {
-    public function __invoke(Request $request, int $productId, ProductRestoreService $service): Response
+    public function __invoke(Request $request, int $id, ProductRestoreService $service): Response
     {
         $data = new ProductRestoreData();
-        $data->id = $productId;
+        $data->id = $id;
         $data->account_id = $request->user()->account_id;
 
         DB::transaction(function () use ($service, $data) {

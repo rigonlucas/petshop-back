@@ -16,10 +16,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ClientDeleteController extends Controller
 {
-    public function __invoke(Request $request, int $clientId, ClientDeleteService $service): Response
+    public function __invoke(Request $request, int $id, ClientDeleteService $service): Response
     {
         $data = new ClientDeleteData();
-        $data->id = $clientId;
+        $data->id = $id;
         $data->account_id = $request->user()->account_id;
 
         $service->delete($data);

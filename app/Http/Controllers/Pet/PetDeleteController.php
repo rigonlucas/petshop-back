@@ -16,10 +16,10 @@ class PetDeleteController extends Controller
     /**
      * @throws ValidationException
      */
-    public function __invoke(Request $request, int $petId, PetDeleteService $service): Response
+    public function __invoke(Request $request, int $id, PetDeleteService $service): Response
     {
         $data = new PetDeleteData();
-        $data->id = $petId;
+        $data->id = $id;
         $data->account_id = $request->user()->account_id;
 
         $service->delete($data);
