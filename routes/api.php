@@ -56,10 +56,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('schedule')->group(function () {
             Route::post('', ScheduleStoreController::class)
                 ->name('schedule.store');
-            Route::put('{id}', ScheduleUpdateController::class)
-                ->name('schedule.update');
-            Route::delete('{id}', ScheduleDeleteController::class)
-                ->name('schedule.delete');
+            Route::prefix('{id}')->group(function () {
+                Route::put('/', ScheduleUpdateController::class)
+                    ->name('schedule.update');
+                Route::delete('/', ScheduleDeleteController::class)
+                    ->name('schedule.delete');
+            });
         });
 
         /**
@@ -70,16 +72,16 @@ Route::middleware('auth:sanctum')->group(function () {
                 ->name('client.index');
         });
         Route::prefix('client')->group(function (){
+            Route::post('/', ClientStoreController::class)
+                ->name('client.store');
+            Route::get('/', ClientShowController::class)
+                ->name('client.index');
             Route::prefix('{id}')->group(function () {
-                Route::get('/', ClientShowController::class)
-                    ->name('client.index');
                 Route::put('/', ClientUpdateController::class)
                     ->name('client.update');
                 Route::delete('/', ClientDeleteController::class)
-                    ->name('client.delete');
+                    ->name('client.delete');//necessário validar os pets
             });
-            Route::post('/', ClientStoreController::class)
-                ->name('client.store');
         });
 
         /**
@@ -113,7 +115,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 ->name('product.show');
             Route::delete('{id}', ProductDeleteController::class)
                 ->name('product.delete');
-            Route::put('{id}/restore', ProductRestoreController::class)
+            Route::patch('{id}/restore', ProductRestoreController::class)
                 ->name('product.restore');
         });
 

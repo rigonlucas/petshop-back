@@ -25,7 +25,6 @@ return new class extends Migration
             $table->unsignedBigInteger('duration');
             $table->text('description');
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('pet_id')->references('id')->on('pets');

@@ -28,7 +28,6 @@ class PetDeleteService extends BaseService
      */
     private function validate(PetDeleteData $data): void
     {
-        //dd((new AccountHasEntityRule(Pet::class, $data->account_id))->passes('', $data->id));
         Validator::make(
             $data->toArray(),
             [

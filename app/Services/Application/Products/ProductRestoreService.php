@@ -4,7 +4,7 @@ namespace App\Services\Application\Products;
 
 use App\Models\Products\Product;
 use App\Models\Products\ProductPrice;
-use App\Rules\AccountHasEntityRule;
+use App\Rules\AccountHasEntityTrashedRule;
 use App\Rules\Product\DeletedProductAccountExistsRule;
 use App\Services\Application\Products\DTO\ProductRestoreData;
 use App\Services\BaseService;
@@ -20,8 +20,8 @@ class ProductRestoreService extends BaseService
     public function restore(ProductRestoreData $data): int
     {
         $this->validate($data);
-        $this->updateProductPrices($data);
-        return Product::withTrashed()
+        //$this->updateProductPrices($data);
+        return Product::onlyTrashed()
             ->byAccount($data->account_id)
             ->where('id', '=', $data->id)
             ->restore();
@@ -35,13 +35,11 @@ class ProductRestoreService extends BaseService
         Validator::make(
             $data->toArray(),
             [
-                'account_id' => [
-                    'required',
-                    'int',
-                    'min:1',
-                    new AccountHasEntityRule(Product::class, $data->account_id),
-                ],
-                'id' => ['required', 'integer', 'min:1', new DeletedProductAccountExistsRule($data->account_id)]
+                'id' => [
+                    'required', 'integer', 'min:1',
+                    new DeletedProductAccountExistsRule($data->account_id),
+                    new AccountHasEntityTrashedRule(Product::class, $data->account_id)
+                ]
             ]
         )->validate();
     }

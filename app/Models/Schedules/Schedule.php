@@ -21,7 +21,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Schedule extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = [
         "account_id",
