@@ -7,7 +7,7 @@ use App\Support\AppJsonResource;
 
 class PetResource extends AppJsonResource
 {
-    protected array $availableIncludes = ['breed'];
+    protected array $availableIncludes = ['breed', 'client'];
     protected array $defaultIncludes = ['breed'];
 
     function resource($request): array
@@ -24,4 +24,8 @@ class PetResource extends AppJsonResource
         return BreedResource::make($this->breed);
     }
 
+    public function includeClient(): BreedResource
+    {
+        return BreedResource::make($this->client);
+    }
 }

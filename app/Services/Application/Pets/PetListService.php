@@ -42,7 +42,7 @@ class PetListService extends BaseService
         $pets->when(
             $data->client_id,
             function ($query) use ($data) {
-                $query->where('account_id', $data->client_id);
+                $query->where('client_id', $data->client_id);
             }
         );
         return $pets->paginate($data->per_page ?? 10);
