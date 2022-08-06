@@ -12,6 +12,7 @@ class PetRegisters extends BaseModel
     protected $fillable = [
         'id',
         'register',
-        'type'
+        'type',
+        'pet_id'
     ];
 }

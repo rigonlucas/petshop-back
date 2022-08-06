@@ -13,7 +13,9 @@ use App\Http\Controllers\Pet\PetListController;
 use App\Http\Controllers\Pet\PetShowController;
 use App\Http\Controllers\Pet\PetStoreController;
 use App\Http\Controllers\Pet\PetUpdateController;
+use App\Http\Controllers\Pet\Registers\PetRegisterDeleteController;
 use App\Http\Controllers\Pet\Registers\PetRegisterListController;
+use App\Http\Controllers\Pet\Registers\PetRegisterStoreController;
 use App\Http\Controllers\Products\ProductDeleteController;
 use App\Http\Controllers\Products\ProductListController;
 use App\Http\Controllers\Products\ProductRestoreController;
@@ -99,6 +101,14 @@ Route::middleware('auth:sanctum')->group(function () {
                     ->name('pet.update');
                 Route::delete('/', PetDeleteController::class)
                     ->name('pet.delete');
+                Route::prefix('register')->group(function () {
+                    Route::prefix('/{registerId}')->group(function () {
+                        Route::delete('/', PetRegisterDeleteController::class)
+                            ->name('pet.register.delete');
+                    });
+                    Route::post('/', PetRegisterStoreController::class)
+                        ->name('pet.register.store');
+                });
             });
         });
 
