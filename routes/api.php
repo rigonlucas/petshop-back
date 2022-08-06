@@ -10,8 +10,10 @@ use App\Http\Controllers\Clients\ClientStoreController;
 use App\Http\Controllers\Clients\ClientUpdateController;
 use App\Http\Controllers\Pet\PetDeleteController;
 use App\Http\Controllers\Pet\PetListController;
+use App\Http\Controllers\Pet\PetShowController;
 use App\Http\Controllers\Pet\PetStoreController;
 use App\Http\Controllers\Pet\PetUpdateController;
+use App\Http\Controllers\Pet\Registers\PetRegisterListController;
 use App\Http\Controllers\Products\ProductDeleteController;
 use App\Http\Controllers\Products\ProductListController;
 use App\Http\Controllers\Products\ProductRestoreController;
@@ -37,14 +39,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');
-Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout')->middleware( 'auth:sanctum');
+Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout')->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::prefix('v1')->group(function (){
-        Route::get('/user', function () {
-            return auth()->user();
-        });
-
+    Route::prefix('v1')->group(function () {
         /**
          * Schedules
          */
@@ -71,12 +69,12 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', ClientListController::class)
                 ->name('client.index');
         });
-        Route::prefix('client')->group(function (){
+        Route::prefix('client')->group(function () {
             Route::post('/', ClientStoreController::class)
                 ->name('client.store');
-            Route::get('/', ClientShowController::class)
-                ->name('client.index');
             Route::prefix('{id}')->group(function () {
+                Route::get('/', ClientShowController::class)
+                    ->name('client.show');
                 Route::put('/', ClientUpdateController::class)
                     ->name('client.update');
                 Route::delete('/', ClientDeleteController::class)
@@ -94,10 +92,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('pet')->group(function () {
             Route::post('/', PetStoreController::class)
                 ->name('pet.store');
-            Route::put('/{id}', PetUpdateController::class)
-                ->name('pet.update');
-            Route::delete('/{id}', PetDeleteController::class)
-                ->name('pet.delete');
+            Route::prefix('/{id}')->group(function () {
+                Route::get('/', PetShowController::class)
+                    ->name('pet.show');
+                Route::put('/', PetUpdateController::class)
+                    ->name('pet.update');
+                Route::delete('/', PetDeleteController::class)
+                    ->name('pet.delete');
+            });
         });
 
         /**

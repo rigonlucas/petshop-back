@@ -3,12 +3,12 @@
 namespace App\Models\Clients;
 
 use App\Models\BaseModel;
-use App\Models\Scopes\ByAccount;
 use App\Models\Types\Breed;
 use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -48,5 +48,10 @@ class Pet extends BaseModel
     public function breed(): BelongsTo
     {
         return $this->belongsTo(Breed::class);
+    }
+
+    public function registers(): HasMany
+    {
+        return $this->hasMany(PetRegisters::class);
     }
 }
