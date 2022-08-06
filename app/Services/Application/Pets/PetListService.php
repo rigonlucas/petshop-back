@@ -6,8 +6,6 @@ use App\Models\Clients\Pet;
 use App\Services\Application\Pets\DTO\PetListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
 
 class PetListService extends BaseService
 {
@@ -28,7 +26,7 @@ class PetListService extends BaseService
         ];
     }
 
-    public function list(PetListData $data): LengthAwarePaginator
+    public function list(PetListData $data): \Illuminate\Contracts\Pagination\Paginator
     {
         $pets = Pet::query();
         $this->setRequestedIncludes(explode(',', $data->include));
@@ -48,6 +46,6 @@ class PetListService extends BaseService
                 $query->where('client_id', $data->client_id);
             }
         );
-        return $pets->paginate($data->per_page ?? 10);
+        return $pets->simplePaginate($data->per_page);
     }
 }

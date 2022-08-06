@@ -6,7 +6,6 @@ use App\Models\Clients\Pet;
 use App\Models\Clients\PetRegisters;
 use App\Rules\AccountHasEntityRule;
 use App\Rules\Pet\PetRegisterBelongsToPetRule;
-use App\Services\Application\Pets\DTO\PetDeleteData;
 use App\Services\Application\PetsRegisters\DTO\PetRegisterDeleteData;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Validator;

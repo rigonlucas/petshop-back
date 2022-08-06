@@ -6,7 +6,6 @@ use App\Models\Products\Product;
 use App\Services\Application\Products\DTO\ProductListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasOrderBy;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProductListService extends BaseService
@@ -32,10 +31,10 @@ class ProductListService extends BaseService
         ];
     }
 
-    public function list(ProductListData $data, int $accountId): LengthAwarePaginator
+    public function list(ProductListData $data, int $accountId): \Illuminate\Contracts\Pagination\Paginator
     {
         $this->setOrderBy($data->order_by, $data->order_direction);
         return Product::byAccount($accountId)
-            ->orderBy($this->orderBy, $this->orderDirection)->paginate($data->per_page ?? 10);
+            ->orderBy($this->orderBy, $this->orderDirection)->simplePaginate($data->per_page);
     }
 }

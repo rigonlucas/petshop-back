@@ -7,8 +7,6 @@ use App\Services\Application\Schedules\DTO\ScheduleListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
 use Carbon\Carbon;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
 
 class ScheduleListService extends BaseService
 {
@@ -29,7 +27,7 @@ class ScheduleListService extends BaseService
         ];
     }
 
-    public function list(ScheduleListData $data): LengthAwarePaginator
+    public function list(ScheduleListData $data): \Illuminate\Contracts\Pagination\Paginator
     {
         $schedule = Schedule::openSchedule();
         $this->setRequestedIncludes(explode(',', $data->include));
@@ -54,6 +52,6 @@ class ScheduleListService extends BaseService
             }
         );
 
-        return $schedule->paginate($data->per_page ?? 10);
+        return $schedule->simplePaginate($data->per_page);
     }
 }

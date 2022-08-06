@@ -6,7 +6,6 @@ use App\Models\Clients\Client;
 use App\Services\Application\Clients\DTO\ClientListData;
 use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientListService extends BaseService
 {
@@ -20,11 +19,14 @@ class ClientListService extends BaseService
             ],
             'pets' => [
                 'pets.breed',
+            ],
+            'registers' => [
+                'pets.registers'
             ]
         ];
     }
 
-    public function list(ClientListData $data, int $accountId): LengthAwarePaginator
+    public function list(ClientListData $data, int $accountId): \Illuminate\Contracts\Pagination\Paginator
     {
         $query = Client::byAccount($accountId);
 
@@ -45,6 +47,6 @@ class ClientListService extends BaseService
             }
         );
 
-        return $query->paginate($data->per_page);
+        return $query->simplePaginate($data->per_page);
     }
 }
