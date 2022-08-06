@@ -45,6 +45,6 @@ class ClientListService extends BaseService
             }
         );
 
-        return $query->paginate($data->per_page ?? 10);
+        return $query->paginate($data->per_page);
     }
 }

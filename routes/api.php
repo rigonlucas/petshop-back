@@ -39,12 +39,12 @@ Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout')->middleware( 'auth:sanctum');
 
-Route::middleware('auth:sanctum')->get('/user', function () {
-    return auth()->user();
-});
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('v1')->group(function (){
+        Route::get('/user', function () {
+            return auth()->user();
+        });
+
         /**
          * Schedules
          */
