@@ -21,7 +21,10 @@ class PetListService extends BaseService
             ],
             'breed' => [
                 'breed'
-            ]
+            ],
+            'registers' => [
+                'registers'
+            ],
         ];
     }
 
@@ -29,7 +32,7 @@ class PetListService extends BaseService
     {
         $pets = Pet::query();
         $this->setRequestedIncludes(explode(',', $data->include));
-        $this->setDefaultInclude(['breed']);
+        //$this->setDefaultInclude(['breed']);
         $this->applyIncludesEagerLoading($pets);
 
         $pets->when(
