@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Accounts\UsersOfAccountController;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Breeds\BreedListController;
 use App\Http\Controllers\Clients\ClientDeleteController;
 use App\Http\Controllers\Clients\ClientListController;
@@ -14,7 +16,6 @@ use App\Http\Controllers\Pet\PetShowController;
 use App\Http\Controllers\Pet\PetStoreController;
 use App\Http\Controllers\Pet\PetUpdateController;
 use App\Http\Controllers\Pet\Registers\PetRegisterDeleteController;
-use App\Http\Controllers\Pet\Registers\PetRegisterListController;
 use App\Http\Controllers\Pet\Registers\PetRegisterStoreController;
 use App\Http\Controllers\Products\ProductDeleteController;
 use App\Http\Controllers\Products\ProductListController;
@@ -39,11 +40,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [AuthController::class, 'login'])->name('api.login');
-Route::post('/register', [AuthController::class, 'register'])->name('api.register');
-Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout')->middleware('auth:sanctum');
+Route::post('/login', LoginController::class)
+    ->name('api.login');
+Route::post('/register', RegisterController::class)
+    ->name('api.register');
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/logout', LogoutController::class)
+        ->name('api.logout');
+
     Route::prefix('v1')->group(function () {
         /**
          * Schedules

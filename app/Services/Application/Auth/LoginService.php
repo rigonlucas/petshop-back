@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use function config;
 
-class AuthLoginService
+class LoginService
 {
 
     /**
