@@ -50,6 +50,9 @@ Route::middleware('auth:sanctum')->group(function () {
         ->name('api.logout');
 
     Route::prefix('v1')->group(function () {
+        Route::get('/user', function () {
+            return auth()->user();
+        });
         /**
          * Schedules
          */
