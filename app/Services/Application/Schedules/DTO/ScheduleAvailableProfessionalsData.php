@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ScheduleAvailableProfessionalsData extends PaginatedDataTransferObject
 {
-    public ?string $dateTime;
+    public ?string $date_time;
     public ?string $duration;
     public ?int $account_id = null;
 

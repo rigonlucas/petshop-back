@@ -15,8 +15,8 @@ class ScheduleAvailableProfessionalsService extends BaseService
 {
     public function list(ScheduleAvailableProfessionalsData $data): Paginator
     {
-        $startAt = Carbon::create($data->dateTime);
-        $finishAt = Carbon::create($data->dateTime)->addMinutes($data->duration);
+        $startAt = Carbon::create($data->date_time);
+        $finishAt = Carbon::create($data->date_time)->addMinutes($data->duration);
 
         $professionalScheduled = Schedule::byAccount($data->account_id)
             ->openSchedule()

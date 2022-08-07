@@ -60,8 +60,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('schedules')->group(function () {
             Route::get('/', ScheduleListController::class)
                 ->name('schedules.index');
-            Route::get('professionals/available/{dateTime}/{duration}', AvailableProfessionalsController::class)
-                ->name('schedules.available.professionals');
+            Route::get('professionals/available', AvailableProfessionalsController::class)
+                ->name('available.schedules.professionals');
         });
 
         Route::prefix('schedule')->group(function () {
