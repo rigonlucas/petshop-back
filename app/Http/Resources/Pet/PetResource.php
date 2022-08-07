@@ -3,13 +3,14 @@
 namespace App\Http\Resources\Pet;
 
 use App\Http\Resources\Breed\BreedResource;
+use App\Http\Resources\Client\ClientResource;
 use App\Http\Resources\Pet\Registers\RegistersResource;
 use App\Support\AppJsonResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PetResource extends AppJsonResource
 {
-    protected array $availableIncludes = ['breed', 'registers'];
+    protected array $availableIncludes = ['breed', 'client', 'registers'];
     protected array $defaultIncludes = [];
 
     function resource($request): array
@@ -24,6 +25,11 @@ class PetResource extends AppJsonResource
     public function includeBreed(): BreedResource
     {
         return BreedResource::make($this->breed);
+    }
+
+    public function includeClient(): ClientResource
+    {
+        return ClientResource::make($this->client);
     }
 
     public function includeRegisters(): AnonymousResourceCollection
