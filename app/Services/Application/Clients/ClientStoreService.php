@@ -3,7 +3,6 @@
 namespace App\Services\Application\Clients;
 
 use App\Models\Clients\Client;
-use App\Rules\AccountHasEntityRule;
 use App\Rules\Client\ClientEmailExistsRule;
 use App\Rules\Client\ClientNameExistsRule;
 use App\Services\Application\Clients\DTO\ClientStoreData;

@@ -2,7 +2,6 @@
 
 namespace App\Services\Application\Pets\DTO;
 
-use Illuminate\Http\Request;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class PetDeleteData extends DataTransferObject

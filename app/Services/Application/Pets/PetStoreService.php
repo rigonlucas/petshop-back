@@ -4,7 +4,6 @@ namespace App\Services\Application\Pets;
 
 use App\Models\Clients\Client;
 use App\Models\Clients\Pet;
-use App\Models\Types\Breed;
 use App\Rules\AccountHasEntityRule;
 use App\Services\Application\Pets\DTO\PetStoreData;
 use App\Services\BaseService;

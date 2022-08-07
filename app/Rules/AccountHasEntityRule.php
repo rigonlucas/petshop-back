@@ -9,7 +9,7 @@ class AccountHasEntityRule implements Rule
 {
     private Model $entityModel;
 
-    public function __construct(private string $modelClassName, private int $accountId)
+    public function __construct(private readonly string $modelClassName, private readonly int $accountId)
     {
         $this->entityModel = app($this->modelClassName);
     }

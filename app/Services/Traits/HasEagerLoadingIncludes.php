@@ -33,7 +33,6 @@ trait HasEagerLoadingIncludes
             array_flip($this->requestedIncludes)
         );
         $includesRelations = array_merge(...array_values($includes));
-
         $query->with($includesRelations);
     }
 

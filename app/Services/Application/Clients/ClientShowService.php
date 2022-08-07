@@ -16,7 +16,8 @@ class ClientShowService extends BaseService
     {
         return [
             'pets' =>[
-                'pets.breed'
+                'pets.breed',
+                'pets.registers'
             ]
         ];
     }

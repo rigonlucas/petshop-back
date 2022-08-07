@@ -15,8 +15,8 @@ class PetListController extends Controller
     {
         $data = PetListData::fromRequest($request);
 
-        $schedules = $service
-            ->list($data);
+        $schedules = $service->list($data);
+
         return PetResource::collection($schedules);
     }
 }
