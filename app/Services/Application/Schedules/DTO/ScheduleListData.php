@@ -9,6 +9,7 @@ class ScheduleListData extends PaginatedDataTransferObject
 {
     public ?string $period_date = null;
     public ?string $user_id = null;
+    public ?int $account_id = null;
 
     public static function fromRequest(Request $request): self
     {

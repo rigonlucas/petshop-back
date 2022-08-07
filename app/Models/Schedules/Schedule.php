@@ -3,22 +3,21 @@
 namespace App\Models\Schedules;
 
 use App\Enums\SchedulesStatusEnum;
+use App\Models\BaseModel;
 use App\Models\Clients\Client;
 use App\Models\Clients\Pet;
 use App\Models\User;
 use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
  *
  * @method static Builder openSchedule
  */
-class Schedule extends Model
+class Schedule extends BaseModel
 {
     use HasFactory;
 

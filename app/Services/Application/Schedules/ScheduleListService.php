@@ -29,7 +29,7 @@ class ScheduleListService extends BaseService
 
     public function list(ScheduleListData $data): \Illuminate\Contracts\Pagination\Paginator
     {
-        $schedule = Schedule::openSchedule();
+        $schedule = Schedule::byAccount($data->account_id)->openSchedule();
         $this->setRequestedIncludes(explode(',', $data->include));
         $this->applyIncludesEagerLoading($schedule);
         $schedule->orderBy('start_at');
