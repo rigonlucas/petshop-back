@@ -17,7 +17,7 @@ class SchedulesResource extends AppJsonResource
             "id" => $this->id,
             "user_id" => $this->user_id,
             "client_id" => $this->client_id,
-            "account_id" => $this->client_id,
+            "account_id" => $this->account_id,
             "pet_id" => $this->client_id,
             "type" => $this->type,
             "status" => $this->status,

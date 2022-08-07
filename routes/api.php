@@ -23,6 +23,7 @@ use App\Http\Controllers\Products\ProductRestoreController;
 use App\Http\Controllers\Products\ProductShowController;
 use App\Http\Controllers\Products\ProductStoreController;
 use App\Http\Controllers\Products\ProductUpdateController;
+use App\Http\Controllers\Schedules\AvailableProfessionalsController;
 use App\Http\Controllers\Schedules\ScheduleDeleteController;
 use App\Http\Controllers\Schedules\ScheduleListController;
 use App\Http\Controllers\Schedules\ScheduleStoreController;
@@ -59,6 +60,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('schedules')->group(function () {
             Route::get('/', ScheduleListController::class)
                 ->name('schedules.index');
+            Route::get('professionals/available/{dateTime}/{duration}', AvailableProfessionalsController::class)
+                ->name('schedules.available.professionals');
         });
 
         Route::prefix('schedule')->group(function () {
