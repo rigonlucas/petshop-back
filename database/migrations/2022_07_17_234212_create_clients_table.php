@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('account_id');
             $table->string('name', 500);
-            $table->string('email', 255);
-            $table->string('phone', 100);
+            $table->string('email', 255)->nullable()->default(null);
+            $table->string('phone', 100)->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();
 

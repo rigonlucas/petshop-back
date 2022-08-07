@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('account_id');
             $table->string('name', 500);
-            $table->text('description');
-            $table->unsignedBigInteger('type');
+            $table->string('description', 500);
+            $table->unsignedSmallInteger('type');
             $table->float('cost_price');
             $table->float('price');
             $table->timestamps();
