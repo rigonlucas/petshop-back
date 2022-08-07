@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Pet;
 
 use App\Http\Resources\Breed\BreedResource;
+use App\Http\Resources\Client\ClientResource;
 use App\Support\AppJsonResource;
 
 class PetResource extends AppJsonResource
@@ -24,8 +25,8 @@ class PetResource extends AppJsonResource
         return BreedResource::make($this->breed);
     }
 
-    public function includeClient(): BreedResource
+    public function includeClient(): ClientResource
     {
-        return BreedResource::make($this->client);
+        return ClientResource::make($this->client);
     }
 }
