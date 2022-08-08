@@ -4,7 +4,6 @@ namespace App\Services\Application\Auth;
 
 use App\Models\User;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Auth;
 
 class LogoutService extends BaseService
 {

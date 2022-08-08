@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Application\Pet\Register;
 
-use App\Enums\BreedsEnum;
 use App\Enums\PetRegisterTypesEnum;
-use App\Enums\ProductsEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 

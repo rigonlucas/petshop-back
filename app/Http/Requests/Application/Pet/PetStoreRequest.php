@@ -2,10 +2,7 @@
 
 namespace App\Http\Requests\Application\Pet;
 
-use App\Enums\BreedsEnum;
-use App\Enums\ProductsEnum;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 
 class PetStoreRequest extends FormRequest
 {
