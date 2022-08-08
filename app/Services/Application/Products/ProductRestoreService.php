@@ -48,9 +48,6 @@ class ProductRestoreService extends BaseService
     {
         ProductPrice::query()
             ->where('product_id', '=', $data->id)
-            ->update(['activated_at' => null]);
-        ProductPrice::query()
-            ->where('product_id', '=', $data->id)
             ->latest('created_at')
             ->limit(1)
             ->update(['activated_at' => now()]);

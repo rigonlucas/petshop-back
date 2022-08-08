@@ -22,6 +22,7 @@ class ProductUpdateRequest extends FormRequest
             'type' => ['required', 'int', 'min:1', new Enum(ProductsEnum::class) ],
             'cost_price' => ['required', 'numeric', 'gt:0', 'min:0'],
             'price' => ['required', 'numeric', 'gt:0', 'min:0'],
+            'validate' => ['nullable', 'date_format:Y-m-d']
         ];
     }
 }

@@ -29,10 +29,13 @@ class ProductUpdateService extends BaseService
         /** @var Product $product */
         $product = clone $productQuery;
         $priceWasModified = new PriceWasModifiedRule($product->first(), $data->cost_price);
-        if ($priceWasModified->passes('price', $data->price)) {
-            $this->createProductPrice($data);
+        $priceWasModified = $priceWasModified->passes('price', $data->price);
+        $updatePrices = false;
+        if ($priceWasModified) {
+            $updatePrices = true;
         }
-        return $productQuery->update($data->toArray());
+        $this->createProductPrice($data, $updatePrices);
+        return $productQuery->update($data->except('validate')->toArray());
     }
 
     /**
@@ -55,21 +58,34 @@ class ProductUpdateService extends BaseService
                 'type' => ['required', 'int', 'min:1', new Enum(ProductsEnum::class)],
                 'cost_price' => ['required', 'numeric', 'gt:0', 'min:0'],
                 'price' => ['required', 'numeric', 'gt:0', 'min:0', new ProductPriceRule($data->cost_price)],
+                'validate' => ['nullable', 'date_format:Y-m-d']
             ]
         )->validate();
     }
 
-    private function createProductPrice(ProductUpdateData $data): void
+    private function createProductPrice(ProductUpdateData $data, bool $updatePrices): void
     {
-        ProductPrice::query()
-            ->where('product_id', '=', $data->id)
-            ->update(['activated_at' => null]);
+        if ($updatePrices) {
+            ProductPrice::query()
+                ->where('product_id', '=', $data->id)
+                ->update(['activated_at' => null]);
+            ProductPrice::query()
+                ->create([
+                    'product_id' => $data->id,
+                    'cost_price' => $data->cost_price,
+                    'price' => $data->price,
+                    'validate' => $data->validate
+                ]);
+        }
 
         ProductPrice::query()
-            ->create([
+            ->where('product_id', '=', $data->id)
+            ->latest('activated_at')
+            ->update([
                 'product_id' => $data->id,
                 'cost_price' => $data->cost_price,
                 'price' => $data->price,
+                'validate' => $data->validate
             ]);
     }
 }

@@ -26,6 +26,7 @@ class Product extends BaseModel
         'cost_price',
         'price',
         'account_id',
+        'validate'
     ];
 
     public function account(): BelongsTo

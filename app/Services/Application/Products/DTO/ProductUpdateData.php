@@ -14,6 +14,7 @@ class ProductUpdateData extends DataTransferObject
     public float $cost_price;
     public float $price;
     public ?int $account_id = null;
+    public ?string $validate = null;
 
     public static function fromRequest(Request $request): self
     {

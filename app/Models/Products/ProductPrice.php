@@ -13,7 +13,8 @@ class ProductPrice extends BaseModel
     protected $fillable = [
         'product_id',
         'cost_price',
-        'price'
+        'price',
+        'validate'
     ];
 
     public function scopeOnlyActive(Builder $query): Builder
