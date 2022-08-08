@@ -127,19 +127,22 @@ Route::middleware('auth:sanctum')->group(function () {
          * Products
          */
         Route::prefix('products')->group(function () {
-            Route::get('/', ProductListController::class);
+            Route::get('/', ProductListController::class)
+                ->name('product.index');
         });
         Route::prefix('product')->group(function () {
             Route::post('/', ProductStoreController::class)
                 ->name('product.store');
-            Route::put('/{id}', ProductUpdateController::class)
-                ->name('product.update');
-            Route::get('/{id}', ProductShowController::class)
-                ->name('product.show');
-            Route::delete('{id}', ProductDeleteController::class)
-                ->name('product.delete');
-            Route::patch('{id}/restore', ProductRestoreController::class)
-                ->name('product.restore');
+            Route::prefix('{id}')->group(function () {
+                Route::put('/', ProductUpdateController::class)
+                    ->name('product.update');
+                Route::get('/', ProductShowController::class)
+                    ->name('product.show');
+                Route::delete('/', ProductDeleteController::class)
+                    ->name('product.delete');
+                Route::patch('/restore', ProductRestoreController::class)
+                    ->name('product.restore');
+            });
         });
 
         /**
@@ -151,11 +154,9 @@ Route::middleware('auth:sanctum')->group(function () {
         });
 
         /**
-         * Accounts
+         * Users
          */
-        Route::prefix('account')->group(function () {
-            Route::get('users', UsersOfAccountController::class)
-                ->name('account.index');
-        });
+        Route::get('users', UsersOfAccountController::class)
+            ->name('account.index');
     });
 });
