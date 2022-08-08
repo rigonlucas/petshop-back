@@ -10,11 +10,14 @@ use App\Services\BaseService;
 use App\Services\Traits\HasEagerLoadingIncludes;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Support\Facades\Validator;
 
 class ScheduleAvailableProfessionalsService extends BaseService
 {
     public function list(ScheduleAvailableProfessionalsData $data): Paginator
     {
+        $this->validate($data);
+
         $startAt = Carbon::create($data->date_time);
         $finishAt = Carbon::create($data->date_time)->addMinutes($data->duration);
 
@@ -29,5 +32,19 @@ class ScheduleAvailableProfessionalsService extends BaseService
             ->whereNotIn('id', $professionalScheduled);
 
         return $professionalsAvailable->simplePaginate($data->per_page);
+    }
+
+    private function validate(ScheduleAvailableProfessionalsData $data)
+    {
+        Validator::make($data->toArray(), [
+            "duration" => [
+                'required',
+                'min:1'
+            ],
+            "date_time" => [
+                'required',
+                'date_format:Y-m-d H:i',
+            ],
+        ])->validate();
     }
 }
