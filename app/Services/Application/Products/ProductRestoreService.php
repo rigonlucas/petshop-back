@@ -20,7 +20,7 @@ class ProductRestoreService extends BaseService
     public function restore(ProductRestoreData $data): int
     {
         $this->validate($data);
-        //$this->updateProductPrices($data);
+        $this->updateProductPrices($data);
         return Product::onlyTrashed()
             ->byAccount($data->account_id)
             ->where('id', '=', $data->id)
