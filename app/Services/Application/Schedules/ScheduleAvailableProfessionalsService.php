@@ -2,32 +2,31 @@
 
 namespace App\Services\Application\Schedules;
 
+use App\Enums\SchedulesStatusEnum;
+use App\Helpers\BuilderHelper;
 use App\Models\Schedules\Schedule;
 use App\Models\User;
 use App\Services\Application\Schedules\DTO\ScheduleAvailableProfessionalsData;
 use App\Services\BaseService;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 
 class ScheduleAvailableProfessionalsService extends BaseService
 {
-    public function list(ScheduleAvailableProfessionalsData $data): Paginator
+    public function list(ScheduleAvailableProfessionalsData $data, int $accountId): Paginator
     {
         $this->validate($data);
 
-        $startAt = Carbon::create($data->date_time);
-        $finishAt = Carbon::create($data->date_time)->addMinutes($data->duration);
+        $startAt = Carbon::createFromFormat('Y-m-d H:i', $data->date_time);
+        $finishAt = Carbon::create('Y-m-d H:i', $data->date_time)->addMinutes($data->duration);
 
-        $professionalScheduled = Schedule::byAccount($data->account_id)
-            ->openSchedule()
-            ->select('user_id')
-            ->whereBetween('start_at', [$startAt, $finishAt])
-            ->groupBy('user_id')
-            ->get()
-            ->pluck('user_id');
-        $professionalsAvailable = User::byAccount($data->account_id)
-            ->whereNotIn('id', $professionalScheduled);
+        $professionalsAvailable = User::byAccount($accountId)
+            ->whereDoesntHave('schedules', function (Builder $builder) use ($startAt, $finishAt) {
+                BuilderHelper::overlap($builder, 'start_at', 'finish_at', $startAt, $finishAt)
+                    ->where('status', '=', SchedulesStatusEnum::OPEN);
+            });
 
         return $professionalsAvailable->simplePaginate($data->per_page);
     }

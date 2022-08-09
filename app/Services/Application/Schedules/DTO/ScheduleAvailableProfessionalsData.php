@@ -9,7 +9,6 @@ class ScheduleAvailableProfessionalsData extends PaginatedDataTransferObject
 {
     public ?string $date_time;
     public ?string $duration;
-    public ?int $account_id = null;
 
     public static function fromRequest(Request $request): self
     {
