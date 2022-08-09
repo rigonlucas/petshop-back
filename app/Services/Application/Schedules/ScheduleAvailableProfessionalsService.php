@@ -20,7 +20,7 @@ class ScheduleAvailableProfessionalsService extends BaseService
         $this->validate($data);
 
         $startAt = Carbon::createFromFormat('Y-m-d H:i', $data->date_time);
-        $finishAt = Carbon::create('Y-m-d H:i', $data->date_time)->addMinutes($data->duration);
+        $finishAt = Carbon::createFromFormat('Y-m-d H:i', $data->date_time)->addMinutes($data->duration);
 
         $professionalsAvailable = User::byAccount($accountId)
             ->whereDoesntHave('schedules', function (Builder $builder) use ($startAt, $finishAt) {
