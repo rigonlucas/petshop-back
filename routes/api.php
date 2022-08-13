@@ -4,6 +4,7 @@ use App\Http\Controllers\Accounts\UsersOfAccountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Breeds\BreedListController;
 use App\Http\Controllers\Clients\ClientDeleteController;
 use App\Http\Controllers\Clients\ClientListController;
@@ -45,6 +46,8 @@ Route::post('/login', LoginController::class)
     ->name('api.login');
 Route::post('/register', RegisterController::class)
     ->name('api.register');
+Route::get('/verify-email/{hash}', VerifyEmailController::class)
+    ->name('api.verify-email');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logout', LogoutController::class)
