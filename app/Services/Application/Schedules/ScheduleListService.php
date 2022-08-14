@@ -2,11 +2,18 @@
 
 namespace App\Services\Application\Schedules;
 
+use App\Enums\SchedulesStatusEnum;
 use App\Models\Schedules\Schedule;
 use App\Services\Application\Schedules\DTO\ScheduleListData;
 use App\Services\BaseService;
+use App\Services\Filters\ApplyFilters;
+use App\Services\Filters\DateAfterFilter;
+use App\Services\Filters\DateBeforeFilter;
+use App\Services\Filters\WhereEqualFilter;
 use App\Services\Traits\HasEagerLoadingIncludes;
 use Carbon\Carbon;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 
 class ScheduleListService extends BaseService
 {
@@ -27,31 +34,20 @@ class ScheduleListService extends BaseService
         ];
     }
 
-    public function list(ScheduleListData $data): \Illuminate\Contracts\Pagination\Paginator
+    public function list(ScheduleListData $data, int $accountId): Paginator
     {
-        $schedule = Schedule::byAccount($data->account_id)->openSchedule();
+        $query = Schedule::byAccount($accountId)->where('status', '=', SchedulesStatusEnum::OPEN);
         $this->setRequestedIncludes(explode(',', $data->include));
-        $this->applyIncludesEagerLoading($schedule);
-        $schedule->orderBy('start_at');
+        $this->applyIncludesEagerLoading($query);
+        $query->orderBy('start_at');
 
-        $schedule->when(
-            $data->user_id,
-            function ($query) use ($data) {
-                $query->where('user_id', '=', $data->user_id);
-            }
-        );
+        $filters = [
+            'start_at_start' => new DateAfterFilter('start_at'),
+            'start_at_end' => new DateBeforeFilter('start_at'),
+            'user_id' => new WhereEqualFilter('user_id'),
+        ];
+        ApplyFilters::apply($query, $filters, $data->toArray());
 
-        $schedule->when(
-            Carbon::canBeCreatedFromFormat($data->period_date, 'Y-m'),
-            function ($query) use ($data, $schedule) {
-                $date = Carbon::create($data->period_date);
-                $schedule
-                    ->whereMonth('start_at', '=', $date->month)
-                    ->whereYear('start_at', '=', $date->year);
-
-            }
-        );
-
-        return $schedule->simplePaginate($data->per_page);
+        return $query->simplePaginate($data->per_page);
     }
 }

@@ -14,8 +14,8 @@ class ScheduleListController extends Controller
     public function __invoke(Request $request, ScheduleListService $service): AnonymousResourceCollection
     {
         $data = ScheduleListData::fromRequest($request);
-        $data->account_id = $request->user()->account_id;
-        $schedules = $service->list($data);
+        $schedules = $service->list($data, $request->user()->account_id);
+
         return SchedulesResource::collection($schedules);
     }
 }

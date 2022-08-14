@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class ScheduleListData extends PaginatedDataTransferObject
 {
-    public ?string $period_date = null;
-    public ?string $user_id = null;
-    public ?int $account_id = null;
+    public ?string $start_at_start = null;
+    public ?string $start_at_end = null;
+    public ?int $user_id = null;
 
     public static function fromRequest(Request $request): self
     {
