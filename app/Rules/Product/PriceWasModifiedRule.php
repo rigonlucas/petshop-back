@@ -14,7 +14,7 @@ class PriceWasModifiedRule implements Rule
 
     public function passes($attribute, $newPrice)
     {
-        if ($this->product->cost_price != $this->newCostPrice || $this->product->price != $newPrice) {
+        if ($this->product->cost != $this->newCostPrice || $this->product->price != $newPrice) {
             return true;
         }
 

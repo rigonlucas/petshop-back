@@ -19,11 +19,11 @@ return new class extends Migration
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('pet_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedSmallInteger('type');
-            $table->unsignedSmallInteger('status');
+            $table->tinyInteger('type');
+            $table->tinyInteger('status');
             $table->timestamp('start_at');
             $table->unsignedSmallInteger('duration');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

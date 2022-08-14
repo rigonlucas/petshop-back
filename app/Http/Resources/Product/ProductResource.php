@@ -15,7 +15,7 @@ class ProductResource extends AppJsonResource
             'name' => $this->name,
             'description' => $this->description,
             'type' => $this->type,
-            'cost' => $this->cost_price,
+            'cost' => $this->cost,
             'price' => $this->price,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,

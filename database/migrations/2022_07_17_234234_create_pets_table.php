@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('name', 500);
             $table->dateTime('birthday');
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('breed_id')->references('id')->on('breeds');
             $table->foreign('client_id')->references('id')->on('clients');

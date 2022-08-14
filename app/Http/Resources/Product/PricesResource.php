@@ -10,7 +10,7 @@ class PricesResource extends AppJsonResource
     {
         return [
             'id' => $this->id,
-            'cost' => $this->cost_price,
+            'cost' => $this->cost,
             'price' => $this->price,
             "activated_at" => $this->activated_at,
             "created_at" => $this->created_at,

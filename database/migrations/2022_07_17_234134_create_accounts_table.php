@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('name', 500);
             $table->timestamp('expire_at')->useCurrent();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
         });

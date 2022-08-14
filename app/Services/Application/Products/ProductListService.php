@@ -25,7 +25,7 @@ class ProductListService extends BaseService
             'name',
             'type',
             'price',
-            'cost_price',
+            'cost',
             'created_at',
             'updated_at',
         ];

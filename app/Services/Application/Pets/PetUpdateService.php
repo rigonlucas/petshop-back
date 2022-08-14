@@ -64,7 +64,7 @@ class PetUpdateService extends BaseService
         ProductPrice::query()
             ->create([
                 'product_id' => $data->id,
-                'cost_price' => $data->cost_price,
+                'cost' => $data->cost,
                 'price' => $data->price,
             ]);
     }

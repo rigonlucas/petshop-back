@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Account extends BaseModel
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = [
         'name',

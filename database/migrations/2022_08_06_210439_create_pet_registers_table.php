@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Pet::class);
             $table->text('register');
-            $table->unsignedSmallInteger('type');
+            $table->tinyInteger('type');
             $table->timestamps();
         });
     }

@@ -20,7 +20,6 @@ use Ramsey\Collection\Collection;
 class Client extends BaseModel
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = [
         'account_id',

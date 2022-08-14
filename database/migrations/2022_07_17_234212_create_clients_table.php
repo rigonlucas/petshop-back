@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('email', 255)->nullable()->default(null);
             $table->string('phone', 100)->nullable()->default(null);
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('account_id')->references('id')->on('accounts');
         });

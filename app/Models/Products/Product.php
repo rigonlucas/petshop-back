@@ -6,12 +6,11 @@ use App\Models\BaseModel;
 use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
- * @property float $cost_price
+ * @property float $cost
  * @property float $price
  */
 class Product extends BaseModel
@@ -23,10 +22,11 @@ class Product extends BaseModel
         'name',
         'description',
         'type',
-        'cost_price',
+        'cost',
         'price',
         'account_id',
-        'validate'
+        'validate',
+        'measurement_unit'
     ];
 
     public function account(): BelongsTo
@@ -34,8 +34,4 @@ class Product extends BaseModel
         return $this->belongsTo(Account::class);
     }
 
-    public function prices(): HasMany
-    {
-        return $this->hasMany(ProductPrice::class);
-    }
 }
