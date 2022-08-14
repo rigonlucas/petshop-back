@@ -50,7 +50,7 @@ class PetUpdateService extends BaseService
                     new AccountHasEntityRule(Client::class, $data->account_id)
                 ],
                 'breed_id' => ['required', 'numeric', 'gt:0', 'min:1', 'exists:breeds,id'],
-                'birthday' => ['required', 'date_format:Y-m-d', 'before:today'],
+                'birthday' => ['nullable', 'date_format:Y-m-d', 'before:today'],
             ]
         )->validate();
     }

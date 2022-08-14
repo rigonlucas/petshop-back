@@ -18,7 +18,7 @@ class ProductStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:500'],
-            'description' => ['required', 'string', 'min:3', 'max:500'],
+            'description' => ['nullable', 'string', 'min:3', 'max:500'],
             'type' => ['required', 'int', 'min:1', new Enum(ProductsEnum::class) ],
             'cost' => ['required', 'numeric', 'gt:0', 'min:0'],
             'price' => ['required', 'numeric', 'gt:0', 'min:0'],

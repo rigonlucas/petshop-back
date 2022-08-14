@@ -9,7 +9,7 @@ class ProductUpdateData extends DataTransferObject
 {
     public ?int $id;
     public string $name;
-    public string $description;
+    public ?string $description = null;
     public int $type;
     public float $cost;
     public float $price;

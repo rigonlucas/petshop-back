@@ -8,7 +8,7 @@ use Spatie\DataTransferObject\DataTransferObject;
 class ProductStoreData extends DataTransferObject
 {
     public string $name;
-    public string $description;
+    public ?string $description = null;
     public int $type;
     public float $cost;
     public float $price;

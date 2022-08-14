@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('breed_id');
             $table->string('name', 500);
-            $table->dateTime('birthday');
+            $table->dateTime('birthday')->nullable();
             $table->timestamps();
 
             $table->foreign('breed_id')->references('id')->on('breeds');

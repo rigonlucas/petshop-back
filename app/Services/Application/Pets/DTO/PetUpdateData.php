@@ -9,7 +9,7 @@ class PetUpdateData extends DataTransferObject
 {
     public ?int $id;
     public string $name;
-    public string $birthday;
+    public ?string $birthday = null;
     public int $breed_id;
     public int $client_id;
     public ?int $account_id = null;

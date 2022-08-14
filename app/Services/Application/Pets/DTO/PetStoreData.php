@@ -8,7 +8,7 @@ use Spatie\DataTransferObject\DataTransferObject;
 class PetStoreData extends DataTransferObject
 {
     public string $name;
-    public string $birthday;
+    public ?string $birthday = null;
     public int $breed_id;
     public int $client_id;
     public ?int $account_id = null;
