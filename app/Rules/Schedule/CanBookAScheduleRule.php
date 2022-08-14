@@ -2,6 +2,7 @@
 
 namespace App\Rules\Schedule;
 
+use App\Helpers\BuilderHelper;
 use App\Models\Schedules\Schedule;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
@@ -16,10 +17,9 @@ class CanBookAScheduleRule implements Rule
     {
         $startAt = Carbon::create($value);
         $finishAt = Carbon::create($value)->addMinutes($this->duration);
-        return !Schedule::query()
+        return BuilderHelper::overlap(Schedule::query(), 'start_at', 'finish_at', $startAt, $finishAt)
             ->where('user_id', '=', $this->userId)
-            ->whereBetween('start_at', [$startAt, $finishAt])
-            ->exists();
+            ->doesntExist();
     }
 
     public function message()
