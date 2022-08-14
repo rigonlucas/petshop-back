@@ -20,7 +20,7 @@ Route::middleware(OnlyInLocalHost::class)
     ->prefix('local')
     ->group(function (){
         Route::get('test-email', function () {
-            $message = (new ForgotPasswordNotify(User::query()->find(3), 'aaaaa'))
+            $message = (new ForgotPasswordNotify(User::query()->first(), 'aaaaa'))
                 ->toMail('example@gmail.com');
             $markdown = new Markdown(view(), config('mail.markdown'));
 

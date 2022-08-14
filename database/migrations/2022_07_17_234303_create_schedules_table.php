@@ -23,6 +23,7 @@ return new class extends Migration
             $table->tinyInteger('status');
             $table->timestamp('start_at');
             $table->unsignedSmallInteger('duration');
+            $table->timestamp('finish_at')->virtualAs('DATE_ADD(start_at, INTERVAL duration MINUTE)');
             $table->text('description')->nullable();
             $table->timestamps();
 
