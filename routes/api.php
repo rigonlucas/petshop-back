@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Accounts\UsersOfAccountController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\UpdatePasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Breeds\BreedListController;
 use App\Http\Controllers\Clients\ClientDeleteController;
@@ -48,6 +50,10 @@ Route::post('/register', RegisterController::class)
     ->name('api.register');
 Route::get('/verify-email/{hash}', VerifyEmailController::class)
     ->name('api.verify-email');
+Route::patch('/forgot-password', ForgotPasswordController::class)
+    ->name('api.forgot-password');
+Route::patch('/update-password/{hash}', UpdatePasswordController::class)
+    ->name('api.update-password');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logout', LogoutController::class)

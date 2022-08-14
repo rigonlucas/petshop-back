@@ -2,7 +2,7 @@
 
 use App\Http\Middleware\OnlyInLocalHost;
 use App\Models\User;
-use App\Notifications\UserRegisterNotify;
+use App\Notifications\Auth\ForgotPasswordNotify;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +20,7 @@ Route::middleware(OnlyInLocalHost::class)
     ->prefix('local')
     ->group(function (){
         Route::get('test-email', function () {
-            $message = (new UserRegisterNotify(User::query()->find(3)))
+            $message = (new ForgotPasswordNotify(User::query()->find(3), 'aaaaa'))
                 ->toMail('example@gmail.com');
             $markdown = new Markdown(view(), config('mail.markdown'));
 

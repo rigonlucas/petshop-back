@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->index();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
+            $table->timestamp('expire_at')
+                ->virtualAs('DATE_ADD(created_at, INTERVAL 60 MINUTE)');
         });
     }
 

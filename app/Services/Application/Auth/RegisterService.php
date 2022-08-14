@@ -4,7 +4,7 @@ namespace App\Services\Application\Auth;
 
 use App\Models\User;
 use App\Models\Users\Account;
-use App\Notifications\UserRegisterNotify;
+use App\Notifications\Auth\UserRegisterNotify;
 use App\Services\Application\Auth\DTO\RegisterData;
 use App\Services\BaseService;
 use Illuminate\Database\Eloquent\Model;

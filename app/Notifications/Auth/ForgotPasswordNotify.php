@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Auth;
 
 use App\Models\User;
 use Carbon\Carbon;
@@ -11,7 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
-class UserRegisterNotify extends Notification implements ShouldQueue
+class ForgotPasswordNotify extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -20,7 +20,7 @@ class UserRegisterNotify extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(private readonly User|Model $user)
+    public function __construct(private readonly User|Model $user, private readonly string $recoveryHash)
     {
     }
 
@@ -44,21 +44,19 @@ class UserRegisterNotify extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Verificação de email')
-            ->line("Olá {$this->user->name} sua conta no sistema foi criado")
-            ->action('Confirme seu email', route('api.verify-email', [$this->user->email_verificarion_hash]))
-            ->line('Su período de teste:')
+            ->subject('Recuperação de senha')
+            ->line("Olá {$this->user->name} foi solicitada uma recuperação de sua senha em sua conta")
+            ->action(
+                'Trocar minha senha',
+                config('app.url_front') . '/recuperar-senha/'. $this->recoveryHash
+            )
+            ->success()
+            ->line('Caso não tenha sido você, desconsidere este email')
             ->line(
                 new HtmlString(
-                    '<strong>' .
-                        Carbon::create($this->user->account->created_at)->format('d/m/Y') .
-                    '</strong> até ' .
-                    '<strong>' .
-                        Carbon::create($this->user->account->expire_at)->format('d/m/Y') .
-                    '</strong>'
+                    '<strong>Lembre-se: </strong> Não compartilhe sua senha'
                 )
-            )
-            ->line('Obrigado por usar nossa plataforma!');
+            );
     }
 
     /**
