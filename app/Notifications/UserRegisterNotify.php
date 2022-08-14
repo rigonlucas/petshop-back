@@ -3,11 +3,13 @@
 namespace App\Notifications;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\HtmlString;
 
 class UserRegisterNotify extends Notification implements ShouldQueue
 {
@@ -43,9 +45,20 @@ class UserRegisterNotify extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Verificação de email')
-            ->line("Olá {$this->user->name} seu cadastro no sistema foi criado")
+            ->line("Olá {$this->user->name} sua conta no sistema foi criado")
             ->action('Confirme seu email', route('api.verify-email', [$this->user->email_verificarion_hash]))
-            ->line('Obrigado por usar nossa solução!');
+            ->line('Su período de teste:')
+            ->line(
+                new HtmlString(
+                    '<strong>' .
+                        Carbon::create($this->user->account->created_at)->format('d/m/Y') .
+                    '</strong> até ' .
+                    '<strong>' .
+                        Carbon::create($this->user->account->expire_at)->format('d/m/Y') .
+                    '</strong>'
+                )
+            )
+            ->line('Obrigado por usar nossa plataforma!');
     }
 
     /**

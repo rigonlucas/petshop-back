@@ -9,8 +9,11 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CanUpdateAScheduleRule implements Rule
 {
-    public function __construct(private int $scheduleId, private int $userId, private int $duration)
-    {
+    public function __construct(
+        private readonly int $scheduleId,
+        private readonly int $userId,
+        private readonly int $duration
+    ) {
     }
 
     public function passes($attribute, $value): bool
