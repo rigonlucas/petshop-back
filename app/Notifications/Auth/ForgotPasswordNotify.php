@@ -46,11 +46,7 @@ class ForgotPasswordNotify extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject('Recuperação de senha')
             ->line(
-                new HtmlString(
-                    'Olá <strong>' .
-                    $this->user->name .
-                    '</strong> foi solicitada uma recuperação de sua senha em sua conta'
-                )
+                'Olá **' . $this->user->name . '** foi solicitada uma recuperação de sua senha em sua conta'
             )
             ->action(
                 'Trocar minha senha',
@@ -58,11 +54,7 @@ class ForgotPasswordNotify extends Notification implements ShouldQueue
             )
             ->success()
             ->line('Caso não tenha sido você, desconsidere este email')
-            ->line(
-                new HtmlString(
-                    '<strong>Lembre-se: </strong> Não compartilhe sua senha'
-                )
-            );
+            ->line('**Lembre-se:** Não compartilhe sua senha');
     }
 
     /**
