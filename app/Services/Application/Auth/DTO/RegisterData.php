@@ -16,6 +16,7 @@ class RegisterData extends DataTransferObject
     public ?Carbon $expire_at = null;
     public ?int $account_id = null;
     public ?string $email_verificarion_hash = null;
+    public ?string $code = null;
 
     public static function fromRequest(Request $request): self
     {

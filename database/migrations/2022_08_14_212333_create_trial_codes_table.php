@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('email_verificarion_hash')->nullable()->after('email_verified_at');
+        Schema::create('trial_codes', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('name')->nullable();
+            $table->string('code', 8);
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -25,8 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('email_verificarion_hash');
-        });
+        Schema::dropIfExists('trial_tokens');
     }
 };

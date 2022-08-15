@@ -60,6 +60,8 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'trial_days' => env('TRIAL_DAYS', 10),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

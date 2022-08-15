@@ -15,7 +15,7 @@ class VerifyEmailController extends Controller
     {
         $emailVerified = $service->register($hash);
         if ($emailVerified) {
-            return redirect(env('APP_URL_FRONT'));
+            return redirect(env('APP_URL_FRONT') . '/senha-atualizada');
         }
         return abort(404);
     }

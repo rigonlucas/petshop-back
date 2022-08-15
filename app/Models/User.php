@@ -43,7 +43,7 @@ class User extends Authenticatable
         'password',
         'account_id',
         'phone',
-        'verified_at',
+        'email_verified_at',
         'email_verificarion_hash',
     ];
 

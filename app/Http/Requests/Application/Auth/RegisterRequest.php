@@ -20,7 +20,8 @@ class RegisterRequest extends FormRequest
             'email' => ['required', 'email'],
             'phone' => ['nullable', 'string', 'max:20'],
             'company_name' => ['required', 'string', 'min:10', 'max:100'],
-            'password' => ['required',  'confirmed', Password::min(8)]
+            'password' => ['required',  'confirmed', Password::min(8)],
+            'code' => ['required', 'string', 'max:8', 'min:8']
         ];
     }
 }

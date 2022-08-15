@@ -45,10 +45,16 @@ class ForgotPasswordNotify extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Recuperação de senha')
-            ->line("Olá {$this->user->name} foi solicitada uma recuperação de sua senha em sua conta")
+            ->line(
+                new HtmlString(
+                    'Olá <strong>' .
+                    $this->user->name .
+                    '</strong> foi solicitada uma recuperação de sua senha em sua conta'
+                )
+            )
             ->action(
                 'Trocar minha senha',
-                config('app.url_front') . '/recuperar-senha/'. $this->recoveryHash
+                env('APP_URL_FRONT') . '/recuperar-senha/'. $this->recoveryHash
             )
             ->success()
             ->line('Caso não tenha sido você, desconsidere este email')

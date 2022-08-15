@@ -45,19 +45,24 @@ class UserRegisterNotify extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Verificação de email')
-            ->line("Olá {$this->user->name} sua conta no sistema foi criado")
-            ->action('Confirme seu email', route('api.verify-email', [$this->user->email_verificarion_hash]))
-            ->line('Su período de teste:')
             ->line(
                 new HtmlString(
-                    '<strong>' .
-                        Carbon::create($this->user->account->created_at)->format('d/m/Y') .
-                    '</strong> até ' .
-                    '<strong>' .
-                        Carbon::create($this->user->account->expire_at)->format('d/m/Y') .
-                    '</strong>'
+                'Olá **' . $this->user->name .'** sua conta no sistema foi criada'
                 )
             )
+            ->action('Confirme seu email', route('api.verify-email', [$this->user->email_verificarion_hash]))
+            ->line(
+                [
+                    'Su período de teste:',
+                    '**' .
+                        Carbon::create($this->user->account->created_at)->format('d/m/Y') .
+                    '** até ' .
+                    '**' .
+                        Carbon::create($this->user->account->expire_at)->format('d/m/Y') .
+                    '**',
+                ]
+            )
+            ->line('Você tem **'.config('app.trial_days').' dias** para testar')
             ->line('Obrigado por usar nossa plataforma!');
     }
 

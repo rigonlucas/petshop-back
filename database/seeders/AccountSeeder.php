@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Users\Account;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AccountSeeder extends Seeder
@@ -31,5 +32,6 @@ class AccountSeeder extends Seeder
                 ]
             ]
         );
+        DB::insert('insert into trial_codes ( name, code) values (?, ?)', ['teste', '1234AAAA']);
     }
 }

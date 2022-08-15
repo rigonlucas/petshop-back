@@ -5,6 +5,7 @@ namespace App\Services\Application\Auth;
 use App\Models\User;
 use App\Models\Users\Account;
 use App\Notifications\Auth\UserRegisterNotify;
+use App\Rules\Auth\HasCodeRegisterValidRule;
 use App\Services\Application\Auth\DTO\RegisterData;
 use App\Services\BaseService;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +36,7 @@ class RegisterService extends BaseService
                 'email' => ['required', 'email', 'unique:users,email'],
                 'phone' => ['nullable', 'string', 'max:20'],
                 'company_name' => ['required', 'string', 'min:10', 'max:100'],
+                'code' => ['required', 'string', 'max:8', 'min:8', new HasCodeRegisterValidRule()],
             ]
         )->validate();
         $data->name = ucwords($data->name);
@@ -42,7 +44,7 @@ class RegisterService extends BaseService
 
     private function setTrialAccount(RegisterData $data)
     {
-        $data->expire_at = now()->addDays(14);
+        $data->expire_at = now()->addDays(config('app.trial_days'));
     }
 
     private function createAccount(RegisterData $data): void
