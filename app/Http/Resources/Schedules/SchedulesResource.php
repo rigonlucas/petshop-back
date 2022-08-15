@@ -4,14 +4,11 @@ namespace App\Http\Resources\Schedules;
 
 use App\Http\Resources\Client\ClientResource;
 use App\Http\Resources\Pet\PetResource;
-use App\Http\Resources\User\UserResource;
-use App\Support\AppJsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class SchedulesResource extends AppJsonResource
+class SchedulesResource extends JsonResource
 {
-    protected array $availableIncludes = ['pet', 'user', 'client'];
-
-    public function resource($request)
+    public function toArray($request)
     {
         return [
             "id" => $this->id,
@@ -26,24 +23,10 @@ class SchedulesResource extends AppJsonResource
             "description" => $this->description,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
-            "deleted_at" => $this->when($this->deleted_at, $this->deleted_at)
+            "deleted_at" => $this->when($this->deleted_at, $this->deleted_at),
+            "pet" => new PetResource($this->whenLoaded('pet')),
+            "client" => new ClientResource($this->whenLoaded('client')),
+            "user" => new PetResource($this->whenLoaded('user')),
         ];
     }
-
-    public function includePet(): PetResource
-    {
-        return PetResource::make($this->pet);
-    }
-
-    public function includeUser(): UserResource
-    {
-        return UserResource::make($this->user);
-    }
-
-    public function includeClient(): ClientResource
-    {
-        return ClientResource::make($this->client);
-    }
-
 }
-//(new DateTime($this->date))->format(DateTime::ISO8601)

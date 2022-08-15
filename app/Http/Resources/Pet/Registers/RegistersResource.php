@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources\Pet\Registers;
 
-use App\Support\AppJsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class RegistersResource extends AppJsonResource
+class RegistersResource extends JsonResource
 {
-    function resource($request)
+    function toArray($request)
     {
         return [
             'id' => $this->id,

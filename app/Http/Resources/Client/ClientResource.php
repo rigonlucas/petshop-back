@@ -4,13 +4,11 @@ namespace App\Http\Resources\Client;
 
 use App\Http\Resources\Account\AccountResource;
 use App\Http\Resources\Pet\PetResource;
-use App\Support\AppJsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class ClientResource extends AppJsonResource
+class ClientResource extends JsonResource
 {
-    protected array $availableIncludes = ['pets', 'account'];
-
-    function resource($request)
+    function toArray($request)
     {
         return [
             'id' => $this->id,
@@ -19,17 +17,8 @@ class ClientResource extends AppJsonResource
             'phone' => $this->phone,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
-            "deleted_at" => $this->when($this->deleted_at, $this->deleted_at)
+            "pet" => PetResource::collection($this->whenLoaded('pets')),
+            "account" => new AccountResource($this->whenLoaded('account')),
         ];
-    }
-
-    public function includePets()
-    {
-        return PetResource::collection($this->pets);
-    }
-
-    public function includeAccount()
-    {
-        return AccountResource::make($this->account);
     }
 }

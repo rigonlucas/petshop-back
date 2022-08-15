@@ -10,35 +10,15 @@ use App\Services\Filters\ApplyFilters;
 use App\Services\Filters\DateAfterFilter;
 use App\Services\Filters\DateBeforeFilter;
 use App\Services\Filters\WhereEqualFilter;
-use App\Services\Traits\HasEagerLoadingIncludes;
-use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Builder;
 
 class ScheduleListService extends BaseService
 {
-    use HasEagerLoadingIncludes;
-
-    protected function eagerIncludesRelations(): array
-    {
-        return [
-            'pet' => [
-                'pet.breed',
-            ],
-            'user' => [
-                'user',
-            ],
-            'client' => [
-                'client',
-            ],
-        ];
-    }
-
     public function list(ScheduleListData $data, int $accountId): Paginator
     {
-        $query = Schedule::byAccount($accountId)->where('status', '=', SchedulesStatusEnum::OPEN);
-        $this->setRequestedIncludes(explode(',', $data->include));
-        $this->applyIncludesEagerLoading($query);
+        $includes = explode(',', $data->include);
+        $query = Schedule::byAccount($accountId)->with($includes)->where('status', '=', SchedulesStatusEnum::OPEN);
+//        $this->applyIncludesEagerLoading($query);
         $query->orderBy('start_at');
 
         $filters = [

@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Product;
 
-use App\Support\AppJsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class PricesResource extends AppJsonResource
+class PricesResource extends JsonResource
 {
     function resource($request)
     {

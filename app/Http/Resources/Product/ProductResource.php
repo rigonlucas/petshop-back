@@ -2,13 +2,11 @@
 
 namespace App\Http\Resources\Product;
 
-use App\Support\AppJsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends AppJsonResource
+class ProductResource extends JsonResource
 {
-    protected array $availableIncludes = ['prices'];
-
-    function resource($request)
+    function toArray($request)
     {
         return [
             'id' => $this->id,
@@ -21,10 +19,5 @@ class ProductResource extends AppJsonResource
             "updated_at" => $this->updated_at,
             "deleted_at" => $this->when($this->deleted_at, $this->deleted_at)
         ];
-    }
-
-    public function includePrices()
-    {
-        return PricesResource::collection($this->prices);
     }
 }

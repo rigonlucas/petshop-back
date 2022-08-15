@@ -3,13 +3,11 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\Account\AccountResource;
-use App\Support\AppJsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends AppJsonResource
+class UserResource extends JsonResource
 {
-    protected array $availableIncludes = ['account'];
-
-    function resource($request): array
+    function toArray($request): array
     {
         return [
             'id' => $this->id,
@@ -17,12 +15,7 @@ class UserResource extends AppJsonResource
             'account_id' => $this->account_id,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
-            "deleted_at" => $this->when($this->deleted_at, $this->deleted_at)
+            "account" => new AccountResource($this->whenLoaded('account')),
         ];
-    }
-
-    public function includeAccount(): AccountResource
-    {
-        return AccountResource::make($this->account);
     }
 }
