@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Services\Filters;
+namespace App\Services\Filters\Rules;
 
+use App\Services\Filters\FilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 class DateBeforeFilter implements FilterInterface

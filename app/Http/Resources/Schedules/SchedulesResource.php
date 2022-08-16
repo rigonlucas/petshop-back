@@ -4,6 +4,7 @@ namespace App\Http\Resources\Schedules;
 
 use App\Http\Resources\Client\ClientResource;
 use App\Http\Resources\Pet\PetResource;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SchedulesResource extends JsonResource
@@ -26,7 +27,7 @@ class SchedulesResource extends JsonResource
             "deleted_at" => $this->when($this->deleted_at, $this->deleted_at),
             "pet" => new PetResource($this->whenLoaded('pet')),
             "client" => new ClientResource($this->whenLoaded('client')),
-            "user" => new PetResource($this->whenLoaded('user')),
+            "user" => new UserResource($this->whenLoaded('user')),
         ];
     }
 }

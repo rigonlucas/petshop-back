@@ -5,45 +5,28 @@ namespace App\Services\Application\Pets;
 use App\Models\Clients\Pet;
 use App\Services\Application\Pets\DTO\PetListData;
 use App\Services\BaseService;
-use App\Services\Traits\HasEagerLoadingIncludes;
+use App\Services\Filters\ApplyFilters;
+use App\Services\Filters\Rules\WhereEqualFilter;
+use App\Services\Filters\Rules\WhereLikeFilter;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class PetListService extends BaseService
 {
-    use HasEagerLoadingIncludes;
 
-    function eagerIncludesRelations(): array
+    public function list(PetListData $data): Paginator
     {
-        return [
-            'client' => [
-                'client'
-            ],
-            'breed' => [
-                'breed'
-            ],
-            'registers' => [
-                'registers'
-            ],
+        $includes = explode(',', $data->include);
+        $pets = Pet::query()->with($includes);
+        $filters = [
+            'client_id' => new WhereEqualFilter('client_id'),
+            'name' => new WhereLikeFilter('name')
         ];
-    }
-
-    public function list(PetListData $data): \Illuminate\Contracts\Pagination\Paginator
-    {
-        $pets = Pet::query();
-        $this->setRequestedIncludes(explode(',', $data->include));
-        //$this->setDefaultInclude(['breed']);
-        $this->applyIncludesEagerLoading($pets);
+        ApplyFilters::apply($pets, $filters, $data->toArray());
 
         $pets->when(
             $data->name,
             function ($query) use ($data) {
-                $query->where('name', 'like', '%'. $data->name . '%');
-            }
-        );
-
-        $pets->when(
-            $data->client_id,
-            function ($query) use ($data) {
-                $query->where('client_id', $data->client_id);
+                $query->where('name', 'like', '%' . $data->name . '%');
             }
         );
         return $pets->simplePaginate($data->per_page);

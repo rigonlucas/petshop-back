@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services\Filters;
+namespace App\Services\Filters\Rules;
 
+use App\Services\Filters\FilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
-class WhereEqualFilter implements FilterInterface
+class DateAfterFilter implements FilterInterface
 {
     public function __construct(private readonly string $column)
     {
@@ -15,6 +16,6 @@ class WhereEqualFilter implements FilterInterface
             return;
         }
 
-        $builder->where($this->column, '=', $value);
+        $builder->whereDate($this->column, '>=', $value);
     }
 }
