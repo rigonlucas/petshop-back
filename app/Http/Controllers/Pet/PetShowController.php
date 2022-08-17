@@ -15,8 +15,7 @@ class PetShowController extends Controller
         $data = PetShowData::fromRequest($request);
         $data->id = $id;
         $data->account_id = $request->user()->account_id;
-        $schedules = $service
-            ->show($data);
-        return PetResource::make($schedules);
+        $pet = $service->show($data);
+        return PetResource::make($pet);
     }
 }

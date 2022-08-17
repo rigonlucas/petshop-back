@@ -7,7 +7,7 @@ use Spatie\DataTransferObject\DataTransferObject;
 class PaginatedDataTransferObject extends DataTransferObject
 {
     public ?string $order_by = null;
-    public ?string $order_direction = null;
+    public ?string $order_direction = 'asc';
     public int $per_page = 20;
     public ?string $include = null;
 

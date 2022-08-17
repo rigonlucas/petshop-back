@@ -13,14 +13,12 @@ class ClientShowController extends Controller
     public function __invoke(Request $request, int $id, ClientShowService $service): ClientResource
     {
 
-        $includes = $request->query('include', '');
         $data = ClientShowData::fromRequest($request);
         $data->id = $id;
         $data->account_id = $request->user()->account_id;
+        $data->include = $request->query('include');
 
-        $client = $service
-            ->setRequestedIncludes(explode(',', $includes))
-            ->show($data);
+        $client = $service->show($data);
 
         return ClientResource::make($client);
     }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Relations;
+namespace App\Services\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class ApplyEagerLoading
+trait HasEagerLoading
 {
-    public static function apply(Builder $builder, ?string $includes, ?array $relationsAvailables = null): void
+    public function applyEagerLoadging(Builder $builder, ?string $includes, ?array $relationsAvailables = null): void
     {
         if (!is_null($includes)) {
             $includes = explode(',', $includes);

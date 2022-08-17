@@ -10,11 +10,13 @@ use App\Services\Filters\ApplyFilters;
 use App\Services\Filters\Rules\DateAfterFilter;
 use App\Services\Filters\Rules\DateBeforeFilter;
 use App\Services\Filters\Rules\WhereEqualFilter;
-use App\Services\Relations\ApplyEagerLoading;
+use App\Services\Traits\HasEagerLoading;
 use Illuminate\Contracts\Pagination\Paginator;
 
 class ScheduleListService extends BaseService
 {
+    use HasEagerLoading;
+
     private array $relationsAvailables = [
         'client',
         'pet',
@@ -33,7 +35,7 @@ class ScheduleListService extends BaseService
             'user_id' => new WhereEqualFilter('user_id'),
         ];
         ApplyFilters::apply($query, $filters, $data->toArray());
-        ApplyEagerLoading::apply($query, $data->include, $this->relationsAvailables);
+        $this->applyEagerLoadging($query, $data->include, $this->relationsAvailables);
 
         return $query->simplePaginate($data->per_page);
     }

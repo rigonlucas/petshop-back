@@ -5,24 +5,19 @@ namespace App\Services\Application\Accounts;
 use App\Models\User;
 use App\Services\Application\Accounts\DTO\AccountUserListData;
 use App\Services\BaseService;
-use App\Services\Traits\HasEagerLoadingIncludes;
+use App\Services\Traits\HasEagerLoading;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class AccountUsersListService extends BaseService
 {
-    use HasEagerLoadingIncludes;
+    use HasEagerLoading;
 
-    function eagerIncludesRelations(): array
-    {
-        return [
-            'account' => [
-                'account'
-            ]
-        ];
-    }
+    private array $relationsAvailables = [
+        'account'
+    ];
 
-    public function list(AccountUserListData $data, int $accountId): \Illuminate\Contracts\Pagination\Paginator
+    public function list(AccountUserListData $data, int $accountId): Paginator
     {
-        $this->setRequestedIncludes(explode(',', $data->include));
         $users = User::byAccount($accountId);
         $users->when(
             $data->name,
@@ -30,8 +25,7 @@ class AccountUsersListService extends BaseService
                 $query->where('name', 'like', '%'. $data->name .'%');
             }
         );
-        $this->setRequestedIncludes(explode(',', $data->include));
-        $this->applyIncludesEagerLoading($users);
+        $this->applyEagerLoadging($users, $data->include, $this->relationsAvailables);
 
         return $users->simplePaginate($data->per_page);
     }

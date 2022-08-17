@@ -9,6 +9,7 @@ class PetShowData extends DataTransferObject
 {
     public ?int $id;
     public ?int $account_id = null;
+    public ?string $include = null;
 
     public static function fromRequest(Request $request): self
     {

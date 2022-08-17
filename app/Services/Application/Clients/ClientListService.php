@@ -5,47 +5,38 @@ namespace App\Services\Application\Clients;
 use App\Models\Clients\Client;
 use App\Services\Application\Clients\DTO\ClientListData;
 use App\Services\BaseService;
-use App\Services\Traits\HasEagerLoadingIncludes;
+use App\Services\Filters\ApplyFilters;
+use App\Services\Filters\Rules\WhereLikeFilter;
+use App\Services\Ordinations\ApplyOrdination;
+use App\Services\Ordinations\OrderBy;
+use App\Services\Traits\HasEagerLoading;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class ClientListService extends BaseService
 {
-    use HasEagerLoadingIncludes;
+    use HasEagerLoading;
 
-    protected function eagerIncludesRelations(): array
-    {
-        return [
-            'account' => [
-                'account',
-            ],
-            'pets' => [
-                'pets.breed',
-            ],
-            'registers' => [
-                'pets.registers'
-            ]
-        ];
-    }
+    private array $relationsAvailables = [
+        'account',
+        'pets',
+        'registers',
+    ];
 
-    public function list(ClientListData $data, int $accountId): \Illuminate\Contracts\Pagination\Paginator
+    public function list(ClientListData $data, int $accountId): Paginator
     {
         $query = Client::byAccount($accountId);
 
-        $this->setRequestedIncludes(explode(',', $data->include));
-        $this->applyIncludesEagerLoading($query);
+        $filters = [
+            'name' => new WhereLikeFilter('name'),
+        ];
 
-        $query->when(
-            $data->name,
-            function ($query) use ($data) {
-                $query->where('name', 'like', '%'. $data->name . '%');
-            }
-        );
+        $ordination = [
+            'name' => new OrderBy($data->order_direction)
+        ];
 
-        $query->when(
-            $data->order_by,
-            function ($query) use ($data) {
-                $query->orderBy('name');
-            }
-        );
+        ApplyFilters::apply($query, $filters, $data->toArray());
+        ApplyOrdination::apply($query, $ordination, $data->toArray());
+        $this->applyEagerLoadging($query, $data->include, $this->relationsAvailables);
 
         return $query->simplePaginate($data->per_page);
     }

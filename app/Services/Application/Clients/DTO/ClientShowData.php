@@ -7,6 +7,7 @@ use Spatie\DataTransferObject\DataTransferObject;
 
 class ClientShowData extends DataTransferObject
 {
+    public ?string $include;
     public ?int $id;
     public ?int $account_id = null;
 

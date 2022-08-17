@@ -7,7 +7,6 @@ use App\Http\Resources\Product\ProductResource;
 use App\Services\Application\Products\DTO\ProductShowData;
 use App\Services\Application\Products\ProductShowService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProductShowController extends Controller
 {
@@ -16,9 +15,7 @@ class ProductShowController extends Controller
         $data = ProductShowData::fromRequest($request);
         $data->id = $id;
         $data->account_id = $request->user()->account_id;
-        $result = DB::transaction(function () use ($service, $data) {
-            return $service->show($data);
-        });
-        return ProductResource::make($result);
+
+        return ProductResource::make($service->show($data));
     }
 }
