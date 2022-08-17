@@ -43,23 +43,23 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::prefix('v1')->group(function () {
 
-Route::post('/login', LoginController::class)
-    ->name('api.login');
-Route::post('/register', RegisterController::class)
-    ->name('api.register');
-Route::get('/verify-email/{hash}', VerifyEmailController::class)
-    ->name('api.verify-email');
-Route::patch('/forgot-password', ForgotPasswordController::class)
-    ->name('api.forgot-password');
-Route::patch('/update-password/{hash}', UpdatePasswordController::class)
-    ->name('api.update-password');
+    Route::post('/login', LoginController::class)
+        ->name('api.login');
+    Route::post('/register', RegisterController::class)
+        ->name('api.register');
+    Route::get('/verify-email/{hash}', VerifyEmailController::class)
+        ->name('api.verify-email');
+    Route::patch('/forgot-password', ForgotPasswordController::class)
+        ->name('api.forgot-password');
+    Route::patch('/update-password/{hash}', UpdatePasswordController::class)
+        ->name('api.update-password');
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/logout', LogoutController::class)
-        ->name('api.logout');
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/logout', LogoutController::class)
+            ->name('api.logout');
 
-    Route::prefix('v1')->group(function () {
         Route::get('/user', function () {
             return auth()->user();
         });
