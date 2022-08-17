@@ -3,6 +3,7 @@
 namespace App\Models\Clients;
 
 use App\Models\BaseModel;
+use App\Models\Schedules\ScheduleHistory;
 use App\Models\Types\Breed;
 use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Builder;
@@ -48,8 +49,8 @@ class Pet extends BaseModel
         return $this->belongsTo(Breed::class);
     }
 
-    public function registers(): HasMany
+    public function scheduleHistory(): HasMany
     {
-        return $this->hasMany(PetRegisters::class);
+        return $this->hasMany(ScheduleHistory::class);
     }
 }

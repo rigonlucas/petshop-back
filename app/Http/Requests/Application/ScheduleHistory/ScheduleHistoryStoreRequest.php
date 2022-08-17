@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Application\Pet\Register;
+namespace App\Http\Requests\Application\ScheduleHistory;
 
 use App\Enums\PetRegisterTypesEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class PetRegisterStoreRequest extends FormRequest
+class ScheduleHistoryStoreRequest extends FormRequest
 {
     public function authorize()
     {

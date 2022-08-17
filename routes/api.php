@@ -18,14 +18,14 @@ use App\Http\Controllers\Pet\PetListController;
 use App\Http\Controllers\Pet\PetShowController;
 use App\Http\Controllers\Pet\PetStoreController;
 use App\Http\Controllers\Pet\PetUpdateController;
-use App\Http\Controllers\Pet\Registers\PetRegisterDeleteController;
-use App\Http\Controllers\Pet\Registers\PetRegisterStoreController;
 use App\Http\Controllers\Products\ProductDeleteController;
 use App\Http\Controllers\Products\ProductListController;
 use App\Http\Controllers\Products\ProductRestoreController;
 use App\Http\Controllers\Products\ProductShowController;
 use App\Http\Controllers\Products\ProductStoreController;
 use App\Http\Controllers\Products\ProductUpdateController;
+use App\Http\Controllers\ScheduleHistory\ScheduleHistoryDeleteController;
+use App\Http\Controllers\ScheduleHistory\ScheduleHistoryStoreController;
 use App\Http\Controllers\Schedules\AvailableProfessionalsController;
 use App\Http\Controllers\Schedules\ScheduleDeleteController;
 use App\Http\Controllers\Schedules\ScheduleListController;
@@ -81,6 +81,14 @@ Route::middleware('auth:sanctum')->group(function () {
                     ->name('schedule.update');
                 Route::delete('/', ScheduleDeleteController::class)
                     ->name('schedule.delete');
+                Route::prefix('history')->group(function () {
+                    Route::prefix('/{scheduleId}')->group(function () {
+                        Route::delete('/', ScheduleHistoryDeleteController::class)
+                            ->name('schedule.history.delete');
+                    });
+                    Route::post('/', ScheduleHistoryStoreController::class)
+                        ->name('schedule.history.store');
+                });
             });
         });
 
@@ -121,14 +129,6 @@ Route::middleware('auth:sanctum')->group(function () {
                     ->name('pet.update');
                 Route::delete('/', PetDeleteController::class)
                     ->name('pet.delete');
-                Route::prefix('register')->group(function () {
-                    Route::prefix('/{registerId}')->group(function () {
-                        Route::delete('/', PetRegisterDeleteController::class)
-                            ->name('pet.register.delete');
-                    });
-                    Route::post('/', PetRegisterStoreController::class)
-                        ->name('pet.register.store');
-                });
             });
         });
 

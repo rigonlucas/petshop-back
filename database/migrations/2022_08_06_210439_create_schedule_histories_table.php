@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Clients\Pet;
+use App\Models\Schedules\Schedule;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,9 +14,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pet_registers', function (Blueprint $table) {
+        Schema::create('schedule_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Pet::class);
+            $table->foreignIdFor(Schedule::class);
             $table->text('register');
             $table->tinyInteger('type');
             $table->timestamps();

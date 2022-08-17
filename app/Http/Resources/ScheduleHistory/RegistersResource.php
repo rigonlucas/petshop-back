@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Pet\Registers;
+namespace App\Http\Resources\ScheduleHistory;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -10,7 +10,7 @@ class RegistersResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'pet_id' => $this->pet_id,
+            'schedule_id' => $this->pet_id,
             'register' => $this->register,
             'type' => $this->type,
             'created_at' => $this->created_at

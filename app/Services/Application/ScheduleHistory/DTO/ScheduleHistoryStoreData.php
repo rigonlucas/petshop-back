@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services\Application\PetsRegisters\DTO;
+namespace App\Services\Application\ScheduleHistory\DTO;
 
 use Illuminate\Http\Request;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class PetRegisterStoreData extends DataTransferObject
+class ScheduleHistoryStoreData extends DataTransferObject
 {
     public string $type;
     public string $register;
-    public ?int $pet_id;
+    public ?int $schedule_id;
     public ?int $account_id;
 
     public static function fromRequest(Request $request): self

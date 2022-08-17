@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Clients;
+namespace App\Models\Schedules;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PetRegisters extends BaseModel
+class ScheduleHistory extends BaseModel
 {
     use HasFactory;
 
@@ -13,6 +13,6 @@ class PetRegisters extends BaseModel
         'id',
         'register',
         'type',
-        'pet_id'
+        'schedule_id'
     ];
 }
