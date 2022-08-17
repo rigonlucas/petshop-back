@@ -31,7 +31,7 @@ class ClientListService extends BaseService
         ];
 
         $ordination = [
-            'name' => new OrderBy($data->order_direction)
+            $data->order_by => new OrderBy($data->order_direction)
         ];
 
         ApplyFilters::apply($query, $filters, $data->toArray());

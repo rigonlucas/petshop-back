@@ -14,9 +14,7 @@ class ProductListController extends Controller
     public function __invoke(Request $request, ProductListService $service): AnonymousResourceCollection
     {
         $data = ProductListData::fromRequest($request);
-
         $products = $service->list($data, $request->user()->account_id);
-
         return ProductResource::collection($products);
     }
 }
