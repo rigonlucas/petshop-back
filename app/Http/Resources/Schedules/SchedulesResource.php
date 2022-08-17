@@ -20,6 +20,7 @@ class SchedulesResource extends JsonResource
             "type" => $this->type,
             "status" => $this->status,
             "start_at" => $this->start_at,
+            "finish_at" => $this->finish_at,
             "duration" => $this->duration,
             "description" => $this->description,
             "created_at" => $this->created_at,
