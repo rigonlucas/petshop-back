@@ -23,6 +23,14 @@ class ScheduleListService extends BaseService
         'user'
     ];
 
+    public function get(int $scheduleId, int $accountId): Schedule
+    {
+        /** @var Schedule */
+        return Schedule::byAccount($accountId)
+            ->with(['pet', 'user', 'client'])
+            ->findOrFail($scheduleId);
+    }
+
     public function list(ScheduleListData $data, int $accountId): Paginator
     {
         $query = Schedule::byAccount($accountId)

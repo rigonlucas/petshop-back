@@ -28,6 +28,7 @@ use App\Http\Controllers\ScheduleHistory\ScheduleHistoryDeleteController;
 use App\Http\Controllers\ScheduleHistory\ScheduleHistoryStoreController;
 use App\Http\Controllers\Schedules\AvailableProfessionalsController;
 use App\Http\Controllers\Schedules\ScheduleDeleteController;
+use App\Http\Controllers\Schedules\ScheduleGetController;
 use App\Http\Controllers\Schedules\ScheduleListController;
 use App\Http\Controllers\Schedules\ScheduleStoreController;
 use App\Http\Controllers\Schedules\ScheduleUpdateController;
@@ -77,6 +78,8 @@ Route::prefix('v1')->group(function () {
             Route::post('', ScheduleStoreController::class)
                 ->name('schedule.store');
             Route::prefix('{id}')->group(function () {
+                Route::get('/', ScheduleGetController::class)
+                    ->name('schedule.get');
                 Route::put('/', ScheduleUpdateController::class)
                     ->name('schedule.update');
                 Route::delete('/', ScheduleDeleteController::class)
