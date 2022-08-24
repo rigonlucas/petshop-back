@@ -3,6 +3,7 @@
 namespace App\Models\Clients;
 
 use App\Models\BaseModel;
+use App\Models\Schedules\Schedule;
 use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -36,5 +37,10 @@ class Client extends BaseModel
     public function pets(): HasMany
     {
         return $this->hasMany(Pet::class, 'client_id', 'id');
+    }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class);
     }
 }
