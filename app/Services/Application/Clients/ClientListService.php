@@ -46,6 +46,6 @@ class ClientListService extends BaseService
         $this->applyEagerLoadging($query, $data->include, $this->relationsAvailables);
         $this->applyEagerLoadgingCount($query, $data->include_count, $this->relationsAvailablesCount);
 
-        return $query->simplePaginate($data->per_page);
+        return $query->paginate($data->per_page);
     }
 }
