@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class ProductListData extends PaginatedDataTransferObject
 {
     public ?string $period_date = null;
+    public ?string $name = null;
 
     public static function fromRequest(Request $request): self
     {

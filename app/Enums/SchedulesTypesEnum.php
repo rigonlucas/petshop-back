@@ -14,11 +14,10 @@ enum SchedulesTypesEnum: int
      */
     public static function random(): int
     {
-        return array_rand([
-            self::VETERINARIAN->value,
-            self::PET_CUTE->value,
-            self::PET_SHOWER->value,
-            self::PET_CUTE_SHOWER->value,
-        ]);
+        $array = [];
+        foreach (self::cases() as $value){
+            $array[] = $value->value;
+        }
+        return $array[array_rand($array)];
     }
 }

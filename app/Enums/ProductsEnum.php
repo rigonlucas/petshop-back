@@ -12,9 +12,10 @@ enum ProductsEnum: int
      */
     public static function random(): int
     {
-        return array_rand([
-            self::PRODUCT->value,
-            self::SERVICE->value
-        ]);
+        $array = [];
+        foreach (self::cases() as $value){
+            $array[] = $value->value;
+        }
+        return $array[array_rand($array)];
     }
 }

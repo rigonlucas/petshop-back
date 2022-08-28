@@ -15,12 +15,10 @@ enum SchedulesStatusEnum: int
      */
     public static function random(): int
     {
-        return array_rand([
-            self::OPEN->value,
-            self::EXECUTING->value,
-            self::ARCHIVED->value,
-            self::CANCELED->value,
-            self::FINISHED->value,
-        ]);
+        $array = [];
+        foreach (self::cases() as $value){
+            $array[] = $value->value;
+        }
+        return $array[array_rand($array)];
     }
 }
