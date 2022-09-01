@@ -12,6 +12,7 @@ use App\Services\Ordinations\OrderBy;
 use App\Services\Traits\HasOrderBy;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\CursorPaginator;
 
 class ProductListService extends BaseService
 {
@@ -36,7 +37,7 @@ class ProductListService extends BaseService
         ];
     }
 
-    public function list(ProductListData $data, int $accountId): Paginator
+    public function list(ProductListData $data, int $accountId): CursorPaginator
     {
         $query = Product::byAccount($accountId);
         $ordination = [
@@ -49,6 +50,6 @@ class ProductListService extends BaseService
         ApplyFilters::apply($query, $filters, $data->toArray());
         ApplyOrdination::apply($query, $ordination, $data->toArray());
         $this->setOrderBy($data->order_by, $data->order_direction);
-        return $query->orderBy($this->orderBy, $this->orderDirection)->paginate($data->per_page);
+        return $query->orderBy($this->orderBy, $this->orderDirection)->cursorPaginate($data->per_page);
     }
 }
