@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 class ApplyOrdination
 {
-    public static function apply(Builder $builder, array $ordination, array $data): void
+    public static function apply(Builder $builder, array $ordination): void
     {
         foreach ($ordination as $orderName => $order) {
             if (!($order instanceof OrdinationInterface)) {

@@ -11,6 +11,7 @@ use App\Services\Ordinations\ApplyOrdination;
 use App\Services\Ordinations\OrderBy;
 use App\Services\Traits\HasEagerLoading;
 use App\Services\Traits\HasEagerLoadingCount;
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 
 class ClientListService extends BaseService
@@ -29,7 +30,7 @@ class ClientListService extends BaseService
         'schedules'
     ];
 
-    public function list(ClientListData $data, int $accountId): Paginator
+    public function list(ClientListData $data, int $accountId): CursorPaginator
     {
         $query = Client::byAccount($accountId);
 
@@ -46,6 +47,6 @@ class ClientListService extends BaseService
         $this->applyEagerLoadging($query, $data->include, $this->relationsAvailables);
         $this->applyEagerLoadgingCount($query, $data->include_count, $this->relationsAvailablesCount);
 
-        return $query->paginate($data->per_page);
+        return $query->cursorPaginate($data->per_page);
     }
 }

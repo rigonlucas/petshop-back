@@ -16,10 +16,12 @@ return new class extends Migration
     {
         Schema::create('schedule_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Schedule::class);
+            $table->unsignedBigInteger('schedule_id')->default(null);
             $table->text('register');
             $table->tinyInteger('type');
             $table->timestamps();
+
+            $table->foreign('schedule_id')->references('id')->on('schedules');
         });
     }
 

@@ -25,6 +25,7 @@ use App\Http\Controllers\Products\ProductShowController;
 use App\Http\Controllers\Products\ProductStoreController;
 use App\Http\Controllers\Products\ProductUpdateController;
 use App\Http\Controllers\ScheduleHistory\ScheduleHistoryDeleteController;
+use App\Http\Controllers\ScheduleHistory\ScheduleHistoryIndexController;
 use App\Http\Controllers\ScheduleHistory\ScheduleHistoryStoreController;
 use App\Http\Controllers\Schedules\AvailableProfessionalsController;
 use App\Http\Controllers\Schedules\ScheduleDeleteController;
@@ -89,6 +90,8 @@ Route::prefix('v1')->group(function () {
                         Route::delete('/', ScheduleHistoryDeleteController::class)
                             ->name('schedule.history.delete');
                     });
+                    Route::get('/', ScheduleHistoryIndexController::class)
+                        ->name('schedule.history.index');
                     Route::post('/', ScheduleHistoryStoreController::class)
                         ->name('schedule.history.store');
                 });

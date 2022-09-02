@@ -13,6 +13,7 @@ class ScheduleHistory extends BaseModel
         'id',
         'register',
         'type',
-        'schedule_id'
+        'schedule_id',
+        'created_at'
     ];
 }

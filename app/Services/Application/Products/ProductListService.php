@@ -49,7 +49,6 @@ class ProductListService extends BaseService
         ];
         ApplyFilters::apply($query, $filters, $data->toArray());
         ApplyOrdination::apply($query, $ordination, $data->toArray());
-        $this->setOrderBy($data->order_by, $data->order_direction);
-        return $query->orderBy($this->orderBy, $this->orderDirection)->cursorPaginate($data->per_page);
+        return $query->cursorPaginate($data->per_page);
     }
 }

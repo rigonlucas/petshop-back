@@ -4,16 +4,15 @@ namespace App\Http\Resources\ScheduleHistory;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RegistersResource extends JsonResource
+class ScheduleHistoryResource extends JsonResource
 {
-    function toArray($request)
+    function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'schedule_id' => $this->pet_id,
-            'register' => $this->register,
+            'name' => $this->register,
             'type' => $this->type,
-            'created_at' => $this->created_at
+            'schedule_id' => $this->schedule_id,
         ];
     }
 }
