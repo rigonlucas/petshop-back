@@ -17,6 +17,7 @@ class ScheduleUpdateData extends DataTransferObject
     public int $duration;
     public ?string $description = null;
     public ?int $schedule_id = null;
+    public ?array $products = null;
 
     public static function fromRequest(ScheduleUpdateRequest $request): self
     {

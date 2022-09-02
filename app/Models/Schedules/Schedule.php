@@ -11,6 +11,7 @@ use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -43,14 +44,18 @@ class Schedule extends BaseModel
     }
 
 
-    public function client(): BelongsTo
+    public function client (): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
-
-    public function pet(): BelongsTo
+    public function pet (): BelongsTo
     {
         return $this->belongsTo(Pet::class);
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(ScheduleHasProduct::class);
     }
 
     public function account (): BelongsTo

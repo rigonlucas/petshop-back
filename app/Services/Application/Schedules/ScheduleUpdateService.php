@@ -6,12 +6,14 @@ use App\Enums\SchedulesStatusEnum;
 use App\Enums\SchedulesTypesEnum;
 use App\Models\Clients\Client;
 use App\Models\Clients\Pet;
+use App\Models\Products\Product;
 use App\Models\Schedules\Schedule;
 use App\Models\User;
 use App\Rules\AccountHasEntityRule;
 use App\Rules\Schedule\CanUpdateAScheduleRule;
 use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\ValidationException;
@@ -24,9 +26,15 @@ class ScheduleUpdateService extends BaseService
         $data->account_id = $user->account_id;
         $this->validate($data);
 
-        return Schedule::query()
-            ->where('id', '=', $data->schedule_id)
-            ->update($data->except('schedule_id')->toArray());
+        return DB::transaction(function () use ($data) {
+            /** @var Schedule $schedule */
+            $schedule = Schedule::query()->find($data->schedule_id);
+            $schedule->products()->delete();
+            if ($data->products){
+                $schedule->products()->createMany($data->products);
+            }
+            return $schedule->update($data->except('schedule_id', 'products')->toArray());
+        });
     }
 
     /**
@@ -86,6 +94,30 @@ class ScheduleUpdateService extends BaseService
                 'min:1',
                 'max:500'
             ],
+            "products" => [
+                'nullable',
+                'array',
+            ],
+            "products.*.product_id" => [
+                'required',
+                'integer',
+                new AccountHasEntityRule(Product::class, $data->account_id),
+            ],
+            "products.*.quantity" => [
+                'required',
+                'integer',
+                'gt:0'
+            ],
+            "products.*.price" => [
+                'required',
+                'numeric',
+                'gt:-1'
+            ],
+            "products.*.discount" => [
+                'nullable',
+                'numeric',
+                'gt:-1'
+            ]
         ])->validate();
     }
 }
