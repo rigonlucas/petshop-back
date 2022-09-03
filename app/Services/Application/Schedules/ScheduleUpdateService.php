@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Rules\AccountHasEntityRule;
 use App\Rules\Schedule\CanUpdateAScheduleRule;
 use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
+use App\Services\Application\Schedules\Validators\ScheduleProductsValidator;
+use App\Services\Application\Schedules\Validators\ScheduleValidator;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -29,10 +31,7 @@ class ScheduleUpdateService extends BaseService
         return DB::transaction(function () use ($data) {
             /** @var Schedule $schedule */
             $schedule = Schedule::query()->find($data->schedule_id);
-            $schedule->products()->delete();
-            if ($data->products){
-                $schedule->products()->createMany($data->products);
-            }
+            $this->updateProducts($data, $schedule);
             return $schedule->update($data->except('schedule_id', 'products')->toArray());
         });
     }
@@ -49,75 +48,21 @@ class ScheduleUpdateService extends BaseService
                 'min:1',
                 new AccountHasEntityRule(Schedule::class, $data->account_id),
             ],
-            "client_id" => [
-                'required',
-                'int',
-                'min:1',
-                new AccountHasEntityRule(Client::class, $data->account_id),
-            ],
-            "pet_id" => [
-                'required',
-                'int',
-                'min:1',
-                new AccountHasEntityRule(Pet::class, $data->account_id),
-            ],
-            "user_id" => [
-                'required',
-                'int',
-                'min:1',
-                new AccountHasEntityRule(User::class, $data->account_id),
-            ],
-            "type" => [
-                'required',
-                'int',
-                'min:1',
-                new Enum(SchedulesTypesEnum::class)
-            ],
-            "status" => [
-                'required',
-                'int',
-                'min:1',
-                new Enum(SchedulesStatusEnum::class)
-            ],
-            "duration" => [
-                'required',
-                'min:1'
-            ],
-            "start_at" => [
-                'required',
-                'date_format:Y-m-d H:i:s',
-                new CanUpdateAScheduleRule($data->schedule_id, $data->user_id, $data->duration)
-            ],
-            "description" => [
-                'nullable',
-                'string',
-                'min:1',
-                'max:500'
-            ],
-            "products" => [
-                'nullable',
-                'array',
-            ],
-            "products.*.product_id" => [
-                'required',
-                'integer',
-                new AccountHasEntityRule(Product::class, $data->account_id),
-            ],
-            "products.*.quantity" => [
-                'required',
-                'integer',
-                'gt:0'
-            ],
-            "products.*.price" => [
-                'required',
-                'numeric',
-                'gt:-1'
-            ],
-            "products.*.discount" => [
-                'nullable',
-                'numeric',
-                'gt:-1'
-            ]
+            ...(new ScheduleValidator())->validations($data),
+            ...(new ScheduleProductsValidator())->validations($data),
         ])->validate();
+    }
+
+    /**
+     * @param ScheduleUpdateData $data
+     * @param Schedule $schedule
+     * @return void
+     */
+    function updateProducts(ScheduleUpdateData $data, Schedule $schedule): void
+    {
+        $schedule->products()->delete();
+        if ($data->products) {
+            $schedule->products()->createMany($data->products);
+        }
     }
 }

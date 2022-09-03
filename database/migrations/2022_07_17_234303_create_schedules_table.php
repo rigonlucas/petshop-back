@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('pet_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable()->default(null);
             $table->tinyInteger('type');
             $table->tinyInteger('status');
             $table->timestamp('start_at');

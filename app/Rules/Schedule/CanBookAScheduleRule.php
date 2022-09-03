@@ -9,7 +9,7 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CanBookAScheduleRule implements Rule
 {
-    public function __construct(private readonly int $userId, private readonly int $duration)
+    public function __construct(private readonly ?int $userId, private readonly int $duration)
     {
     }
 

@@ -13,6 +13,8 @@ use App\Models\User;
 use App\Rules\AccountHasEntityRule;
 use App\Rules\Schedule\CanBookAScheduleRule;
 use App\Services\Application\Schedules\DTO\ScheduleStoreData;
+use App\Services\Application\Schedules\Validators\ScheduleProductsValidator;
+use App\Services\Application\Schedules\Validators\ScheduleValidator;
 use App\Services\BaseService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -31,13 +33,8 @@ class ScheduleStoreService extends BaseService
         return DB::transaction(function () use ($data) {
             /** @var Schedule $schedule */
             $schedule = Schedule::query()->create($data->toArray());
-            if ($data->products) {
-                $schedule->products()->createMany(
-                    array_map(function ($row) use ($schedule) {
-                        return [...$row, ...['schedule_id' => $schedule->id]];
-                    }, $data->products)
-                );
-            }
+            $this->addProducts($data, $schedule);
+
             return $schedule;
         });
     }
@@ -48,75 +45,27 @@ class ScheduleStoreService extends BaseService
     private function validate(ScheduleStoreData $data): void
     {
         Validator::make($data->toArray(), [
-            "client_id" => [
-                'required',
-                'int',
-                'min:1',
-                new AccountHasEntityRule(Client::class, $data->account_id),
-            ],
-            "pet_id" => [
-                'required',
-                'int',
-                'min:1',
-                new AccountHasEntityRule(Pet::class, $data->account_id),
-            ],
-            "user_id" => [
-                'required',
-                'int',
-                'min:1',
-                new AccountHasEntityRule(User::class, $data->account_id),
-            ],
-            "type" => [
-                'required',
-                'int',
-                'min:1',
-                new Enum(SchedulesTypesEnum::class)
-            ],
-            "status" => [
-                'required',
-                'int',
-                'min:1',
-                new Enum(SchedulesStatusEnum::class)
-            ],
-            "duration" => [
-                'required',
-                'min:1'
-            ],
-            "start_at" => [
-                'required',
-                'date_format:Y-m-d H:i:s',
-                new CanBookAScheduleRule($data->user_id, $data->duration)
-            ],
-            "description" => [
-                'nullable',
-                'string',
-                'min:1',
-                'max:500'
-            ],
-            "products" => [
-                'nullable',
-                'array',
-            ],
-            "products.*.product_id" => [
-                'required',
-                'integer',
-                new AccountHasEntityRule(Product::class, $data->account_id),
-            ],
-            "products.*.quantity" => [
-                'required',
-                'integer',
-                'gt:0'
-            ],
-            "products.*.price" => [
-                'required',
-                'numeric',
-                'gt:-1'
-            ],
-            "products.*.discount" => [
-                'nullable',
-                'numeric',
-                'gt:-1'
-            ]
+            ...(new ScheduleValidator())->validations($data),
+            ...(new ScheduleProductsValidator())->validations($data),
         ])->validate();
+    }
+
+    /**
+     * @param ScheduleStoreData $data
+     * @param Schedule $schedule
+     * @return void
+     */
+    function  addProducts(ScheduleStoreData $data, Schedule $schedule): void
+    {
+        if ($data->products) {
+            $schedule->products()->createMany(
+                array_map(
+                    function ($row) use ($schedule) {
+                        return [...$row, ...['schedule_id' => $schedule->id]];
+                    },
+                    $data->products
+                )
+            );
+        }
     }
 }

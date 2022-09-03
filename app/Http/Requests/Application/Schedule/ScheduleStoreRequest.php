@@ -31,11 +31,12 @@ class ScheduleStoreRequest extends FormRequest
             "pet_id" => ['required', 'int', 'min:1'],
             "type" => ['required', 'int', 'min:1', new Enum(SchedulesTypesEnum::class)],
             "status" => ['required', 'int', 'min:1', new Enum(SchedulesStatusEnum::class)],
-            "user_id" => ['required', 'int', 'min:1'],
+            "user_id" => ['nullable', 'int', 'min:1'],
             "start_at" => ['required', 'date_format:Y-m-d H:i:s'],
             "duration" => ['required', 'min:1'],
             "description" => ['nullable', 'string', 'min:1', 'max:500'],
-            "products" => ['nullable', 'array']
+            "products" => ['nullable', 'array'],
+            "recurrence" => ['nullable', 'array'],
         ];
     }
 }
