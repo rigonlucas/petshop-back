@@ -14,6 +14,7 @@ use App\Rules\AccountHasEntityRule;
 use App\Rules\Schedule\CanBookAScheduleRule;
 use App\Services\Application\Schedules\DTO\ScheduleStoreData;
 use App\Services\Application\Schedules\Validators\ScheduleProductsValidator;
+use App\Services\Application\Schedules\Validators\ScheduleRecurrenceValidator;
 use App\Services\Application\Schedules\Validators\ScheduleValidator;
 use App\Services\BaseService;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,6 +35,7 @@ class ScheduleStoreService extends BaseService
             /** @var Schedule $schedule */
             $schedule = Schedule::query()->create($data->toArray());
             $this->addProducts($data, $schedule);
+            $this->addRecurrence($data, $schedule);
 
             return $schedule;
         });
@@ -47,6 +49,7 @@ class ScheduleStoreService extends BaseService
         Validator::make($data->toArray(), [
             ...(new ScheduleValidator())->validations($data),
             ...(new ScheduleProductsValidator())->validations($data),
+            ...(new ScheduleRecurrenceValidator())->validations($data),
         ])->validate();
     }
 
@@ -67,5 +70,30 @@ class ScheduleStoreService extends BaseService
                 )
             );
         }
+    }
+
+    /**
+     * @param ScheduleStoreData $data
+     * @param Schedule $schedule
+     * @return void
+     */
+    private function addRecurrence(ScheduleStoreData $data, Schedule $schedule): void
+    {
+       if ($data->recurrence) {
+           $schedulesToCreate = array_map(
+               function ($row) use ($schedule, $data) {
+                   $newData = clone $data;
+                   $newData->duration = $row['duration'];
+                   $newData->start_at = $row['start_at'];
+                   return clone $newData;
+               },
+               $data->recurrence
+           );
+           foreach ($schedulesToCreate as $schedule) {
+               /** @var Schedule $created */
+               $created = Schedule::query()->create($schedule->toArray());
+               $this->addProducts($schedule, $created);
+           }
+       }
     }
 }

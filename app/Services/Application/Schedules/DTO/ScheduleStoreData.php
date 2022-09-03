@@ -8,7 +8,7 @@ use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class ScheduleStoreData extends ScheduleBaseData
 {
-
+    public ?array $recurrence = null;
     /**
      * @throws UnknownProperties
      */
