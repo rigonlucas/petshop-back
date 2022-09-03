@@ -4,6 +4,7 @@ namespace App\Http\Resources\Schedules;
 
 use App\Http\Resources\Client\ClientResource;
 use App\Http\Resources\Pet\PetResource;
+use App\Http\Resources\ScheduleHistory\ScheduleHasProductsResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,6 +30,7 @@ class SchedulesResource extends JsonResource
             "pet" => new PetResource($this->whenLoaded('pet')),
             "client" => new ClientResource($this->whenLoaded('client')),
             "user" => new UserResource($this->whenLoaded('user')),
+            "products" => ScheduleHasProductsResource::collection($this->whenLoaded('products')),
         ];
     }
 }

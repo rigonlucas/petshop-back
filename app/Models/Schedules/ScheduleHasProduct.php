@@ -2,8 +2,10 @@
 
 namespace App\Models\Schedules;
 
+use App\Models\Products\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ScheduleHasProduct extends Model
 {
@@ -18,4 +20,9 @@ class ScheduleHasProduct extends Model
         'discount',
         'price'
     ];
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
