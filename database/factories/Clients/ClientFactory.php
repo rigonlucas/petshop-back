@@ -1,13 +1,12 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Clients;
 
-use App\Models\Clients\Client;
 use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Client>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product\Product>
  */
 class ClientFactory extends Factory
 {
@@ -23,7 +22,7 @@ class ClientFactory extends Factory
             'account_id' => $account ?? Account::factory(),
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
-            'phone' => $this->faker->phoneNumber()
+            'phone' => $this->faker->phoneNumber(),
         ];
     }
 }

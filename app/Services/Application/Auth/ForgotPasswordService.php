@@ -14,7 +14,9 @@ class ForgotPasswordService extends BaseService
     {
         $user = User::query()
             ->firstWhere('email', 'like', $email);
-        $recoveryHash = Password::createToken($user);
-        Notification::route('mail', $user->email)->notify(new ForgotPasswordNotify($user, $recoveryHash));
+        if ($user) {
+            $recoveryHash = Password::createToken($user);
+            Notification::route('mail', $user->email)->notify(new ForgotPasswordNotify($user, $recoveryHash));
+        }
     }
 }

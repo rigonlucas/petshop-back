@@ -50,7 +50,7 @@ class ForgotPasswordNotify extends Notification implements ShouldQueue
             )
             ->action(
                 'Trocar minha senha',
-                env('APP_URL_FRONT') . '/recuperar-senha/'. $this->recoveryHash
+                config('app.url_front') . '#/auth/alterar-senha/'. $this->recoveryHash
             )
             ->success()
             ->line('Caso não tenha sido você, desconsidere este email')
