@@ -10,7 +10,7 @@ class RegisterData extends DataTransferObject
 {
     public string $name;
     public string $email;
-    public string $phone;
+    public ?string $phone;
     public ?string $company_name;
     public string $password;
     public ?Carbon $expire_at = null;

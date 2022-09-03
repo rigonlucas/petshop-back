@@ -16,10 +16,15 @@ class RegisterController extends Controller
     public function __invoke(RegisterRequest $request, RegisterService $service): JsonResponse
     {
         $data = RegisterData::fromRequest($request);
-        $result = DB::transaction(function () use ($data, $service) {
+        $user = DB::transaction(function () use ($data, $service) {
             return $service->register($data);
         });
-        return response()->json($result, ResponseAlias::HTTP_CREATED);
+        $result = [
+            'user' => $user,
+            'token' => $user->createToken('user')->plainTextToken,
+            'expire_at' => config('sanctum.expiration')
+        ];
+        return response()->json(['data' => $result], ResponseAlias::HTTP_CREATED);
     }
 
 }
