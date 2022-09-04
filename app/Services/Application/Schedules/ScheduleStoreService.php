@@ -2,16 +2,9 @@
 
 namespace App\Services\Application\Schedules;
 
-use App\Enums\SchedulesStatusEnum;
-use App\Enums\SchedulesTypesEnum;
-use App\Models\Clients\Client;
-use App\Models\Clients\Pet;
-use App\Models\Products\Product;
+use App\Models\ScheduleRecurrence;
 use App\Models\Schedules\Schedule;
-use App\Models\Schedules\ScheduleHasProduct;
 use App\Models\User;
-use App\Rules\AccountHasEntityRule;
-use App\Rules\Schedule\CanBookAScheduleRule;
 use App\Services\Application\Schedules\DTO\ScheduleStoreData;
 use App\Services\Application\Schedules\Validators\ScheduleDateValidator;
 use App\Services\Application\Schedules\Validators\ScheduleProductsValidator;
@@ -22,7 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\ValidationException;
 
 class ScheduleStoreService extends BaseService
@@ -33,6 +25,14 @@ class ScheduleStoreService extends BaseService
         $data->account_id = $user->account_id;
         $this->validate($data);
         return DB::transaction(function () use ($data) {
+
+            if ($data->recurrence) {
+                $recurrence = ScheduleRecurrence::query()->create([
+                    'type' => 1
+                ]);
+                $data->schedule_recurrence_id = $recurrence->id;
+            }
+
             /** @var Schedule $schedule */
             $schedule = Schedule::query()->create($data->toArray());
             $this->addProducts($data, $schedule);
@@ -69,7 +69,13 @@ class ScheduleStoreService extends BaseService
                         if (!$row['discount']) {
                             $row['discount'] = 0;
                         }
-                        return [...$row, ...['schedule_id' => $schedule->id]];
+                        return [
+                            ...$row,
+                            ...[
+                                'schedule_id' => $schedule->id,
+                                'schedule_resource_id' => $schedule->schedule_resource_id
+                            ]
+                        ];
                     },
                     $data->products
                 )

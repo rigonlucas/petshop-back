@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('pet_id');
             $table->unsignedBigInteger('user_id')->nullable()->default(null);
+            $table->unsignedBigInteger('schedule_recurrence_id')->nullable()->default(null);
             $table->tinyInteger('type');
             $table->tinyInteger('status');
             $table->timestamp('start_at');
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->foreign('pet_id')->references('id')->on('pets');
             $table->foreign('client_id')->references('id')->on('clients');
             $table->foreign('account_id')->references('id')->on('accounts');
+            $table->foreign('schedule_recurrence_id')->references('id')->on('schedule_recurrences');
         });
     }
 

@@ -17,11 +17,17 @@ class ScheduleRecurrenceValidator
 {
     public function validations(ScheduleBaseData $data): array
     {
-        return [
+        $recurrence = [
             "recurrence" => [
                 'nullable',
                 'array',
             ],
+        ];
+        if (!$data->user_id) {
+            return $recurrence;
+        }
+        return [
+            ...$recurrence,
             "recurrence.*.duration" => [
                 'required',
                 'min:1'

@@ -10,6 +10,7 @@ class ScheduleStoreData extends ScheduleBaseData
 {
     public ?array $recurrence = null;
     public ?array $products = null;
+    public ?int $schedule_recurrence_id = null;
     /**
      * @throws UnknownProperties
      */

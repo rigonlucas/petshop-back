@@ -11,11 +11,23 @@ class ScheduleDateValidator
 {
     public function validationsStore(ScheduleBaseData $data): array
     {
-        return [
+        $duration =[
             "duration" => [
                 'required',
                 'min:1'
             ],
+        ];
+        if (!$data->user_id) {
+            return [
+                ...$duration,
+                "start_at" => [
+                    'required',
+                    'date_format:Y-m-d H:i:s',
+                ],
+            ];
+        }
+        return [
+            ...$duration,
             "start_at" => [
                 'required',
                 'date_format:Y-m-d H:i:s',

@@ -6,6 +6,7 @@ use App\Enums\SchedulesStatusEnum;
 use App\Models\BaseModel;
 use App\Models\Clients\Client;
 use App\Models\Clients\Pet;
+use App\Models\ScheduleRecurrence;
 use App\Models\User;
 use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,6 +27,7 @@ class Schedule extends BaseModel
         "account_id",
         "client_id",
         "pet_id",
+        "schedule_recurrence_id",
         "type",
         "status",
         "user_id",
@@ -66,5 +68,10 @@ class Schedule extends BaseModel
     public function user (): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function recurrenceGroup (): BelongsTo
+    {
+        return $this->belongsTo(ScheduleRecurrence::class, 'schedule_recurrence_id', 'id');
     }
 }
