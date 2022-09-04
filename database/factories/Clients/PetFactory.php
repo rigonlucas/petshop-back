@@ -24,7 +24,7 @@ class PetFactory extends Factory
             'breed_id' => Breed::factory(),
             'client_id' => Client::factory(),
             'account_id' => Account::factory(),
-            'name' => $this->faker->name(),
+            'name' => $this->faker->lastName(),
             'birthday' => $this->faker->dateTimeBetween(
                 Carbon::now()->subYears(5),
                 Carbon::now()->subYear()
