@@ -22,6 +22,6 @@ class ScheduleStoreController extends Controller
     {
         $data = ScheduleStoreData::fromRequest($request);
         $result = $service->store($data, $request->user());
-        return response()->json([$result], ResponseAlias::HTTP_CREATED);
+        return response()->json(['data' => $result], ResponseAlias::HTTP_CREATED);
     }
 }

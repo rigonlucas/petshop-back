@@ -15,5 +15,4 @@ class ScheduleBaseData extends DataTransferObject
     public string $start_at;
     public int $duration;
     public ?string $description = null;
-    public ?array $products = null;
 }

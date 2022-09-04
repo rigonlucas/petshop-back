@@ -17,6 +17,6 @@ class ScheduleHistoryStoreController extends Controller
         $data->schedule_id = $id;
         $data->account_id = $request->user()->account_id;
         $result = $service->store($data);
-        return response()->json([$result], ResponseAlias::HTTP_CREATED);
+        return response()->json(['data' => $result], ResponseAlias::HTTP_CREATED);
     }
 }

@@ -60,7 +60,7 @@ class ScheduleStoreService extends BaseService
      * @param Schedule $schedule
      * @return void
      */
-    function  addProducts(ScheduleStoreData $data, Schedule $schedule): void
+    private function addProducts(ScheduleStoreData $data, Schedule $schedule): void
     {
         if ($data->products) {
             $schedule->products()->createMany(

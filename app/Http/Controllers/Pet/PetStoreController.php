@@ -24,6 +24,6 @@ class PetStoreController extends Controller
         $result = DB::transaction(function () use ($service, $data) {
             return $service->store($data);
         });
-        return response()->json([$result], ResponseAlias::HTTP_CREATED);
+        return response()->json(['data' => $result], ResponseAlias::HTTP_CREATED);
     }
 }

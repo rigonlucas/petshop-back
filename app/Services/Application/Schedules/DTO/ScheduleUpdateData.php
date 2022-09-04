@@ -9,6 +9,7 @@ use Spatie\DataTransferObject\DataTransferObject;
 class ScheduleUpdateData extends ScheduleBaseData
 {
     public ?int $schedule_id = null;
+    public ?array $products = null;
 
     public static function fromRequest(ScheduleUpdateRequest $request): self
     {

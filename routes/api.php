@@ -27,10 +27,12 @@ use App\Http\Controllers\Products\ProductUpdateController;
 use App\Http\Controllers\ScheduleHistory\ScheduleHistoryDeleteController;
 use App\Http\Controllers\ScheduleHistory\ScheduleHistoryIndexController;
 use App\Http\Controllers\ScheduleHistory\ScheduleHistoryStoreController;
+use App\Http\Controllers\ScheduleProducts\ScheduleProductsDeleteController;
+use App\Http\Controllers\ScheduleProducts\ScheduleProductsStoreController;
 use App\Http\Controllers\Schedules\AvailableProfessionalsController;
 use App\Http\Controllers\Schedules\ScheduleDeleteController;
-use App\Http\Controllers\Schedules\ScheduleShowController;
 use App\Http\Controllers\Schedules\ScheduleListController;
+use App\Http\Controllers\Schedules\ScheduleShowController;
 use App\Http\Controllers\Schedules\ScheduleStoreController;
 use App\Http\Controllers\Schedules\ScheduleUpdateController;
 use Illuminate\Support\Facades\Route;
@@ -94,6 +96,14 @@ Route::prefix('v1')->group(function () {
                         ->name('schedule.history.index');
                     Route::post('/', ScheduleHistoryStoreController::class)
                         ->name('schedule.history.store');
+                });
+                Route::prefix('products')->group(function () {
+                    Route::post('/', ScheduleProductsStoreController::class)
+                        ->name('schedule.products.store');
+                    Route::prefix('{scheduleProductId}')->group(function () {
+                        Route::delete('/', ScheduleProductsDeleteController::class)
+                            ->name('schedule.products.delete');
+                    });
                 });
             });
         });

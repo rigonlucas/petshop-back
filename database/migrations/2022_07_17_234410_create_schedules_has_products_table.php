@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('quantity');
             $table->unsignedFloat('price');
-            $table->unsignedFloat('discount')->default(0);
+            $table->unsignedFloat('discount')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('schedule_id')->references('id')->on('schedules');

@@ -2,24 +2,26 @@
 
 namespace App\Services\Application\Schedules\Validators;
 
-use App\Enums\SchedulesStatusEnum;
-use App\Enums\SchedulesTypesEnum;
-use App\Models\Clients\Client;
-use App\Models\Clients\Pet;
 use App\Models\Products\Product;
-use App\Models\User;
 use App\Rules\AccountHasEntityRule;
-use App\Rules\Schedule\CanBookAScheduleRule;
+use App\Services\Application\ScheduleProducts\DTO\ScheduleProductsStoreData;
 use App\Services\Application\Schedules\DTO\Base\ScheduleBaseData;
-use Illuminate\Validation\Rules\Enum;
 
 class ScheduleProductsValidator
 {
-    public function validations(ScheduleBaseData $data): array
+    /**
+     * @param ScheduleBaseData|ScheduleProductsStoreData $data
+     * @param string $requirementField [nullable ou required]
+     * @return array
+     */
+    public function validations(
+        ScheduleBaseData|ScheduleProductsStoreData $data,
+        string                                     $requirementField = 'nullable'
+    ): array
     {
         return [
             "products" => [
-                'nullable',
+                $requirementField,
                 'array',
             ],
             "products.*.product_id" => [
