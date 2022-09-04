@@ -66,6 +66,9 @@ class ScheduleStoreService extends BaseService
             $schedule->products()->createMany(
                 array_map(
                     function ($row) use ($schedule) {
+                        if (!$row['discount']) {
+                            $row['discount'] = 0;
+                        }
                         return [...$row, ...['schedule_id' => $schedule->id]];
                     },
                     $data->products

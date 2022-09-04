@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedFloat('price');
             $table->unsignedFloat('final_price')
                 ->virtualAs('(price - round(((discount * price) / 100),2)) * quantity');
-            $table->unsignedFloat('discount')->nullable()->default(null);
+            $table->unsignedFloat('discount')->default(0);
             $table->timestamps();
 
             $table->foreign('schedule_id')->references('id')->on('schedules');
