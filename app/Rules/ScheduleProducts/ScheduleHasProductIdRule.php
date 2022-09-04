@@ -5,14 +5,14 @@ namespace App\Rules\ScheduleProducts;
 use App\Models\Schedules\ScheduleHasProduct;
 use Illuminate\Contracts\Validation\Rule;
 
-class ScheduleHasProductRule implements Rule
+class ScheduleHasProductIdRule implements Rule
 {
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct(private readonly int $scheduleProductId)
+    public function __construct(private readonly int $productId)
     {
         //
     }
@@ -27,9 +27,9 @@ class ScheduleHasProductRule implements Rule
     public function passes($attribute, $value): bool
     {
         return ScheduleHasProduct::query()
-            ->where('id', '=', $this->scheduleProductId)
+            ->where('product_id', '=', $this->productId)
             ->where('schedule_id', '=', $value)
-            ->exists();
+            ->doesntExist();
     }
 
     /**
@@ -39,6 +39,6 @@ class ScheduleHasProductRule implements Rule
      */
     public function message()
     {
-        return 'O produto não foi encontrado no agendamento';
+        return 'O produto já está relacionado ao agendamento';
     }
 }

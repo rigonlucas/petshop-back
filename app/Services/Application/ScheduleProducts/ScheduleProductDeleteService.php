@@ -5,7 +5,7 @@ namespace App\Services\Application\ScheduleProducts;
 use App\Models\Schedules\Schedule;
 use App\Models\Schedules\ScheduleHasProduct;
 use App\Rules\AccountHasEntityRule;
-use App\Rules\ScheduleProducts\ScheduleHasProductRule;
+use App\Rules\ScheduleProducts\ScheduleHasProductDeleteRule;
 use App\Services\Application\ScheduleProducts\DTO\ScheduleProductDeleteData;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Validator;
@@ -39,7 +39,7 @@ class ScheduleProductDeleteService extends BaseService
                     'integer',
                     'min:1',
                     new AccountHasEntityRule(Schedule::class, $data->account_id),
-                    new ScheduleHasProductRule($data->schedule_product_id)
+                    new ScheduleHasProductDeleteRule($data->schedule_product_id)
                 ],
             ]
         )->validate();

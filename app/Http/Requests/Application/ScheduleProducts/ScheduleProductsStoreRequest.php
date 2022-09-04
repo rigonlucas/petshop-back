@@ -24,7 +24,25 @@ class ScheduleProductsStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "products" => ['required', 'array'],
+            "product_id" => [
+                'required',
+                'integer',
+            ],
+            "quantity" => [
+                'required',
+                'integer',
+                'gt:0'
+            ],
+            "price" => [
+                'required',
+                'numeric',
+                'gt:-1'
+            ],
+            "discount" => [
+                'nullable',
+                'numeric',
+                'gt:-1'
+            ]
         ];
     }
 }

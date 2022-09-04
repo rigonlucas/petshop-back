@@ -2,14 +2,14 @@
 
 namespace App\Services\Application\ScheduleProducts;
 
+use App\Models\Products\Product;
 use App\Models\Schedules\Schedule;
+use App\Models\Schedules\ScheduleHasProduct;
 use App\Models\User;
+use App\Rules\AccountHasEntityRule;
+use App\Rules\ScheduleProducts\ScheduleHasProductIdRule;
 use App\Services\Application\ScheduleProducts\DTO\ScheduleProductsStoreData;
-use App\Services\Application\Schedules\Validators\ScheduleProductsValidator;
 use App\Services\BaseService;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -17,15 +17,17 @@ use Illuminate\Validation\ValidationException;
 class ScheduleProductsStoreService extends BaseService
 {
 
-    public function store(ScheduleProductsStoreData $data, User $user): Collection
+    public function store(ScheduleProductsStoreData $data, User $user): ScheduleHasProduct
     {
         $data->account_id = $user->account_id;
         $this->validate($data);
         return DB::transaction(function () use ($data) {
             /** @var Schedule $schedule */
-            $schedule = Schedule::byAccount($data->account_id)->with('products')->findOrFail($data->schedule_id);
-            $this->productsInScheduleRule($data, $schedule);
-            return $this->addProducts($data, $schedule);
+            $schedule = Schedule::byAccount($data->account_id)
+                ->findOrFail($data->schedule_id);
+            return $schedule->products()->create(
+                $data->except('account_id')->toArray()
+            );
         });
     }
 
@@ -35,38 +37,31 @@ class ScheduleProductsStoreService extends BaseService
     private function validate(ScheduleProductsStoreData $data): void
     {
         Validator::make($data->toArray(), [
-            ...(new ScheduleProductsValidator())->validations($data, 'required'),
+            "schedule_id" => [
+                'required',
+                'integer',
+                new ScheduleHasProductIdRule($data->product_id)
+            ],
+            "product_id" => [
+                'required',
+                'integer',
+                new AccountHasEntityRule(Product::class, $data->account_id),
+            ],
+            "quantity" => [
+                'required',
+                'integer',
+                'gt:0'
+            ],
+            "price" => [
+                'required',
+                'numeric',
+                'gt:-1'
+            ],
+            "discount" => [
+                'nullable',
+                'numeric',
+                'gt:-1'
+            ]
         ])->validate();
-    }
-
-    private function productsInScheduleRule(ScheduleProductsStoreData $data, Schedule $schedule): void
-    {
-        $productsIntersect = array_intersect(
-            $schedule->products->pluck('product_id')->toArray(),
-            array_column($data->products, 'product_id')
-        );
-        foreach ($productsIntersect as $key => $value) {
-            unset($data->products[$key]);
-        }
-    }
-
-    /**
-     * @param ScheduleProductsStoreData $data
-     * @param Schedule $schedule
-     * @return Collection
-     */
-    private function addProducts(ScheduleProductsStoreData $data, Schedule $schedule): Collection
-    {
-        if ($data->products) {
-            return $schedule->products()->createMany(
-                array_map(
-                    function ($row) use ($schedule) {
-                        return [...$row, ...['schedule_id' => $schedule->id]];
-                    },
-                    $data->products
-                )
-            );
-        }
-        return $schedule->products;
     }
 }

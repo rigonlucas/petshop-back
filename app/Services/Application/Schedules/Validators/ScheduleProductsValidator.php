@@ -11,17 +11,15 @@ class ScheduleProductsValidator
 {
     /**
      * @param ScheduleBaseData|ScheduleProductsStoreData $data
-     * @param string $requirementField [nullable ou required]
      * @return array
      */
     public function validations(
         ScheduleBaseData|ScheduleProductsStoreData $data,
-        string                                     $requirementField = 'nullable'
     ): array
     {
         return [
             "products" => [
-                $requirementField,
+                'nullable',
                 'array',
             ],
             "products.*.product_id" => [

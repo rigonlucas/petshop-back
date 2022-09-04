@@ -8,9 +8,12 @@ use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class ScheduleProductsStoreData extends DataTransferObject
 {
-    public array $products;
     public ?int $schedule_id = null;
     public ?int $account_id = null;
+    public ?int $product_id = null;
+    public ?float $price = null;
+    public ?float $discount = null;
+    public ?int $quantity = null;
 
     /**
      * @throws UnknownProperties
