@@ -25,6 +25,9 @@ class ScheduleProductsStoreService extends BaseService
             /** @var Schedule $schedule */
             $schedule = Schedule::byAccount($data->account_id)
                 ->findOrFail($data->schedule_id);
+            if (!$data->discount) {
+                $data->discount = 0;
+            }
             return $schedule->products()->create(
                 $data->except('account_id')->toArray()
             );
