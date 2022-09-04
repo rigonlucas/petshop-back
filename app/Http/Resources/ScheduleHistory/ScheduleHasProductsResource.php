@@ -14,6 +14,7 @@ class ScheduleHasProductsResource extends JsonResource
             'product_id' => $this->product_id,
             'quantity' => $this->quantity,
             'price' => $this->price,
+            'final_price' => $this->final_price,
             'discount' => $this->discount,
             'product' => ProductResource::make($this->product),
         ];

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('quantity');
             $table->unsignedFloat('price');
+            $table->unsignedFloat('final_price')
+                ->virtualAs('(price - round(((discount * price) / 100),2)) * quantity');
             $table->unsignedFloat('discount')->nullable()->default(null);
             $table->timestamps();
 
