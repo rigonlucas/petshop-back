@@ -40,11 +40,12 @@ class ScheduleProductsStoreService extends BaseService
             "schedule_id" => [
                 'required',
                 'integer',
-                new ScheduleHasProductIdRule($data->product_id)
+                'gt:0'
             ],
             "product_id" => [
                 'required',
                 'integer',
+                'gt:0',
                 new AccountHasEntityRule(Product::class, $data->account_id),
             ],
             "quantity" => [
