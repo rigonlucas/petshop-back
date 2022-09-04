@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Clients;
 
 use App\Models\Clients\Client;
 use App\Models\Types\Breed;

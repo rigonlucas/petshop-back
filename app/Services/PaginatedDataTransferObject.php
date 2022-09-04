@@ -11,5 +11,6 @@ class PaginatedDataTransferObject extends DataTransferObject
     public int $per_page = 20;
     public ?string $include = null;
     public ?string $include_count = null;
+    public ?string $cursor = null;
 
 }

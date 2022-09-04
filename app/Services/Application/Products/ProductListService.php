@@ -48,7 +48,8 @@ class ProductListService extends BaseService
             'name' => new WhereLikeFilter('name'),
         ];
         ApplyFilters::apply($query, $filters, $data->toArray());
-        ApplyOrdination::apply($query, $ordination, $data->toArray());
+        ApplyOrdination::apply($query, $ordination);
+
         return $query->cursorPaginate($data->per_page);
     }
 }

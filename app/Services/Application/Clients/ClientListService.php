@@ -43,7 +43,7 @@ class ClientListService extends BaseService
         ];
 
         ApplyFilters::apply($query, $filters, $data->toArray());
-        ApplyOrdination::apply($query, $ordination, $data->toArray());
+        ApplyOrdination::apply($query, $ordination);
         $this->applyEagerLoadging($query, $data->include, $this->relationsAvailables);
         $this->applyEagerLoadgingCount($query, $data->include_count, $this->relationsAvailablesCount);
 
