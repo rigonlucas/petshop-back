@@ -15,8 +15,7 @@ class UsersOfAccountController extends Controller
     {
         $data = AccountUserListData::fromRequest($request);
 
-        $accountUsers = $service
-            ->list($data, $request->user()->account_id);
+        $accountUsers = $service->list($data, $request->user()->account_id);
         return UserResource::collection($accountUsers);
     }
 }
