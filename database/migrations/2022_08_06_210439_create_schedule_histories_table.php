@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pet_registers');
+        Schema::dropIfExists('schedule_histories');
     }
 };
