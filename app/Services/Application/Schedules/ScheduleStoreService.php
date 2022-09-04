@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Rules\AccountHasEntityRule;
 use App\Rules\Schedule\CanBookAScheduleRule;
 use App\Services\Application\Schedules\DTO\ScheduleStoreData;
+use App\Services\Application\Schedules\Validators\ScheduleDateValidator;
 use App\Services\Application\Schedules\Validators\ScheduleProductsValidator;
 use App\Services\Application\Schedules\Validators\ScheduleRecurrenceValidator;
 use App\Services\Application\Schedules\Validators\ScheduleValidator;
@@ -48,6 +49,7 @@ class ScheduleStoreService extends BaseService
     {
         Validator::make($data->toArray(), [
             ...(new ScheduleValidator())->validations($data),
+            ...(new ScheduleDateValidator())->validationsStore($data),
             ...(new ScheduleProductsValidator())->validations($data),
             ...(new ScheduleRecurrenceValidator())->validations($data),
         ])->validate();

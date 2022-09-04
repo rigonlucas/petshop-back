@@ -23,7 +23,7 @@ class AccountUsersListService extends BaseService
 
     public function list(AccountUserListData $data, int $accountId): CursorPaginator
     {
-        $query = User::byAccount($accountId);
+        $query = User::withTrashed()->byAccount($accountId);
 
         $ordination = [
             $data->order_by => new OrderBy($data->order_direction)

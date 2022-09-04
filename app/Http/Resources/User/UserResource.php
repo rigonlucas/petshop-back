@@ -12,9 +12,11 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
             'account_id' => $this->account_id,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
+            "deleted_at" => $this->deleted_at,
             "account" => new AccountResource($this->whenLoaded('account')),
         ];
     }

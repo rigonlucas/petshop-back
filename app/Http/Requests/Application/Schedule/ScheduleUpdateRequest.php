@@ -25,7 +25,6 @@ class ScheduleUpdateRequest extends FormRequest
             "start_at" => ['required', 'date_format:Y-m-d H:i:s'],
             "duration" => ['required', 'min:1'],
             "description" => ['nullable', 'string', 'min:1', 'max:500'],
-            "products" => ['nullable', 'array']
         ];
     }
 }

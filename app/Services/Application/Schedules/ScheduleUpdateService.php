@@ -10,8 +10,9 @@ use App\Models\Products\Product;
 use App\Models\Schedules\Schedule;
 use App\Models\User;
 use App\Rules\AccountHasEntityRule;
-use App\Rules\Schedule\CanUpdateAScheduleRule;
+use App\Rules\Schedule\CanUpdateBookAScheduleRule;
 use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
+use App\Services\Application\Schedules\Validators\ScheduleDateValidator;
 use App\Services\Application\Schedules\Validators\ScheduleProductsValidator;
 use App\Services\Application\Schedules\Validators\ScheduleValidator;
 use App\Services\BaseService;
@@ -31,7 +32,6 @@ class ScheduleUpdateService extends BaseService
         return DB::transaction(function () use ($data) {
             /** @var Schedule $schedule */
             $schedule = Schedule::query()->find($data->schedule_id);
-            $this->updateProducts($data, $schedule);
             return $schedule->update($data->except('schedule_id', 'products')->toArray());
         });
     }
@@ -49,20 +49,7 @@ class ScheduleUpdateService extends BaseService
                 new AccountHasEntityRule(Schedule::class, $data->account_id),
             ],
             ...(new ScheduleValidator())->validations($data),
-            ...(new ScheduleProductsValidator())->validations($data),
+            ...(new ScheduleDateValidator())->validationsUpdate($data),
         ])->validate();
-    }
-
-    /**
-     * @param ScheduleUpdateData $data
-     * @param Schedule $schedule
-     * @return void
-     */
-    function updateProducts(ScheduleUpdateData $data, Schedule $schedule): void
-    {
-        $schedule->products()->delete();
-        if ($data->products) {
-            $schedule->products()->createMany($data->products);
-        }
     }
 }

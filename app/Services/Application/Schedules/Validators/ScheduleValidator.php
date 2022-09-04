@@ -47,15 +47,6 @@ class ScheduleValidator
                 'min:1',
                 new Enum(SchedulesStatusEnum::class)
             ],
-            "duration" => [
-                'required',
-                'min:1'
-            ],
-            "start_at" => [
-                'required',
-                'date_format:Y-m-d H:i:s',
-                new CanBookAScheduleRule($data->user_id, $data->duration)
-            ],
             "description" => [
                 'nullable',
                 'string',

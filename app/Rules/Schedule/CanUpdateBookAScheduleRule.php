@@ -7,7 +7,7 @@ use App\Models\Schedules\Schedule;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
-class CanUpdateAScheduleRule implements Rule
+class CanUpdateBookAScheduleRule implements Rule
 {
     public function __construct(
         private readonly int $scheduleId,

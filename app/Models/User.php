@@ -27,6 +27,7 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use BitwiseFlagsTrait;
+    use SoftDeletes;
 
     const FLAG_ACTIVE = 2 ** 0;
     const FLAG_EMAIL_VERIFIED = 2 ** 1;
