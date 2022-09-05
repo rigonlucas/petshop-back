@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Accounts\ChangeUserStatusController;
 use App\Http\Controllers\Accounts\UsersOfAccountController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -181,7 +182,13 @@ Route::prefix('v1')->group(function () {
         /**
          * Users
          */
-        Route::get('users', UsersOfAccountController::class)
-            ->name('account.index');
+        Route::prefix('users')->group(function () {
+            Route::get('', UsersOfAccountController::class)
+                ->name('account.index');
+            Route::prefix('{id}')->group(function () {
+                Route::delete('change-status', ChangeUserStatusController::class)
+                    ->name('account.change-status');
+            });
+        });
     });
 });
