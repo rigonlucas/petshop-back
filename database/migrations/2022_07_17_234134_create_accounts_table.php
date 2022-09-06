@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable()->default(null);
             $table->string('name', 500);
+            $table->unsignedSmallInteger('account_users')->default(1);
             $table->timestamp('expire_at')->useCurrent();
             $table->timestamps();
 
