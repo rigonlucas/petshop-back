@@ -30,24 +30,23 @@ class ChangeStatusUsersService extends BaseService
 
     private function validateRestore(mixed $user)
     {
-        $dateToRestore = Carbon::createFromDate($user->required_at)->addDays(config('dates.restore_user.allow_in'));
+        $dateToRestore = Carbon::createFromDate($user->deleted_at)->addDays(config('dates.restore_user.allow_in'));
         Validator::make(
             [
-                'deleted_at' => $user->deleted_at
+                'deleted_at' => $dateToRestore
             ],
             [
                 'deleted_at' => [
                     'required',
                     'date',
-                    'after:' . $dateToRestore
+                    'before_or_equal:' . Carbon::now()
                 ],
             ],
             [
-                'deleted_at.after' => 'Para ativar a conta ainda é necessário aguarda até '
+                'deleted_at.before_or_equal' => 'Para ativar a conta ainda é necessário aguarda até '
                     . $dateToRestore->format('d/m/Y')
                     . ', ou entre em contato com o suporte do sistema'
             ]
-        )
-            ->validate();
+        )->validate();
     }
 }
