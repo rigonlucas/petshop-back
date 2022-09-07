@@ -29,11 +29,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Model::preventLazyLoading(! $this->app->isProduction());
-
-        $this->app->when([ScheduleCanceledService::class, ScheduleFinishedService::class])
-            ->give([ScheduleRescheduleService::class]);
-
-        $this->app->when([ScheduleRescheduleService::class])
-            ->give([ScheduleStoreService::class]);
     }
 }
