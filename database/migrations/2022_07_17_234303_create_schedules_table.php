@@ -28,11 +28,26 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('pet_id')->references('id')->on('pets');
-            $table->foreign('client_id')->references('id')->on('clients');
-            $table->foreign('account_id')->references('id')->on('accounts');
-            $table->foreign('schedule_recurrence_id')->references('id')->on('schedule_recurrences');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->foreign('account_id')
+                ->references('id')
+                ->on('accounts')
+                ->onDelete('cascade');
+            $table->foreign('pet_id')
+                ->references('id')
+                ->on('pets')
+                ->onDelete('cascade');
+            $table->foreign('client_id')
+                ->references('id')
+                ->on('clients')
+                ->onDelete('cascade');
+            $table->foreign('schedule_recurrence_id')
+                ->references('id')
+                ->on('schedule_recurrences')
+                ->onDelete('cascade');
         });
     }
 

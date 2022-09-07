@@ -21,7 +21,10 @@ return new class extends Migration
             $table->string('phone', 100)->nullable()->default(null);
             $table->timestamps();
 
-            $table->foreign('account_id')->references('id')->on('accounts');
+            $table->foreign('account_id')
+                ->references('id')
+                ->on('accounts')
+                ->onDelete('cascade');
         });
     }
 

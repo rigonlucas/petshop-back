@@ -24,8 +24,13 @@ return new class extends Migration
             $table->unsignedFloat('discount')->default(0);
             $table->timestamps();
 
-            $table->foreign('schedule_id')->references('id')->on('schedules');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('schedule_id')
+                ->references('id')
+                ->on('schedules')
+                ->onDelete('cascade');
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products');
         });
     }
 

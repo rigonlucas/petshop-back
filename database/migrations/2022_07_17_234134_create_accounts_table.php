@@ -21,7 +21,10 @@ return new class extends Migration
             $table->timestamp('expire_at')->useCurrent();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

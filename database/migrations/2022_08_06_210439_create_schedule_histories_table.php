@@ -21,7 +21,10 @@ return new class extends Migration
             $table->tinyInteger('type');
             $table->timestamps();
 
-            $table->foreign('schedule_id')->references('id')->on('schedules');
+            $table->foreign('schedule_id')
+                ->references('id')
+                ->on('schedules')
+                ->onDelete('cascade');
         });
     }
 

@@ -22,9 +22,18 @@ return new class extends Migration
             $table->dateTime('birthday')->nullable();
             $table->timestamps();
 
-            $table->foreign('breed_id')->references('id')->on('breeds');
-            $table->foreign('client_id')->references('id')->on('clients');
-            $table->foreign('account_id')->references('id')->on('accounts');
+            $table->foreign('breed_id')
+                ->references('id')
+                ->on('breeds')
+            ;
+            $table->foreign('client_id')
+                ->references('id')
+                ->on('clients')
+                ->onDelete('cascade');
+            $table->foreign('account_id')
+                ->references('id')
+                ->on('accounts')
+                ->onDelete('cascade');
         });
     }
 
