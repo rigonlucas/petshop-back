@@ -11,11 +11,20 @@ class ScheduleStoreData extends ScheduleBaseData
     public ?array $recurrence = null;
     public ?array $products = null;
     public ?int $schedule_recurrence_id = null;
+
     /**
      * @throws UnknownProperties
      */
     public static function fromRequest(ScheduleStoreRequest $request): self
     {
         return new self($request->validated());
+    }
+
+    /**
+     * @throws UnknownProperties
+     */
+    public static function fromArray(array $array): self
+    {
+        return new self($array);
     }
 }

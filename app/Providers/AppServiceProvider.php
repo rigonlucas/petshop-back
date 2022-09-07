@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Services\Application\Schedules\ScheduleRescheduleService;
+use App\Services\Application\Schedules\ScheduleStoreService;
+use App\Services\Application\Schedules\Status\ScheduleCanceledService;
+use App\Services\Application\Schedules\Status\ScheduleFinishedService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,5 +29,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Model::preventLazyLoading(! $this->app->isProduction());
+
+        $this->app->when([ScheduleCanceledService::class, ScheduleFinishedService::class])
+            ->give([ScheduleRescheduleService::class]);
+
+        $this->app->when([ScheduleRescheduleService::class])
+            ->give([ScheduleStoreService::class]);
     }
 }

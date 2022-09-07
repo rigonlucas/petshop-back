@@ -21,7 +21,7 @@ class ScheduleArchivedService extends BaseService
 
         return Schedule::query()
             ->where('id', '=', $data->schedule_id)
-            ->update($data->except('schedule_id', 'account_id')->toArray());
+            ->update($data->except('schedule_id', 'account_id', 'reschedule_date')->toArray());
     }
 
     public function validate(ScheduleStatusData $data): void
