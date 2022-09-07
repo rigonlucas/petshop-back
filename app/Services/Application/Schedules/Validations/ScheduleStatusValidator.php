@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Services\Application\Schedules\Validators;
+namespace App\Services\Application\Schedules\Validations;
 
 use App\Enums\SchedulesStatusEnum;
 use App\Models\Schedules\Schedule;
 use App\Rules\AccountHasEntityRule;
 use App\Services\Application\Schedules\DTO\ScheduleStatusData;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Enum;
-use Illuminate\Validation\ValidationException;
 
 class ScheduleStatusValidator
 {
-    /**
-     * @throws ValidationException
-     */
-    protected function validateStatus(ScheduleStatusData $data): void
+    public function validateStatus(ScheduleStatusData $data): array
     {
-        Validator::make($data->toArray(), [
+        return [
             "schedule_id" => [
                 'required',
                 'int',
@@ -29,7 +24,7 @@ class ScheduleStatusValidator
                 'int',
                 'min:1',
                 new Enum(SchedulesStatusEnum::class)
-            ],
-        ])->validate();
+            ]
+        ];
     }
 }

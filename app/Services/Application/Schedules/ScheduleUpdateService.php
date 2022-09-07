@@ -2,23 +2,15 @@
 
 namespace App\Services\Application\Schedules;
 
-use App\Enums\SchedulesStatusEnum;
-use App\Enums\SchedulesTypesEnum;
-use App\Models\Clients\Client;
-use App\Models\Clients\Pet;
-use App\Models\Products\Product;
 use App\Models\Schedules\Schedule;
 use App\Models\User;
 use App\Rules\AccountHasEntityRule;
-use App\Rules\Schedule\CanUpdateBookAScheduleRule;
 use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
-use App\Services\Application\Schedules\Validators\ScheduleDateValidator;
-use App\Services\Application\Schedules\Validators\ScheduleProductsValidator;
-use App\Services\Application\Schedules\Validators\ScheduleValidator;
+use App\Services\Application\Schedules\Validations\ScheduleDateValidator;
+use App\Services\Application\Schedules\Validations\ScheduleValidator;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\ValidationException;
 
 class ScheduleUpdateService extends BaseService

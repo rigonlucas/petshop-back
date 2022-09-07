@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Application\Schedules\Validators;
+namespace App\Services\Application\Schedules\Validations;
 
 use App\Models\Products\Product;
 use App\Rules\AccountHasEntityRule;

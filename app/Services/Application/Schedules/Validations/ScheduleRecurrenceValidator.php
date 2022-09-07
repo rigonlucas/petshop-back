@@ -1,17 +1,9 @@
 <?php
 
-namespace App\Services\Application\Schedules\Validators;
+namespace App\Services\Application\Schedules\Validations;
 
-use App\Enums\SchedulesStatusEnum;
-use App\Enums\SchedulesTypesEnum;
-use App\Models\Clients\Client;
-use App\Models\Clients\Pet;
-use App\Models\Products\Product;
-use App\Models\User;
-use App\Rules\AccountHasEntityRule;
 use App\Rules\Schedule\CanBookAScheduleRule;
 use App\Services\Application\Schedules\DTO\Base\ScheduleBaseData;
-use Illuminate\Validation\Rules\Enum;
 
 class ScheduleRecurrenceValidator
 {

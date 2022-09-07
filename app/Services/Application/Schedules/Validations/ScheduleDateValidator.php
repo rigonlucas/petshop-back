@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Application\Schedules\Validators;
+namespace App\Services\Application\Schedules\Validations;
 
 use App\Rules\Schedule\CanBookAScheduleRule;
 use App\Rules\Schedule\CanUpdateBookAScheduleRule;
