@@ -37,6 +37,11 @@ use App\Http\Controllers\Schedules\ScheduleListController;
 use App\Http\Controllers\Schedules\ScheduleShowController;
 use App\Http\Controllers\Schedules\ScheduleStoreController;
 use App\Http\Controllers\Schedules\ScheduleUpdateController;
+use App\Http\Controllers\Schedules\Status\SchedulesArchivedController;
+use App\Http\Controllers\Schedules\Status\SchedulesCanceledController;
+use App\Http\Controllers\Schedules\Status\SchedulesExecutingController;
+use App\Http\Controllers\Schedules\Status\SchedulesFinishedController;
+use App\Http\Controllers\Schedules\Status\SchedulesOpenController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -89,6 +94,18 @@ Route::prefix('v1')->group(function () {
                     ->name('schedule.update');
                 Route::delete('/', ScheduleDeleteController::class)
                     ->name('schedule.delete');
+                Route::prefix('status')->group(function () {
+                    Route::patch('open', SchedulesOpenController::class)
+                        ->name('schedule.status.open');
+                    Route::patch('executing', SchedulesExecutingController::class)
+                        ->name('schedule.status.executing');
+                    Route::patch('archived', SchedulesArchivedController::class)
+                        ->name('schedule.status.archived');
+                    Route::patch('canceled', SchedulesCanceledController::class)
+                        ->name('schedule.status.canceled');
+                    Route::patch('finished', SchedulesFinishedController::class)
+                        ->name('schedule.status.finished');
+                });
                 Route::prefix('history')->group(function () {
                     Route::prefix('/{scheduleId}')->group(function () {
                         Route::delete('/', ScheduleHistoryDeleteController::class)
