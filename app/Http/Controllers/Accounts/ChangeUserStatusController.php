@@ -14,9 +14,7 @@ class ChangeUserStatusController extends Controller
     public function __invoke(Request $request, int $id, ChangeStatusUsersService $service): \Illuminate\Http\Response
     {
         $userToChange = $service->findUser($id);
-        if (!Gate::allows('delete', $userToChange)) {
-            return abort(404);
-        }
+        Gate::authorize('view', $userToChange);
         $service->change($userToChange);
         return response()->noContent();
     }

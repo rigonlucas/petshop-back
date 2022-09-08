@@ -15,11 +15,9 @@ class LoginService
      */
     public function login (string $email, string $password)
     {
-        $user = User::query()->select([
-            'id', 'name', 'email', 'password', 'account_id', 'email_verified_at'
-        ])
-            ->whereEmail($email)
-            ->with('account:id,name')
+        $user = User::query()
+            ->where('email', '=', $email)
+            ->with('account')
             ->first();
         if(!$user || !Hash::check($password, $user->password)){
             throw new CredendialsWrongException();
