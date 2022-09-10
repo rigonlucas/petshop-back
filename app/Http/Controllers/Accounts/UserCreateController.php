@@ -14,7 +14,7 @@ class UserCreateController extends Controller
 {
     public function __invoke(UserCreateRequest $request, UserCreateService $service): JsonResponse
     {
-        Gate::authorize('create', $request->user());
+        Gate::authorize('userAdmin', $request->user());
         $data = UserCreateData::fromRequest($request);
         $accountUser = $service->create($data, $request->user());
         return response()->json(['data' => UserResource::make($accountUser)], 201);

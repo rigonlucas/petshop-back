@@ -13,9 +13,14 @@ use Illuminate\Support\Facades\Gate;
 
 class UsersOfAccountController extends Controller
 {
+    /**
+     * @param Request $request
+     * @param AccountUsersListService $service
+     * @return AnonymousResourceCollection
+     */
     public function __invoke(Request $request, AccountUsersListService $service): AnonymousResourceCollection
     {
-        Gate::authorize('view', $request->user());
+        Gate::authorize('userAdmin', $request->user());
         $data = AccountUserListData::fromRequest($request);
         $accountUsers = $service->list($data, $request->user()->account_id);
         return UserResource::collection($accountUsers);

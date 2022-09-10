@@ -6,13 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Client\ClientStoreRequest;
 use App\Services\Application\Clients\ClientStoreService;
 use App\Services\Application\Clients\DTO\ClientStoreData;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ClientStoreController extends Controller
 {
+    /**
+     * @param ClientStoreRequest $request
+     * @param ClientStoreService $service
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
     public function __invoke(ClientStoreRequest $request, ClientStoreService $service)
     {
+        $this->authorize('client_create');
         $data = ClientStoreData::fromRequest($request);
         $data->account_id = $request->user()->account_id;
 

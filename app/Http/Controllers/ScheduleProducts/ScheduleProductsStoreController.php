@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\ScheduleProducts\ScheduleProductsStoreRequest;
 use App\Services\Application\ScheduleProducts\DTO\ScheduleProductsStoreData;
 use App\Services\Application\ScheduleProducts\ScheduleProductsStoreService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -13,7 +14,12 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 class ScheduleProductsStoreController extends Controller
 {
     /**
+     * @param ScheduleProductsStoreRequest $request
+     * @param int $id
+     * @param ScheduleProductsStoreService $service
+     * @return JsonResponse
      * @throws UnknownProperties
+     * @throws AuthorizationException
      */
     public function __invoke(
         ScheduleProductsStoreRequest $request,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Schedules;
 use App\Http\Controllers\Controller;
 use App\Services\Application\Schedules\DTO\ScheduleDeleteData;
 use App\Services\Application\Schedules\ScheduleDeleteService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -15,6 +16,7 @@ class ScheduleDeleteController extends Controller
      * @param int $id
      * @param ScheduleDeleteService $service
      * @return Response
+     * @throws AuthorizationException
      */
     public function __invoke(Request $request, int $id, ScheduleDeleteService $service): Response
     {

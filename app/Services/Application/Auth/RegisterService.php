@@ -22,7 +22,9 @@ class RegisterService extends BaseService
         $this->createAccount($data);
         $data->password = Hash::make($data->password);
         $data->email_verificarion_hash = sha1($data->email);
+        /** @var User $user */
         $user = User::query()->create($data->toArray());
+        $user->assignRole('User Admin');
         Notification::route('mail' , $user->email)->notify(new UserRegisterNotify($user));
         return $user;
     }

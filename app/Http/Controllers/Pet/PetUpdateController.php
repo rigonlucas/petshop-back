@@ -6,14 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Pet\PetUpdateRequest;
 use App\Services\Application\Pets\DTO\PetUpdateData;
 use App\Services\Application\Pets\PetUpdateService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class PetUpdateController extends Controller
 {
+    /**
+     * @param PetUpdateRequest $request
+     * @param int $id
+     * @param PetUpdateService $service
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
     public function __invoke(PetUpdateRequest $request, int $id, PetUpdateService $service): JsonResponse
     {
+        $this->authorize('client_edit');
         $data = PetUpdateData::fromRequest($request);
         $data->id = $id;
         $data->account_id = $request->user()->account_id;

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Schedules\SchedulesResource;
 use App\Services\Application\Schedules\DTO\ScheduleShowData;
 use App\Services\Application\Schedules\ScheduleShowService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,6 +20,7 @@ class ScheduleShowController extends Controller
      * @param ScheduleShowService $service
      * @param int $id
      * @return JsonResource
+     * @throws AuthorizationException
      */
     public function __invoke(Request $request, ScheduleShowService $service, int $id): JsonResource
     {

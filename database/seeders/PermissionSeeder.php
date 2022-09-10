@@ -45,6 +45,7 @@ class PermissionSeeder extends Seeder
             'product_edit',
             'product_show',
             'product_delete',
+            'product_restore',
             'product_access',
             'client_create',
             'client_edit',

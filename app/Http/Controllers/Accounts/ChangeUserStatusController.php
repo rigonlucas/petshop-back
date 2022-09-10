@@ -13,8 +13,8 @@ class ChangeUserStatusController extends Controller
 {
     public function __invoke(Request $request, int $id, ChangeStatusUsersService $service): \Illuminate\Http\Response
     {
+        Gate::authorize('userAdmin', $request->user());
         $userToChange = $service->findUser($id);
-        Gate::authorize('delete', $userToChange);
         $service->change($userToChange);
         return response()->noContent();
     }

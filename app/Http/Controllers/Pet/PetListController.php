@@ -6,13 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Pet\PetResource;
 use App\Services\Application\Pets\DTO\PetListData;
 use App\Services\Application\Pets\PetListService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PetListController extends Controller
 {
+    /**
+     * @param Request $request
+     * @param PetListService $service
+     * @return AnonymousResourceCollection
+     * @throws AuthorizationException
+     */
     public function __invoke(Request $request, PetListService $service): AnonymousResourceCollection
     {
+        $this->authorize('client_access');
         $data = PetListData::fromRequest($request);
 
         $schedules = $service->list($data);

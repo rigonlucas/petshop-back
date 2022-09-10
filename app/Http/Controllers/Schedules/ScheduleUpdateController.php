@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Schedule\ScheduleUpdateRequest;
 use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
 use App\Services\Application\Schedules\ScheduleUpdateService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -16,6 +17,7 @@ class ScheduleUpdateController extends Controller
      * @param int $id
      * @param ScheduleUpdateService $service
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function __invoke(ScheduleUpdateRequest $request, int $id, ScheduleUpdateService $service): JsonResponse
     {
