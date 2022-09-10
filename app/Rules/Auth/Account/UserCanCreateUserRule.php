@@ -2,6 +2,7 @@
 
 namespace App\Rules\Auth\Account;
 
+use App\Models\User;
 use App\Models\Users\Account;
 use Illuminate\Contracts\Validation\Rule;
 
@@ -26,10 +27,12 @@ class UserCanCreateUserRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return Account::query()
-            ->where('id', '=', $this->accountId)
-            ->where('user_id', '=', $value)
-            ->exists();
+        /** @var User $user */
+        $user = User::query()
+            ->where('account_id', '=', $this->accountId)
+            ->where('id', '=', $value)
+            ->firstOrFail();
+         return $user->hasRole('User Admin') || $user->hasPermissionTo('user_management_access');
     }
 
     /**
@@ -39,6 +42,6 @@ class UserCanCreateUserRule implements Rule
      */
     public function message()
     {
-        return 'Apenas o dono da conta pode criar novos usuários';
+        return 'Apenas administradores podem criar novas contas';
     }
 }

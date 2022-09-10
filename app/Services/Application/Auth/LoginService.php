@@ -17,7 +17,7 @@ class LoginService
     {
         $user = User::query()
             ->where('email', '=', $email)
-            ->with('account')
+            ->with(['account', 'roles', 'permissions'])
             ->first();
         if(!$user || !Hash::check($password, $user->password)){
             throw new CredendialsWrongException();

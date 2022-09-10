@@ -16,6 +16,15 @@ class UserPolicy
      */
     public function userAdmin(User $user)
     {
+        return $user->hasRole('User Admin')
+            || $user->hasPermissionTo('user_management_access');
+    }
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function delete(User $user)
+    {
         return $user->hasRole('User Admin');
     }
 }

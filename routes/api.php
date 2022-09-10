@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Accounts\ChangeUserStatusController;
 use App\Http\Controllers\Accounts\UserCreateController;
+use App\Http\Controllers\Accounts\UserPermissionsController;
 use App\Http\Controllers\Accounts\UsersOfAccountController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Clients\ClientListController;
 use App\Http\Controllers\Clients\ClientShowController;
 use App\Http\Controllers\Clients\ClientStoreController;
 use App\Http\Controllers\Clients\ClientUpdateController;
+use App\Http\Controllers\Permissions\PermissionsShowController;
 use App\Http\Controllers\Pet\PetDeleteController;
 use App\Http\Controllers\Pet\PetListController;
 use App\Http\Controllers\Pet\PetShowController;
@@ -208,7 +210,19 @@ Route::prefix('v1')->group(function () {
             Route::prefix('{id}')->group(function () {
                 Route::delete('change-status', ChangeUserStatusController::class)
                     ->name('account.change-status');
+                Route::prefix('permissions')->group(function () {
+                    Route::put('', UserPermissionsController::class)
+                        ->name('account.permission.sync');
+                });
             });
+        });
+
+        /**
+         * Permissions
+         */
+        Route::prefix('permissions')->group(function () {
+            Route::get('', PermissionsShowController::class)
+                ->name('permissions.index');
         });
     });
 });
