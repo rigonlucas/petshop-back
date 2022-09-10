@@ -20,7 +20,8 @@ class PetListController extends Controller
      */
     public function __invoke(Request $request, PetListService $service): AnonymousResourceCollection
     {
-        $this->authorize('client_access');
+        $abort = $request->user()->hasAnyPermission(['client_access', 'schedule_create', 'schedule_update']);
+        abort_if(!$abort, 403);
         $data = PetListData::fromRequest($request);
 
         $schedules = $service->list($data);
