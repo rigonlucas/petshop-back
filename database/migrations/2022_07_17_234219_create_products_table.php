@@ -18,11 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id');
             $table->string('name', 500);
             $table->string('description', 500)->nullable();
-            $table->date('validate')->nullable()->default(null);
             $table->tinyInteger('type');
             $table->float('cost');
             $table->float('price');
-            $table->tinyInteger('measurement_unit');
             $table->timestamps();
             $table->softDeletes();
 

@@ -12,6 +12,7 @@ class ScheduleHistoryDeleteController extends Controller
 {
     public function __invoke(Request $request, int $id, int $ScheduleHistoryId, ScheduleHistoryDeleteService $service): Response
     {
+        $this->authorize('schedule_delete');
         $data = new ScheduleHistoryDeleteData();
         $data->schedule_history_id = $ScheduleHistoryId;
         $data->schedule_id = $id;//scheduleId

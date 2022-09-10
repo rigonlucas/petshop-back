@@ -20,6 +20,7 @@ class ScheduleStoreController extends Controller
      */
     public function __invoke(ScheduleStoreRequest $request, ScheduleStoreService $service): JsonResponse
     {
+        $this->authorize('schedule_create');
         $data = ScheduleStoreData::fromRequest($request);
         $result = $service->store($data, $request->user());
         return response()->json(['data' => $result], ResponseAlias::HTTP_CREATED);

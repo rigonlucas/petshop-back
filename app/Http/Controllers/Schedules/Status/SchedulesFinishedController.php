@@ -13,6 +13,7 @@ class SchedulesFinishedController extends Controller
 {
     public function __invoke(ScheduleFinishedRequest $request, int $id, ScheduleFinishedService $service): JsonResponse
     {
+        $this->authorize('schedule_edit');
         $data = ScheduleStatusData::fromRequest($request);
         $data->schedule_id = $id;
         return response()->json(

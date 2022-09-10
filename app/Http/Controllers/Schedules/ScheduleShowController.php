@@ -22,6 +22,7 @@ class ScheduleShowController extends Controller
      */
     public function __invoke(Request $request, ScheduleShowService $service, int $id): JsonResource
     {
+        $this->authorize('schedule_show');
         $data = ScheduleShowData::fromRequest($request);
         $schedule = $service->show($data, $id, $request->user()->account_id);
         return SchedulesResource::make($schedule);

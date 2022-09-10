@@ -19,6 +19,7 @@ class ScheduleProductsDeleteController extends Controller
         int $scheduleProductId,
         ScheduleProductDeleteService $service
     ) {
+        $this->authorize('schedule_edit');
         $data = new ScheduleProductDeleteData();
         $data->schedule_id = $id;
         $data->schedule_product_id = $scheduleProductId;

@@ -14,6 +14,7 @@ class SchedulesOpenController extends Controller
 {
     public function __invoke(Request $request, int $id, ScheduleOpenService $service): JsonResponse
     {
+        $this->authorize('schedule_edit');
         $data = new ScheduleStatusData();
         $data->schedule_id = $id;
         return response()->json(

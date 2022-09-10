@@ -14,6 +14,7 @@ class SchedulesArchivedController extends Controller
 {
     public function __invoke(Request $request, int $id, ScheduleArchivedService $service)
     {
+        $this->authorize('schedule_edit');
         $data = new ScheduleStatusData();
         $data->schedule_id = $id;
         return response()->json(

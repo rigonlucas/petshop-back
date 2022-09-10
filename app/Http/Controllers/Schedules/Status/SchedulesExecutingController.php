@@ -13,6 +13,7 @@ class SchedulesExecutingController extends Controller
 {
     public function __invoke(Request $request, int $id, ScheduleExecutingService $service)
     {
+        $this->authorize('schedule_edit');
         $data = new ScheduleStatusData();
         $data->schedule_id = $id;
         return response()->json(

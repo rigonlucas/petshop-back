@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name', 500);
             $table->string('email', 255)->nullable()->default(null);
             $table->string('phone', 100)->nullable()->default(null);
+            $table->unsignedInteger('flags')->default(0);
             $table->timestamps();
 
             $table->foreign('account_id')

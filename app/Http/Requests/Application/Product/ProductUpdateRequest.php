@@ -22,7 +22,6 @@ class ProductUpdateRequest extends FormRequest
             'description' => ['nullable', 'string', 'min:3', 'max:500'],
             'type' => ['required', 'int', 'min:1', new Enum(ProductsEnum::class) ],
             'cost' => ['required', 'numeric', 'gt:0', 'min:0'],
-            'measurement_unit' => ['required', 'int', 'min:1', new Enum(ProductsUnitEnum::class)],
             'price' => ['required', 'numeric', 'gt:0', 'min:0'],
             'validate' => ['nullable', 'date_format:Y-m-d']
         ];

@@ -19,6 +19,7 @@ class ScheduleUpdateController extends Controller
      */
     public function __invoke(ScheduleUpdateRequest $request, int $id, ScheduleUpdateService $service): JsonResponse
     {
+        $this->authorize('schedule_edit');
         $data = ScheduleUpdateData::fromRequest($request);
         $data->schedule_id = $id;
         $result = $service->update(

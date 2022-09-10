@@ -26,7 +26,6 @@ class Product extends BaseModel
         'price',
         'account_id',
         'validate',
-        'measurement_unit'
     ];
 
     public function account(): BelongsTo

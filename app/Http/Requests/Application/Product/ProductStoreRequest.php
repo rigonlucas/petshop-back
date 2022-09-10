@@ -22,7 +22,6 @@ class ProductStoreRequest extends FormRequest
             'type' => ['required', 'int', 'min:1', new Enum(ProductsEnum::class) ],
             'cost' => ['required', 'numeric', 'gt:0', 'min:0'],
             'price' => ['required', 'numeric', 'gt:0', 'min:0'],
-            'measurement_unit' => ['required', 'int', 'min:1', new Enum(ProductsUnitEnum::class)],
             'validate' => ['nullable', 'date_format:Y-m-d']
         ];
     }

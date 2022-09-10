@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('email_verificarion_hash')->nullable();
             $table->string('password');
+            $table->unsignedInteger('flags')->default(0);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -4,11 +4,12 @@ namespace Database\Factories\Products;
 
 use App\Enums\ProductsEnum;
 use App\Enums\ProductsUnitEnum;
+use App\Models\Product\Product;
 use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product\Product>
+ * @extends Factory<Product>
  */
 class ProductFactory extends Factory
 {
@@ -27,8 +28,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->text(),
             'type' => ProductsEnum::random(),
             'cost' => $costPrice,
-            'measurement_unit' => ProductsUnitEnum::random(),
-            'price' => $costPrice + ($costPrice * (random_int(20, 50)/100)),
+            'price' => $costPrice + ($costPrice * (random_int(20, 50) / 100)),
         ];
     }
 }

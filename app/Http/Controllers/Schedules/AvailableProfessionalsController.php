@@ -15,6 +15,7 @@ class AvailableProfessionalsController extends Controller
         Request $request,
         ScheduleAvailableProfessionalsService $service): AnonymousResourceCollection
     {
+        $this->authorize('schedule_access');
         $data = ScheduleAvailableProfessionalsData::fromRequest($request);
 
         $schedules = $service->list($data, $request->user()->account_id);

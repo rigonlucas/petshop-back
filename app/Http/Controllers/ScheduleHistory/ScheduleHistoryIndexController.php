@@ -13,6 +13,7 @@ class ScheduleHistoryIndexController extends Controller
 {
     public function __invoke(Request $request, int $scheduleId, ScheduleHistoryListService $service): AnonymousResourceCollection
     {
+        $this->authorize('schedule_access');
         $data = ScheduleHistoryListData::fromRequest($request);
         $data->schedule_id = $scheduleId;
         if (!$request->has('order_direction')) {

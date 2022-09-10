@@ -13,6 +13,7 @@ class ScheduleHistoryStoreController extends Controller
 {
     public function __invoke(ScheduleHistoryStoreRequest $request, int $id, ScheduleHistoryStoreService $service): JsonResponse
     {
+        $this->authorize('schedule_create');
         $data = ScheduleHistoryStoreData::fromRequest($request);
         $data->schedule_id = $id;
         $data->account_id = $request->user()->account_id;

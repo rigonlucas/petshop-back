@@ -13,6 +13,7 @@ class SchedulesCanceledController extends Controller
 {
     public function __invoke(ScheduleCanceledRequest $request, int $id, ScheduleCanceledService $service): JsonResponse
     {
+        $this->authorize('schedule_edit');
         $data = ScheduleStatusData::fromRequest($request);
         $data->schedule_id = $id;
         return response()->json(

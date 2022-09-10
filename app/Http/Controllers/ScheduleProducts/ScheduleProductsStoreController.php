@@ -21,6 +21,7 @@ class ScheduleProductsStoreController extends Controller
         ScheduleProductsStoreService $service
     ): JsonResponse
     {
+        $this->authorize('schedule_create');
         $data = ScheduleProductsStoreData::fromRequest($request);
         $data->schedule_id = $id;
         $result = $service->store($data, $request->user());

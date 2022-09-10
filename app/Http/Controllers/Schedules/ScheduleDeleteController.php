@@ -18,6 +18,7 @@ class ScheduleDeleteController extends Controller
      */
     public function __invoke(Request $request, int $id, ScheduleDeleteService $service): Response
     {
+        $this->authorize('schedule_delete');
         $data = ScheduleDeleteData::fromRequest($request);
         $data->schedule_id = $id;
 
