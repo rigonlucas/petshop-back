@@ -16,7 +16,7 @@ class ScheduleOpenService extends BaseService
     public function update(ScheduleStatusData $data, User $user): int
     {
         $data->account_id = $user->account_id;
-        $data->status = SchedulesStatusEnum::OPEN->value;
+        $data->status = SchedulesStatusEnum::SCHEDULED->value;
         $this->validate($data);
 
         return Schedule::query()

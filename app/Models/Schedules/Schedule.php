@@ -55,16 +55,6 @@ class Schedule extends BaseModel
         'start_at' => 'datetime:Y-m-d'
     ];
 
-    /**
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopeOpenSchedule(Builder $query): Builder
-    {
-        return $query->where('status', '=', SchedulesStatusEnum::OPEN);
-    }
-
-
     public function client (): BelongsTo
     {
         return $this->belongsTo(Client::class);

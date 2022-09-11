@@ -41,7 +41,7 @@ class CreateRecurrenceService extends BaseService
             $scheduleData = new ScheduleData();
             $scheduleData->start_at = $recurrency->start_at;
             $scheduleData->duration = $recurrency->duration;
-            $scheduleData->status = SchedulesStatusEnum::OPEN->value;
+            $scheduleData->status = SchedulesStatusEnum::SCHEDULED->value;
             $scheduleData->type = $schedule->type;
             $scheduleData->client_id = $schedule->client_id;
             $scheduleData->pet_id = $schedule->pet_id;

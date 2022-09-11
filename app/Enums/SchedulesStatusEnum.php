@@ -4,11 +4,12 @@ namespace App\Enums;
 
 enum SchedulesStatusEnum: int
 {
-    case OPEN = 1;
-    case EXECUTING = 2;
-    case ARCHIVED = 3;
-    case CANCELED = 4;
+    case SCHEDULED = 1;
+    case AWAITING = 2;
+    case EXECUTING = 3;
+    case ANIMAL_DONE = 4;
     case FINISHED = 5;
+    case CANCELED = 6;
 
     /**
      * @throws \Exception

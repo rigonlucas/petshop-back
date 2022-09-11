@@ -26,7 +26,7 @@ class ScheduleListService extends BaseService
     public function list(ScheduleListData $data, int $accountId): Paginator
     {
         $query = Schedule::byAccount($accountId)
-            ->where('status', '=', SchedulesStatusEnum::OPEN);
+            ->where('status', '=', SchedulesStatusEnum::SCHEDULED);
         $query->orderBy('start_at');
 
         $filters = [

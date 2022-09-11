@@ -25,7 +25,7 @@ class ScheduleAvailableProfessionalsService extends BaseService
         $professionalsAvailable = User::byAccount($accountId)
             ->whereDoesntHave('schedules', function (Builder $builder) use ($startAt, $finishAt) {
                 BuilderHelper::overlap($builder, 'start_at', 'finish_at', $startAt, $finishAt)
-                    ->where('status', '=', SchedulesStatusEnum::OPEN);
+                    ->where('status', '=', SchedulesStatusEnum::SCHEDULED);
             });
 
         return $professionalsAvailable->simplePaginate($data->per_page);
