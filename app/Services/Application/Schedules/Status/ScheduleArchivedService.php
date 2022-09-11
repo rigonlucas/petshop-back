@@ -5,7 +5,7 @@ namespace App\Services\Application\Schedules\Status;
 use App\Enums\SchedulesStatusEnum;
 use App\Models\Schedules\Schedule;
 use App\Models\User;
-use App\Services\Application\Schedules\DTO\ScheduleStatusData;
+use App\Services\Application\Schedules\Schedule\DTO\ScheduleStatusData;
 use App\Services\Application\Schedules\Validations\ScheduleStatusValidator;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Validator;

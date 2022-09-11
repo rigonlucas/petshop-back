@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Schedules\Status;
 
-use App\Enums\SchedulesStatusEnum;
 use App\Http\Controllers\Controller;
-use App\Services\Application\Schedules\DTO\ScheduleStatusData;
+use App\Services\Application\Schedules\Schedule\DTO\ScheduleStatusData;
 use App\Services\Application\Schedules\Status\ScheduleOpenService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;

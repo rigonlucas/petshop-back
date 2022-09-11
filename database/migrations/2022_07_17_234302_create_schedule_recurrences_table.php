@@ -15,8 +15,14 @@ return new class extends Migration
     {
         Schema::create('schedule_recurrences', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('account_id');
             $table->tinyInteger('type')->nullable()->default(null);
             $table->timestamps();
+
+            $table->foreign('account_id')
+                ->references('id')
+                ->on('accounts')
+                ->onDelete('cascade');
         });
     }
 

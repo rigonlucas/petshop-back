@@ -5,16 +5,15 @@ namespace App\Services\Application\Schedules\Status;
 use App\Enums\SchedulesStatusEnum;
 use App\Models\Schedules\Schedule;
 use App\Models\User;
-use App\Services\Application\Schedules\DTO\ScheduleStatusData;
 use App\Services\Application\Schedules\DTO\ScheduleStoreData;
-use App\Services\Application\Schedules\ScheduleRescheduleService;
+use App\Services\Application\Schedules\Schedule\DTO\ScheduleStatusData;
+use App\Services\Application\Schedules\Schedule\ScheduleRescheduleService;
 use App\Services\Application\Schedules\Validations\ScheduleStatusValidator;
 use App\Services\BaseService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class ScheduleFinishedService extends BaseService
 {

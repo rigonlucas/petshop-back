@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Schedules\Status;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Schedule\Status\ScheduleOpenRequest;
-use App\Services\Application\Schedules\DTO\ScheduleStatusData;
+use App\Services\Application\Schedules\Schedule\DTO\ScheduleStatusData;
 use App\Services\Application\Schedules\Status\ScheduleArchivedService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;

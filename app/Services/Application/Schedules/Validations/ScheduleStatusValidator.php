@@ -5,7 +5,7 @@ namespace App\Services\Application\Schedules\Validations;
 use App\Enums\SchedulesStatusEnum;
 use App\Models\Schedules\Schedule;
 use App\Rules\AccountHasEntityRule;
-use App\Services\Application\Schedules\DTO\ScheduleStatusData;
+use App\Services\Application\Schedules\Schedule\DTO\ScheduleStatusData;
 use Illuminate\Validation\Rules\Enum;
 
 class ScheduleStatusValidator

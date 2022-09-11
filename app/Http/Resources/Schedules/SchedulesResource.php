@@ -4,7 +4,6 @@ namespace App\Http\Resources\Schedules;
 
 use App\Http\Resources\Client\ClientResource;
 use App\Http\Resources\Pet\PetResource;
-use App\Http\Resources\ScheduleHistory\ScheduleHasProductsResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
