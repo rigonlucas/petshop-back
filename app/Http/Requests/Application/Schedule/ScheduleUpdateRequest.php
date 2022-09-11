@@ -17,14 +17,14 @@ class ScheduleUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            "client_id" => ['required', 'int', 'min:1'],
-            "pet_id" => ['required', 'int', 'min:1'],
-            "type" => ['required', 'int', 'min:1', new Enum(SchedulesTypesEnum::class)],
-            "status" => ['required', 'int', 'min:1', new Enum(SchedulesStatusEnum::class)],
-            "user_id" => ['nullable', 'int', 'min:1'],
-            "start_at" => ['required', 'date_format:Y-m-d H:i:s'],
-            "duration" => ['required', 'min:1'],
-            "description" => ['nullable', 'string', 'min:1', 'max:500'],
+            "client_id" => ['sometimes', 'required', 'int', 'min:1'],
+            "pet_id" => ['sometimes', 'required', 'int', 'min:1'],
+            "type" => ['sometimes', 'required', 'int', 'min:1', new Enum(SchedulesTypesEnum::class)],
+            "status" => ['sometimes', 'required', 'int', 'min:1', new Enum(SchedulesStatusEnum::class)],
+            "user_id" => ['sometimes', 'nullable', 'int', 'min:1'],
+            "start_at" => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
+            "duration" => ['sometimes', 'required', 'min:1'],
+            "description" => ['sometimes', 'nullable', 'string', 'min:1', 'max:500'],
         ];
     }
 }

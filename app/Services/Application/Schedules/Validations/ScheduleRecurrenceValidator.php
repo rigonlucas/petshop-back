@@ -3,11 +3,11 @@
 namespace App\Services\Application\Schedules\Validations;
 
 use App\Rules\Schedule\CanBookAScheduleRule;
-use App\Services\Application\Schedules\DTO\Base\ScheduleBaseData;
+use App\Services\Application\Schedules\DTO\Base\ScheduleData;
 
 class ScheduleRecurrenceValidator
 {
-    public function validations(ScheduleBaseData $data): array
+    public function validations(ScheduleData $data): array
     {
         $recurrence = [
             "recurrence" => [

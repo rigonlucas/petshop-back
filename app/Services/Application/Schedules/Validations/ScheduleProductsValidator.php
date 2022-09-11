@@ -5,17 +5,11 @@ namespace App\Services\Application\Schedules\Validations;
 use App\Models\Products\Product;
 use App\Rules\AccountHasEntityRule;
 use App\Services\Application\ScheduleProducts\DTO\ScheduleProductsStoreData;
-use App\Services\Application\Schedules\DTO\Base\ScheduleBaseData;
+use App\Services\Application\Schedules\DTO\Base\ScheduleData;
 
 class ScheduleProductsValidator
 {
-    /**
-     * @param ScheduleBaseData|ScheduleProductsStoreData $data
-     * @return array
-     */
-    public function validations(
-        ScheduleBaseData|ScheduleProductsStoreData $data,
-    ): array
+    public function validations(int $account_id): array
     {
         return [
             "products" => [
@@ -25,7 +19,7 @@ class ScheduleProductsValidator
             "products.*.product_id" => [
                 'required',
                 'integer',
-                new AccountHasEntityRule(Product::class, $data->account_id),
+                new AccountHasEntityRule(Product::class, $account_id),
             ],
             "products.*.quantity" => [
                 'required',

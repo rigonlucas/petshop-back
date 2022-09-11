@@ -5,43 +5,40 @@ namespace App\Services\Application\Schedules;
 use App\Models\Schedules\Schedule;
 use App\Models\User;
 use App\Rules\AccountHasEntityRule;
+use App\Services\Application\Schedules\DTO\Base\ScheduleData;
 use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
 use App\Services\Application\Schedules\Validations\ScheduleDateValidator;
 use App\Services\Application\Schedules\Validations\ScheduleValidator;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class ScheduleUpdateService extends BaseService
 {
-
-    public function update(ScheduleUpdateData $data, User $user): int
+    /**
+     * @throws ValidationException
+     */
+    public function update(int $id, ScheduleData $data, User $user): Schedule
     {
-        $data->account_id = $user->account_id;
-        $this->validate($data);
+        $this->validate($id, $user->account_id, $data);
 
-        return DB::transaction(function () use ($data) {
-            /** @var Schedule $schedule */
-            $schedule = Schedule::query()->find($data->schedule_id);
-            return $schedule->update($data->except('schedule_id', 'products')->toArray());
-        });
+        /** @var Schedule $schedule */
+        $schedule = Schedule::query()
+            ->where('account_id', '=', $user->account_id)
+            ->find($id);
+
+        $schedule->update($data->except('products')->toArray());
+        return $schedule;
     }
 
     /**
      * @throws ValidationException
      */
-    private function validate(ScheduleUpdateData $data): void
+    private function validate(int $id, int $account_id, ScheduleData $data): void
     {
         Validator::make($data->toArray(), [
-            "schedule_id" => [
-                'required',
-                'int',
-                'min:1',
-                new AccountHasEntityRule(Schedule::class, $data->account_id),
-            ],
-            ...(new ScheduleValidator())->validations($data),
-            ...(new ScheduleDateValidator())->validationsUpdate($data),
+            ...(new ScheduleValidator())->validations($account_id),
+            ...(new ScheduleDateValidator())->validationsUpdate($id, $data),
         ])->validate();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Services\Application\Schedules;
 use App\Models\ScheduleRecurrence;
 use App\Models\Schedules\Schedule;
 use App\Models\User;
+use App\Services\Application\Schedules\DTO\Base\ScheduleData;
 use App\Services\Application\Schedules\DTO\ScheduleStoreData;
 use App\Services\Application\Schedules\Validations\ScheduleDateValidator;
 use App\Services\Application\Schedules\Validations\ScheduleProductsValidator;
@@ -19,13 +20,10 @@ use Illuminate\Validation\ValidationException;
 
 class ScheduleStoreService extends BaseService
 {
-
-    public function store(ScheduleStoreData $data, User $user): Builder|Model
+    public function store(ScheduleData $data, User $user): Builder|Model
     {
-        $data->account_id = $user->account_id;
-        $this->validate($data);
-        return DB::transaction(function () use ($data) {
-
+        $this->validate($user->account_id, $data);
+        return DB::transaction(function () use ($data, $user) {
             if ($data->recurrence) {
                 $recurrence = ScheduleRecurrence::query()->create([
                     'type' => 1
@@ -34,7 +32,10 @@ class ScheduleStoreService extends BaseService
             }
 
             /** @var Schedule $schedule */
-            $schedule = Schedule::query()->create($data->toArray());
+            $schedule = new Schedule($data->toArray());
+            $schedule->account_id = $user->account_id;
+            $schedule->save();
+
             $this->addProducts($data, $schedule);
             $this->addRecurrence($data, $schedule);
 
@@ -45,22 +46,17 @@ class ScheduleStoreService extends BaseService
     /**
      * @throws ValidationException
      */
-    private function validate(ScheduleStoreData $data): void
+    private function validate(int $account_id, ScheduleData $data): void
     {
         Validator::make($data->toArray(), [
-            ...(new ScheduleValidator())->validations($data),
+            ...(new ScheduleValidator())->validations($account_id),
             ...(new ScheduleDateValidator())->validationsStore($data),
-            ...(new ScheduleProductsValidator())->validations($data),
+            ...(new ScheduleProductsValidator())->validations($account_id),
             ...(new ScheduleRecurrenceValidator())->validations($data),
         ])->validate();
     }
 
-    /**
-     * @param ScheduleStoreData $data
-     * @param Schedule $schedule
-     * @return void
-     */
-    private function addProducts(ScheduleStoreData $data, Schedule $schedule): void
+    private function addProducts(ScheduleData $data, Schedule $schedule): void
     {
         if ($data->products) {
             $schedule->products()->createMany(
@@ -83,12 +79,7 @@ class ScheduleStoreService extends BaseService
         }
     }
 
-    /**
-     * @param ScheduleStoreData $data
-     * @param Schedule $schedule
-     * @return void
-     */
-    private function addRecurrence(ScheduleStoreData $data, Schedule $schedule): void
+    private function addRecurrence(ScheduleData $data, Schedule $schedule): void
     {
        if ($data->recurrence) {
            $schedulesToCreate = array_map(

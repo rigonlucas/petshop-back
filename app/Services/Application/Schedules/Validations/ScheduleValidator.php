@@ -8,31 +8,31 @@ use App\Models\Clients\Client;
 use App\Models\Clients\Pet;
 use App\Models\User;
 use App\Rules\AccountHasEntityRule;
-use App\Services\Application\Schedules\DTO\Base\ScheduleBaseData;
+use App\Services\Application\Schedules\DTO\Base\ScheduleData;
 use Illuminate\Validation\Rules\Enum;
 
 class ScheduleValidator
 {
-    public function validations(ScheduleBaseData $data): array
+    public function validations(int $account_id): array
     {
         return [
             "client_id" => [
                 'required',
                 'int',
                 'min:1',
-                new AccountHasEntityRule(Client::class, $data->account_id),
+                new AccountHasEntityRule(Client::class, $account_id),
             ],
             "pet_id" => [
                 'required',
                 'int',
                 'min:1',
-                new AccountHasEntityRule(Pet::class, $data->account_id),
+                new AccountHasEntityRule(Pet::class, $account_id),
             ],
             "user_id" => [
                 'nullable',
                 'int',
                 'min:1',
-                new AccountHasEntityRule(User::class, $data->account_id),
+                new AccountHasEntityRule(User::class, $account_id),
             ],
             "type" => [
                 'required',

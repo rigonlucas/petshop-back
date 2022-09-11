@@ -4,12 +4,11 @@ namespace App\Services\Application\Schedules\Validations;
 
 use App\Rules\Schedule\CanBookAScheduleRule;
 use App\Rules\Schedule\CanUpdateBookAScheduleRule;
-use App\Services\Application\Schedules\DTO\Base\ScheduleBaseData;
-use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
+use App\Services\Application\Schedules\DTO\Base\ScheduleData;
 
 class ScheduleDateValidator
 {
-    public function validationsStore(ScheduleBaseData $data): array
+    public function validationsStore(ScheduleData $data): array
     {
         $duration =[
             "duration" => [
@@ -36,7 +35,7 @@ class ScheduleDateValidator
         ];
     }
 
-    public function validationsUpdate(ScheduleUpdateData $data): array
+    public function validationsUpdate(int $id, ScheduleData $data): array
     {
         return [
             "duration" => [
@@ -46,7 +45,7 @@ class ScheduleDateValidator
             "start_at" => [
                 'required',
                 'date_format:Y-m-d H:i:s',
-                new CanUpdateBookAScheduleRule($data->schedule_id, $data->user_id, $data->duration)
+                new CanUpdateBookAScheduleRule($id, $data->user_id, $data->duration)
             ],
         ];
     }

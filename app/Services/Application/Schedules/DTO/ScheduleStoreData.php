@@ -3,14 +3,13 @@
 namespace App\Services\Application\Schedules\DTO;
 
 use App\Http\Requests\Application\Schedule\ScheduleStoreRequest;
-use App\Services\Application\Schedules\DTO\Base\ScheduleBaseData;
+use App\Services\Application\Schedules\DTO\Base\ScheduleData;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
-class ScheduleStoreData extends ScheduleBaseData
+class ScheduleStoreData extends ScheduleData
 {
     public ?array $recurrence = null;
     public ?array $products = null;
-    public ?int $schedule_recurrence_id = null;
 
     /**
      * @throws UnknownProperties
