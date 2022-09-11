@@ -4,8 +4,6 @@ namespace App\Services\Application\Schedules\Validations;
 
 use App\Models\Products\Product;
 use App\Rules\AccountHasEntityRule;
-use App\Services\Application\ScheduleProducts\DTO\ScheduleProductsStoreData;
-use App\Services\Application\Schedules\DTO\Base\ScheduleData;
 
 class ScheduleProductsValidator
 {
@@ -32,7 +30,6 @@ class ScheduleProductsValidator
                 'gt:-1'
             ],
             "products.*.discount" => [
-                'nullable',
                 'numeric',
                 'gt:-1'
             ]

@@ -30,7 +30,7 @@ class SchedulesResource extends JsonResource
             "pet" => new PetResource($this->whenLoaded('pet')),
             "client" => new ClientResource($this->whenLoaded('client')),
             "user" => new UserResource($this->whenLoaded('user')),
-            "products" => ScheduleHasProductsResource::collection($this->whenLoaded('products')),
+            "hasProducts" => ScheduleHasProductsResource::collection($this->whenLoaded('hasProducts')),
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Schedules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Schedule\ScheduleUpdateRequest;
-use App\Services\Application\Schedules\DTO\Base\ScheduleData;
+use App\Services\Application\Schedules\DTO\ScheduleData;
 use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
 use App\Services\Application\Schedules\ScheduleUpdateService;
 use Illuminate\Auth\Access\AuthorizationException;

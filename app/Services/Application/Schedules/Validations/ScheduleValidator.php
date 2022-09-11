@@ -8,7 +8,6 @@ use App\Models\Clients\Client;
 use App\Models\Clients\Pet;
 use App\Models\User;
 use App\Rules\AccountHasEntityRule;
-use App\Services\Application\Schedules\DTO\Base\ScheduleData;
 use Illuminate\Validation\Rules\Enum;
 
 class ScheduleValidator

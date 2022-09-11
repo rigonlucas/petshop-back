@@ -25,13 +25,14 @@ class ScheduleShowService extends BaseService
         'client',
         'pet',
         'user',
-        'products.product'
+        'hasProducts.product'
     ];
 
-    public function show(ScheduleShowData $data, int $scheduleId, int $accountId): Builder|array|Collection|Model
+    public function show(ScheduleShowData $data, int $scheduleId, int $accountId): Schedule
     {
         $query = Schedule::byAccount($accountId);
         $this->applyEagerLoadging($query, $data->include, $this->relationsAvailables);
+        /** @var Schedule */
         return $query->findOrFail($scheduleId);
     }
 }

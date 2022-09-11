@@ -4,8 +4,7 @@ namespace App\Services\Application\Schedules;
 
 use App\Models\Schedules\Schedule;
 use App\Models\User;
-use App\Rules\AccountHasEntityRule;
-use App\Services\Application\Schedules\DTO\Base\ScheduleData;
+use App\Services\Application\Schedules\DTO\ScheduleData;
 use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
 use App\Services\Application\Schedules\Validations\ScheduleDateValidator;
 use App\Services\Application\Schedules\Validations\ScheduleValidator;

@@ -28,7 +28,7 @@ class ScheduleProductsStoreService extends BaseService
             if (!$data->discount) {
                 $data->discount = 0;
             }
-            return $schedule->products()->create(
+            return $schedule->hasProducts()->create(
                 $data->except('account_id')->toArray()
             );
         });

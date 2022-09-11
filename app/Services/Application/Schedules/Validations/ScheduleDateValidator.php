@@ -4,7 +4,7 @@ namespace App\Services\Application\Schedules\Validations;
 
 use App\Rules\Schedule\CanBookAScheduleRule;
 use App\Rules\Schedule\CanUpdateBookAScheduleRule;
-use App\Services\Application\Schedules\DTO\Base\ScheduleData;
+use App\Services\Application\Schedules\DTO\ScheduleData;
 
 class ScheduleDateValidator
 {

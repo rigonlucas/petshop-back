@@ -6,6 +6,7 @@ use App\Enums\SchedulesStatusEnum;
 use App\Models\BaseModel;
 use App\Models\Clients\Client;
 use App\Models\Clients\Pet;
+use App\Models\Products\Product;
 use App\Models\ScheduleRecurrence;
 use App\Models\User;
 use App\Models\Users\Account;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -30,7 +32,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon $updated_at
  * @property Carbon $created_at
  *
- * @method static Builder openSchedule
+ * @property Collection<ScheduleHasProduct> $hasProducts
  */
 class Schedule extends BaseModel
 {
@@ -72,7 +74,7 @@ class Schedule extends BaseModel
         return $this->belongsTo(Pet::class);
     }
 
-    public function products(): HasMany
+    public function hasProducts(): HasMany
     {
         return $this->hasMany(ScheduleHasProduct::class);
     }
@@ -87,7 +89,7 @@ class Schedule extends BaseModel
         return $this->belongsTo(User::class);
     }
 
-    public function recurrenceGroup (): BelongsTo
+    public function recurrenceGroup(): BelongsTo
     {
         return $this->belongsTo(ScheduleRecurrence::class, 'schedule_recurrence_id', 'id');
     }
