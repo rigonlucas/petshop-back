@@ -22,14 +22,12 @@ class ClientUpdateController extends Controller
      */
     public function __invoke(ClientStoreRequest $request, int $id, ClientUpdateService $service): JsonResponse
     {
-        $this->authorize('client_update');
+        $this->authorize('client_edit');
         $data = ClientUpdateData::fromRequest($request);
         $data->account_id = $request->user()->account_id;
         $data->id = $id;
 
-        $result = DB::transaction(function () use ($service, $data) {
-            return $service->update($data);
-        });
-        return response()->json(['data' => $result], ResponseAlias::HTTP_CREATED);
+        $client = $service->update($data);
+        return response()->json(['data' => $client], ResponseAlias::HTTP_CREATED);
     }
 }

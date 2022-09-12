@@ -9,8 +9,8 @@ class ClientStoreData extends DataTransferObject
 {
     public ?int $account_id = null;
     public string $name;
-    public string $email;
-    public string $phone;
+    public ?string $email;
+    public ?string $phone;
 
     public static function fromRequest(Request $request): self
     {
