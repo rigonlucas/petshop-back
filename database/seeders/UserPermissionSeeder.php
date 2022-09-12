@@ -20,6 +20,7 @@ class UserPermissionSeeder extends Seeder
         /** @var User $user */
         foreach ($users as $user) {
             $user->givePermissionTo($permissions);
+            $user->assignRole('User Admin');
         }
     }
 }
