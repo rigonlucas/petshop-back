@@ -22,6 +22,7 @@ use App\Http\Controllers\Pet\PetListController;
 use App\Http\Controllers\Pet\PetShowController;
 use App\Http\Controllers\Pet\PetStoreController;
 use App\Http\Controllers\Pet\PetUpdateController;
+use App\Http\Controllers\Products\ExportController;
 use App\Http\Controllers\Products\ProductDeleteController;
 use App\Http\Controllers\Products\ProductListController;
 use App\Http\Controllers\Products\ProductRestoreController;
@@ -175,6 +176,7 @@ Route::prefix('v1')->group(function () {
         Route::prefix('products')->group(function () {
             Route::get('/', ProductListController::class)
                 ->name('product.index');
+            Route::get('export', ExportController::class);
         });
         Route::prefix('product')->group(function () {
             Route::post('/', ProductStoreController::class)

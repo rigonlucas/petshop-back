@@ -41,17 +41,20 @@ class PermissionSeeder extends Seeder
             'schedule_show',
             'schedule_delete',
             'schedule_access',
+            'schedule_export',
             'product_create',
             'product_edit',
             'product_show',
             'product_delete',
             'product_restore',
+            'product_export',
             'product_access',
             'client_create',
             'client_edit',
             'client_show',
             'client_delete',
             'client_access',
+            'client_export',
         ];
 
         foreach ($permissions as $permission)   {
