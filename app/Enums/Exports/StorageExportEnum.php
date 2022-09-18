@@ -34,10 +34,12 @@ enum StorageExportEnum: string
      * Files names
      */
     case PRODUCTS_FILE_NAME_BASE = 'produtos_';
+    case SCHEDULES_FILE_NAME_BASE = 'schedules_';
 
 
     /**
      * Path
      */
     case PRODUCTS_PATH = 'accounts/:ACCOUNT_ID:/products/:DATE:/';
+    case SCHEDULES_PATH = 'accounts/:ACCOUNT_ID:/schedules/:DATE:/';
 }

@@ -10,13 +10,13 @@ use App\Services\Application\Schedules\Validations\ScheduleStatusValidator;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Validator;
 
-class ScheduleArchivedService extends BaseService
+class ExecutingService extends BaseService
 {
 
     public function update(ScheduleStatusData $data, User $user): int
     {
         $data->account_id = $user->account_id;
-        $data->status = SchedulesStatusEnum::ARCHIVED->value;
+        $data->status = SchedulesStatusEnum::EXECUTING->value;
         $this->validate($data);
 
         return Schedule::query()

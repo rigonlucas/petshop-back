@@ -3,6 +3,7 @@
 namespace Database\Factories\Users;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User\Account>
@@ -19,6 +20,7 @@ class AccountFactory extends Factory
         return [
             'user_id' => null,
             'name' => $this->faker->name(),
+            'uuid' => Str::uuid()
         ];
     }
 }

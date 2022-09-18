@@ -10,7 +10,7 @@ use App\Services\Application\Schedules\Validations\ScheduleStatusValidator;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Validator;
 
-class ScheduleOpenService extends BaseService
+class ScheduledService extends BaseService
 {
 
     public function update(ScheduleStatusData $data, User $user): int

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Schedules\Status;
 
 use App\Http\Controllers\Controller;
 use App\Services\Application\Schedules\Schedule\DTO\ScheduleStatusData;
-use App\Services\Application\Schedules\Status\ScheduleExecutingService;
+use App\Services\Application\Schedules\Status\ExecutingService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,11 +15,11 @@ class SchedulesExecutingController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @param ScheduleExecutingService $service
+     * @param ExecutingService $service
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function __invoke(Request $request, int $id, ScheduleExecutingService $service): JsonResponse
+    public function __invoke(Request $request, int $id, ExecutingService $service): JsonResponse
     {
         $this->authorize('schedule_edit');
         $data = new ScheduleStatusData();

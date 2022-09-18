@@ -22,13 +22,14 @@ use App\Http\Controllers\Pet\PetListController;
 use App\Http\Controllers\Pet\PetShowController;
 use App\Http\Controllers\Pet\PetStoreController;
 use App\Http\Controllers\Pet\PetUpdateController;
-use App\Http\Controllers\Products\ExportController;
-use App\Http\Controllers\Products\ProductDeleteController;
-use App\Http\Controllers\Products\ProductListController;
-use App\Http\Controllers\Products\ProductRestoreController;
-use App\Http\Controllers\Products\ProductShowController;
-use App\Http\Controllers\Products\ProductStoreController;
-use App\Http\Controllers\Products\ProductUpdateController;
+use App\Http\Controllers\Products\Export\ProductsExportController;
+use App\Http\Controllers\Products\Product\ProductDeleteController;
+use App\Http\Controllers\Products\Product\ProductListController;
+use App\Http\Controllers\Products\Product\ProductRestoreController;
+use App\Http\Controllers\Products\Product\ProductShowController;
+use App\Http\Controllers\Products\Product\ProductStoreController;
+use App\Http\Controllers\Products\Product\ProductUpdateController;
+use App\Http\Controllers\Schedules\Exports\SchedulesExportController;
 use App\Http\Controllers\Schedules\History\ScheduleHistoryDeleteController;
 use App\Http\Controllers\Schedules\History\ScheduleHistoryIndexController;
 use App\Http\Controllers\Schedules\History\ScheduleHistoryStoreController;
@@ -83,6 +84,9 @@ Route::prefix('v1')->group(function () {
         Route::prefix('schedules')->group(function () {
             Route::get('/', ScheduleListController::class)
                 ->name('schedules.index');
+            Route::prefix('export')->group(function () {
+                Route::get('{status}', SchedulesExportController::class);
+            });
             Route::get('professionals/available', AvailableProfessionalsController::class)
                 ->name('available.schedules.professionals');
         });
@@ -98,7 +102,7 @@ Route::prefix('v1')->group(function () {
                 Route::delete('/', ScheduleDeleteController::class)
                     ->name('schedule.delete');
                 Route::prefix('status')->group(function () {
-                    Route::patch('open', SchedulesOpenController::class)
+                    Route::patch('scheduled', SchedulesOpenController::class)
                         ->name('schedule.status.open');
                     Route::patch('executing', SchedulesExecutingController::class)
                         ->name('schedule.status.executing');
@@ -176,7 +180,7 @@ Route::prefix('v1')->group(function () {
         Route::prefix('products')->group(function () {
             Route::get('/', ProductListController::class)
                 ->name('product.index');
-            Route::get('export', ExportController::class);
+            Route::get('export', ProductsExportController::class);
         });
         Route::prefix('product')->group(function () {
             Route::post('/', ProductStoreController::class)

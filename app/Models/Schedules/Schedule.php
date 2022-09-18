@@ -55,11 +55,11 @@ class Schedule extends BaseModel
         'start_at' => 'datetime:Y-m-d'
     ];
 
-    public function client (): BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
-    public function pet (): BelongsTo
+    public function pet(): BelongsTo
     {
         return $this->belongsTo(Pet::class);
     }
@@ -69,18 +69,22 @@ class Schedule extends BaseModel
         return $this->hasMany(ScheduleHasProduct::class);
     }
 
-    public function account (): BelongsTo
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
     }
 
-    public function user (): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     public function recurrenceGroup(): BelongsTo
     {
-        return $this->belongsTo(ScheduleRecurrence::class, 'schedule_recurrence_id', 'id');
+        return $this->belongsTo(
+            ScheduleRecurrence::class,
+            'schedule_recurrence_id',
+            'id'
+        );
     }
 }
