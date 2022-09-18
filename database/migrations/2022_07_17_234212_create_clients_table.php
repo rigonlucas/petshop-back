@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('account_id');
+            $table->uuid('account_uid');
             $table->string('name', 500);
             $table->string('email', 255)->nullable()->default(null);
             $table->string('phone', 100)->nullable()->default(null);

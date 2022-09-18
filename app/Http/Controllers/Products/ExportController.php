@@ -4,23 +4,26 @@ namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\Products\ProductsExportJob;
-use App\Models\Products\Product;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class ExportController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
-        $header_args = [
-            'id',
-            'name',
-            'description',
-            'type',
-            'cost',
-            'price'
-        ];
+        $this->authorize('product_export');
+        ProductsExportJob::dispatch($request->user()->load('account'));
+        return response()->json();
+    }
+}
+
+/*
+$scheduleProducst = DB::table('schedules_has_products')
+            ->whereColumn('products.id', '=', 'schedules_has_products.product_id')
+            ->count();
+        dd($scheduleProducst);
         $products = DB::table('products')
             ->select([
                 'products.id',
@@ -30,33 +33,20 @@ class ExportController extends Controller
                 'products.cost',
                 'products.price',
             ])
-            ->where('account_id', '=', $request->user()->account_id);
+            ->selectSub($scheduleProducst, 'count')
+//            ->selectSub("
+//                    SELECT
+//                        COUNT(shp.id)
+//                    FROM
+//                        schedules_has_products shp
+//                    WHERE
+//                        shp.product_id = products.id")
+->where('account_id', '=', 1)
+    ->limit(1)
+    ->get();
+dd(
+    $products
+);
 
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=csv_export.csv');
 
-        $output = fopen( 'php://output', 'w' );
-
-        ob_end_clean();
-        fputcsv($output, $header_args);
-
-        foreach($products->cursor() AS $product){
-            $dados = [
-                'id' => $product->id,
-                'name' => $product->name,
-                'description' => $product->description,
-                'type' => $product->type,
-                'cost' => $product->cost,
-                'price' => $product->price,
-            ];
-            fputcsv($output, $dados);
-        }
-        return response()->noContent();
-        /*
-         * JOB
-            $this->authorize('product_export');
-            ProductsExportJob::dispatch($request->user());
-            return response()->noContent();
-         */
-    }
-}
+ */
