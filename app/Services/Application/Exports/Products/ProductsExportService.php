@@ -6,52 +6,60 @@ use App\Enums\Exports\StorageExportEnum;
 use App\Enums\ProductsEnum;
 use App\Models\User;
 use App\Notifications\Products\ExportProductsNotify;
-use Illuminate\Support\Facades\DB;
+use App\Repository\Application\Exports\Products\ProductsRepository;
+use App\Repository\Application\Exports\Schedules\SchedulesByStatusRepository;
+use App\Repository\interfaces\ExportQueryInterface;
+use App\Services\Application\Exports\ExportationManager\CreateManagerFilesService;
+use App\Services\BaseService;
+use App\Services\Interfaces\Export\ExportInterface;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
-class ProductsExportService
+class ProductsExportService extends BaseService implements ExportInterface
 {
+    private array $header_args = [
+        'id',
+        'nome',
+        'ocorrência em agendamentos',
+        'tipo',
+        'tipo_nome',
+        'custo',
+        'preço',
+        'descrição',
+    ];
+
     public function export(User $user): void
     {
-        $header_args = [
-            'id',
-            'nome',
-            'ocorrência em agendamentos',
-            'tipo',
-            'tipo_nome',
-            'custo',
-            'preço',
-            'descrição',
-        ];
-        $products =  DB::table('products')
-            ->select([
-                'products.id',
-                'products.name',
-                'products.description',
-                'products.type',
-                'products.cost',
-                'products.price',
-            ])
-            ->addSelect(DB::raw('count(schedules_has_products.id) as products_schedule_count'))
-            ->leftJoin(
-                'schedules_has_products',
-                'products.id',
-                '=',
-                'schedules_has_products.product_id'
-            )
-            ->where('account_id', '=', $user->account_id)
-            ->groupBy('products.id');
+        $productsQuery =  new ProductsRepository($user);
+        $output = $this->setHeaders();
+        $output = $this->createFile($productsQuery, $output);
+        $filePath = $this->getFileGenerator($user, $output);
+        if ($filePath) {
+            Notification::route('mail' , $user->email)->notify(new ExportProductsNotify($user, $filePath));
+            CreateManagerFilesService::create(
+                $user,
+                $this->shortNameClass(),
+                $filePath
+            );
+        }
+    }
 
+    public function setHeaders(): mixed
+    {
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=csv_export.csv');
 
         $output = fopen('php://temp/maxmemory:'. (5*1024*1024), 'r+');
 
         if (ob_get_contents()) ob_end_clean();
-        fputcsv($output, $header_args);
+        fputcsv($output, $this->header_args);
 
-        foreach($products->cursor() AS $product){
+        return $output;
+    }
+
+    public function createFile(ExportQueryInterface $exportQuery, mixed $output): mixed
+    {
+        foreach($exportQuery->getQuery()->cursor() AS $product){
             $dados = [
                 'id' => $product->id,
                 'nome' => $product->name,
@@ -64,6 +72,11 @@ class ProductsExportService
             ];
             fputcsv($output, $dados);
         }
+        return $output;
+    }
+
+    public function getFileGenerator(User $user, mixed $output): string
+    {
         $file = StorageExportEnum::PRODUCTS_PATH->pathFileGenerator(
             $user->account->uuid,
             StorageExportEnum::PRODUCTS_FILE_NAME_BASE,
@@ -74,6 +87,6 @@ class ProductsExportService
             $output
         );
 
-        Notification::route('mail' , $user->email)->notify(new ExportProductsNotify($user, $file));
+        return $file;
     }
 }

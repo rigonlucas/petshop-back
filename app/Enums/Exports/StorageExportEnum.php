@@ -16,14 +16,12 @@ enum StorageExportEnum: string
      */
     public function pathFileGenerator(string $accountId, StorageExportEnum $enum, $extension): string
     {
-        $fileName = $enum->value . Str::random(4) . '.' .$extension;
+        $fileName = $enum->value . Str::random(4) . '-' . now()->format('d-m-Y') . '.' .$extension;
         $accountValuesSearch = [
-            ':ACCOUNT_ID:',
-            ':DATE:'
+            ':ACCOUNT_ID:'
         ];
         $accountValuesReplace = [
-            $accountId,
-            now()->format('Y-m-d')
+            $accountId
         ];
 
         return str_replace($accountValuesSearch, $accountValuesReplace, $this->value) . $fileName;
@@ -40,6 +38,6 @@ enum StorageExportEnum: string
     /**
      * Path
      */
-    case PRODUCTS_PATH = 'accounts/:ACCOUNT_ID:/products/:DATE:/';
-    case SCHEDULES_PATH = 'accounts/:ACCOUNT_ID:/schedules/:DATE:/';
+    case PRODUCTS_PATH = 'accounts/:ACCOUNT_ID:/products/';
+    case SCHEDULES_PATH = 'accounts/:ACCOUNT_ID:/schedules/';
 }

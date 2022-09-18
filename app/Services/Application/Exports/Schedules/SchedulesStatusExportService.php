@@ -8,12 +8,14 @@ use App\Enums\SchedulesTypesEnum;
 use App\Models\User;
 use App\Notifications\Schedules\ExportScheduleNotify;
 use App\Repository\Application\Exports\Schedules\SchedulesByStatusRepository;
+use App\Repository\interfaces\ExportQueryInterface;
 use App\Services\Application\Exports\ExportationManager\CreateManagerFilesService;
 use App\Services\BaseService;
+use App\Services\Interfaces\Export\ExportInterface;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
-class SchedulesStatusExportService extends BaseService
+class SchedulesStatusExportService extends BaseService implements ExportInterface
 {
     private array $header_args = [
         'id do agendamento',
@@ -35,7 +37,6 @@ class SchedulesStatusExportService extends BaseService
     {
         $schedulesQuery = new SchedulesByStatusRepository($user, $enumStatus);
         $output = $this->setHeaders();
-        fputcsv($output, $this->header_args);
         $output = $this->createFile($schedulesQuery, $output);
         $filePath = $this->getFileGenerator($user, $output);
         if ($filePath) {
@@ -48,7 +49,7 @@ class SchedulesStatusExportService extends BaseService
         }
     }
 
-    private function setHeaders(): mixed
+    public function setHeaders(): mixed
     {
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=csv_export.csv');
@@ -56,12 +57,15 @@ class SchedulesStatusExportService extends BaseService
         $output = fopen('php://temp/maxmemory:' . (5 * 1024 * 1024), 'r+');
 
         if (ob_get_contents()) ob_end_clean();
+
+        fputcsv($output, $this->header_args);
+
         return $output;
     }
 
-    private function createFile(SchedulesByStatusRepository $schedulesQuery, mixed $output): mixed
+    public function createFile(ExportQueryInterface $exportQuery, mixed $output): mixed
     {
-        foreach ($schedulesQuery->getQuery()->cursor() as $schedule) {
+        foreach ($exportQuery->getQuery()->cursor() as $schedule) {
             $dados = [
                 'id do agendamento' => $schedule->id,
                 'client_id' => $schedule->client_id,
@@ -82,7 +86,7 @@ class SchedulesStatusExportService extends BaseService
         return $output;
     }
 
-    private function getFileGenerator(User $user, mixed $output): string
+    public function getFileGenerator(User $user, mixed $output): string
     {
         $path = StorageExportEnum::SCHEDULES_PATH->pathFileGenerator(
             $user->account->uuid,

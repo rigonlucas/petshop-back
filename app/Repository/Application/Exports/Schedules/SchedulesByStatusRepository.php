@@ -4,10 +4,11 @@ namespace App\Repository\Application\Exports\Schedules;
 
 use App\Enums\SchedulesStatusEnum;
 use App\Models\User;
+use App\Repository\interfaces\ExportQueryInterface;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
-class SchedulesByStatusRepository
+class SchedulesByStatusRepository implements ExportQueryInterface
 {
     private Builder $query;
 
@@ -45,7 +46,7 @@ class SchedulesByStatusRepository
             ->groupBy('schedules.id');
     }
 
-    public function getQuery()
+    public function getQuery(): Builder
     {
         return $this->query;
     }
