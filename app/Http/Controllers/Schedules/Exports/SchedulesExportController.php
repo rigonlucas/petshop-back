@@ -21,13 +21,14 @@ class SchedulesExportController extends Controller
      * @return JsonResponse
      * @throws InvalidEnumScheduleStatusException
      */
-    public function __invoke(Request $request, int $status, SchedulesStatusExportService $service): JsonResponse
+    public function __invoke(Request $request, int $status): JsonResponse
     {
+        $user = $request->user()->load('account');
         $enum = SchedulesStatusEnum::tryFrom($status);
         if (!$enum) {
             throw new InvalidEnumScheduleStatusException();
         }
-        SchedulesExportJob::dispatch($request->user()->load('account'), $enum);
+        SchedulesExportJob::dispatch($user, $enum);
         return response()->json();
     }
 }

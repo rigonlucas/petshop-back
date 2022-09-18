@@ -7,11 +7,13 @@ use App\Enums\SchedulesStatusEnum;
 use App\Enums\SchedulesTypesEnum;
 use App\Models\User;
 use App\Notifications\Schedules\ExportScheduleNotify;
-use App\Services\ExportBaseService;
-use Illuminate\Support\Facades\DB;
+use App\Repository\Application\Exports\Schedules\SchedulesByStatusRepository;
+use App\Services\Application\Exports\ExportationManager\CreateManagerFilesService;
+use App\Services\BaseService;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
-class SchedulesStatusExportService extends ExportBaseService
+class SchedulesStatusExportService extends BaseService
 {
     private array $header_args = [
         'id do agendamento',
@@ -31,40 +33,35 @@ class SchedulesStatusExportService extends ExportBaseService
 
     public function export(User $user, SchedulesStatusEnum $enumStatus): void
     {
-        $schedules = DB::table('schedules')
-            ->select([
-                'schedules.id',
-                'schedules.account_id',
-                'schedules.client_id',
-                'schedules.user_id',
-                'schedules.pet_id',
-                'schedules.type',
-                'schedules.status',
-                'schedules.start_at',
-                'schedules.duration',
-                'schedules.finish_at',
-                'pets.name as pet_name',
-                'clients.name as client_name',
-                'clients.phone as client_phone',
-                'users.name as user_name',
-            ])
-            ->addSelect(DB::raw('count(schedules_has_products.id) as products_schedule_count'))
-            ->leftJoin(
-                'schedules_has_products',
-                'schedules.id',
-                '=',
-                'schedules_has_products.schedule_id'
-            )
-            ->join('pets', 'schedules.pet_id', '=', 'pets.id')
-            ->join('clients', 'schedules.client_id', '=', 'clients.id')
-            ->leftJoin('users', 'schedules.user_id', '=', 'users.id')
-            ->where('schedules.account_id', '=', $user->account_id)
-            ->where('schedules.status', '=', $enumStatus->value)
-            ->groupBy('schedules.id');
+        $schedulesQuery = new SchedulesByStatusRepository($user, $enumStatus);
+        $output = $this->setHeaders();
+        fputcsv($output, $this->header_args);
+        $output = $this->createFile($schedulesQuery, $output);
+        $filePath = $this->getFileGenerator($user, $output);
+        if ($filePath) {
+            Notification::route('mail', $user->email)->notify(new ExportScheduleNotify($user, $filePath));
+            CreateManagerFilesService::create(
+                $user,
+                $this->shortNameClass(),
+                $filePath
+            );
+        }
+    }
 
-        $output = $this->csvHeader($this->header_args);
+    private function setHeaders(): mixed
+    {
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=csv_export.csv');
 
-        foreach ($schedules->cursor() as $schedule) {
+        $output = fopen('php://temp/maxmemory:' . (5 * 1024 * 1024), 'r+');
+
+        if (ob_get_contents()) ob_end_clean();
+        return $output;
+    }
+
+    private function createFile(SchedulesByStatusRepository $schedulesQuery, mixed $output): mixed
+    {
+        foreach ($schedulesQuery->getQuery()->cursor() as $schedule) {
             $dados = [
                 'id do agendamento' => $schedule->id,
                 'client_id' => $schedule->client_id,
@@ -82,14 +79,21 @@ class SchedulesStatusExportService extends ExportBaseService
             ];
             fputcsv($output, $dados);
         }
-        $filePath = StorageExportEnum::SCHEDULES_PATH->pathFileGenerator(
+        return $output;
+    }
+
+    private function getFileGenerator(User $user, mixed $output): string
+    {
+        $path = StorageExportEnum::SCHEDULES_PATH->pathFileGenerator(
             $user->account->uuid,
             StorageExportEnum::SCHEDULES_FILE_NAME_BASE,
             'csv'
         );
-        $file = $this->storeFile($filePath, $output);
-        if ($file) {
-            Notification::route('mail', $user->email)->notify(new ExportScheduleNotify($user, $filePath));
-        }
+        Storage::disk('public')->put(
+            $path,
+            $output
+        );
+
+        return $path;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Exports\ExportManager;
 use App\Models\Schedules\Schedule;
 use App\Models\Users\Account;
 use App\Traits\BitwiseFlagsTrait;
@@ -74,7 +75,6 @@ class User extends Authenticatable
         return $query->where('account_id', '=', $accountId);
     }
 
-
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
@@ -83,5 +83,10 @@ class User extends Authenticatable
     public function schedules(): HasMany
     {
         return $this->hasMany(Schedule::class);
+    }
+
+    public function exports(): HasMany
+    {
+        return $this->hasMany(ExportManager::class);
     }
 }
