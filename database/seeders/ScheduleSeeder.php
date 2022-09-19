@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Enums\SchedulesStatusEnum;
 use App\Models\Schedules\Schedule;
 use App\Models\Users\Account;
-use Database\Factories\Schedules\ScheduleFactory;
 use Illuminate\Database\Seeder;
 
 class ScheduleSeeder extends Seeder

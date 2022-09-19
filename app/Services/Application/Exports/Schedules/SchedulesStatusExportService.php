@@ -12,6 +12,7 @@ use App\Repository\interfaces\ExportQueryInterface;
 use App\Services\Application\Exports\ExportationManager\CreateManagerFilesService;
 use App\Services\BaseService;
 use App\Services\Interfaces\Export\ExportInterface;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
@@ -77,9 +78,9 @@ class SchedulesStatusExportService extends BaseService implements ExportInterfac
                 'user_name' => $schedule->user_name,
                 'type' => SchedulesTypesEnum::from($schedule->type)->name,
                 'status' => SchedulesStatusEnum::from($schedule->status)->name,
-                'start_at' => $schedule->start_at,
+                'start_at' => Carbon::createFromFormat('Y-m-d h:i:s', $schedule->start_at)->format('d/m/Y h:i:s'),
                 'duration' => $schedule->duration,
-                'finish_at' => $schedule->finish_at,
+                'finish_at' => Carbon::createFromFormat('Y-m-d h:i:s', $schedule->finish_at)->format('d/m/Y h:i:s'),
             ];
             fputcsv($output, $dados);
         }
