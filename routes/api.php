@@ -88,30 +88,27 @@ Route::prefix('v1')->group(function () {
                 Route::get('{status}', SchedulesExportController::class);
             });
             Route::get('professionals/available', AvailableProfessionalsController::class)
-                ->name('available.schedules.professionals');
-        });
-
-        Route::prefix('schedule')->group(function () {
-            Route::post('', ScheduleStoreController::class)
-                ->name('schedule.store');
+                ->name('schedules.available.professionals');
+            Route::post('/', ScheduleStoreController::class)
+                ->name('schedules.store');
             Route::prefix('{id}')->group(function () {
                 Route::get('/', ScheduleShowController::class)
-                    ->name('schedule.get');
+                    ->name('schedules.get');
                 Route::put('/', ScheduleUpdateController::class)
-                    ->name('schedule.update');
+                    ->name('schedules.update');
                 Route::delete('/', ScheduleDeleteController::class)
-                    ->name('schedule.delete');
+                    ->name('schedules.delete');
                 Route::prefix('status')->group(function () {
                     Route::patch('scheduled', SchedulesOpenController::class)
-                        ->name('schedule.status.open');
+                        ->name('schedules.status.open');
                     Route::patch('executing', SchedulesExecutingController::class)
-                        ->name('schedule.status.executing');
+                        ->name('schedules.status.executing');
                     Route::patch('archived', SchedulesArchivedController::class)
-                        ->name('schedule.status.archived');
+                        ->name('schedules.status.archived');
                     Route::patch('canceled', SchedulesCanceledController::class)
-                        ->name('schedule.status.canceled');
+                        ->name('schedules.status.canceled');
                     Route::patch('finished', SchedulesFinishedController::class)
-                        ->name('schedule.status.finished');
+                        ->name('schedules.status.finished');
                 });
                 Route::prefix('history')->group(function () {
                     Route::prefix('/{scheduleId}')->group(function () {
@@ -139,18 +136,16 @@ Route::prefix('v1')->group(function () {
          */
         Route::prefix('clients')->group(function () {
             Route::get('/', ClientListController::class)
-                ->name('client.index');
-        });
-        Route::prefix('client')->group(function () {
+                ->name('clients.index');
             Route::post('/', ClientStoreController::class)
-                ->name('client.store');
+                ->name('clients.store');
             Route::prefix('{id}')->group(function () {
                 Route::get('/', ClientShowController::class)
-                    ->name('client.show');
+                    ->name('clients.show');
                 Route::put('/', ClientUpdateController::class)
-                    ->name('client.update');
+                    ->name('clients.update');
                 Route::delete('/', ClientDeleteController::class)
-                    ->name('client.delete');//necessário validar os pets
+                    ->name('clients.delete');//necessário validar os pets
             });
         });
 
@@ -159,18 +154,16 @@ Route::prefix('v1')->group(function () {
          */
         Route::prefix('pets')->group(function () {
             Route::get('/', PetListController::class)
-                ->name('pet.index');
-        });
-        Route::prefix('pet')->group(function () {
+                ->name('pets.index');
             Route::post('/', PetStoreController::class)
-                ->name('pet.store');
+                ->name('pets.store');
             Route::prefix('/{id}')->group(function () {
                 Route::get('/', PetShowController::class)
-                    ->name('pet.show');
+                    ->name('pets.show');
                 Route::put('/', PetUpdateController::class)
-                    ->name('pet.update');
+                    ->name('pets.update');
                 Route::delete('/', PetDeleteController::class)
-                    ->name('pet.delete');
+                    ->name('pets.delete');
             });
         });
 
@@ -180,20 +173,20 @@ Route::prefix('v1')->group(function () {
         Route::prefix('products')->group(function () {
             Route::get('/', ProductListController::class)
                 ->name('product.index');
-            Route::get('export', ProductsExportController::class);
-        });
-        Route::prefix('product')->group(function () {
+            Route::get('export', ProductsExportController::class)
+                ->name('product.export');
+
             Route::post('/', ProductStoreController::class)
-                ->name('product.store');
+                ->name('products.store');
             Route::prefix('{id}')->group(function () {
                 Route::put('/', ProductUpdateController::class)
-                    ->name('product.update');
+                    ->name('products.update');
                 Route::get('/', ProductShowController::class)
-                    ->name('product.show');
+                    ->name('products.show');
                 Route::delete('/', ProductDeleteController::class)
-                    ->name('product.delete');
+                    ->name('products.delete');
                 Route::patch('/restore', ProductRestoreController::class)
-                    ->name('product.restore');
+                    ->name('products.restore');
             });
         });
 
