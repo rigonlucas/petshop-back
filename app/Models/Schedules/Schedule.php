@@ -6,6 +6,7 @@ use App\Enums\SchedulesStatusEnum;
 use App\Models\BaseModel;
 use App\Models\Clients\Client;
 use App\Models\Clients\Pet;
+use App\Models\Clients\PetVaccine;
 use App\Models\Products\Product;
 use App\Models\ScheduleRecurrence;
 use App\Models\User;
@@ -33,6 +34,7 @@ use Illuminate\Support\Collection;
  * @property Carbon $created_at
  *
  * @property Collection<ScheduleHasProduct> $hasProducts
+ * @property Collection<PetVaccine> $hasVaccines
  */
 class Schedule extends BaseModel
 {
@@ -67,6 +69,11 @@ class Schedule extends BaseModel
     public function hasProducts(): HasMany
     {
         return $this->hasMany(ScheduleHasProduct::class);
+    }
+
+    public function hasVaccines(): HasMany
+    {
+        return $this->hasMany(PetVaccine::class);
     }
 
     public function account(): BelongsTo

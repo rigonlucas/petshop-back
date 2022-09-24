@@ -3,7 +3,9 @@
 namespace App\Models\Clients;
 
 use App\Models\BaseModel;
+use App\Models\Products\Vaccine;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property bool $applied
  * Relations:
  * @property Pet $pet
+ * @property Vaccine $vaccine
  */
 class PetVaccine extends BaseModel
 {
@@ -24,4 +27,14 @@ class PetVaccine extends BaseModel
         'schedule_id',
         'applied'
     ];
+
+    public function vaccine(): BelongsTo
+    {
+        return $this->belongsTo(Vaccine::class);
+    }
+
+    public function pet(): BelongsTo
+    {
+        return $this->belongsTo(Pet::class);
+    }
 }

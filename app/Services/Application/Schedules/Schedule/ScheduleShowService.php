@@ -15,7 +15,8 @@ class ScheduleShowService extends BaseService
         'client',
         'pet',
         'user',
-        'hasProducts.product'
+        'hasProducts.product',
+        'hasVaccines.vaccine'
     ];
 
     public function show(ScheduleShowData $data, int $scheduleId, int $accountId): Schedule

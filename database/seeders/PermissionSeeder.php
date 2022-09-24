@@ -55,6 +55,7 @@ class PermissionSeeder extends Seeder
             'client_delete',
             'client_access',
             'client_export',
+            'vaccine_access',
         ];
 
         foreach ($permissions as $permission)   {

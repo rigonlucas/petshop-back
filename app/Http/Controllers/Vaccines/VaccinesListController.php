@@ -13,7 +13,9 @@ class VaccinesListController extends Controller
 {
     public function __invoke(Request $request, VaccinesListService $service): AnonymousResourceCollection
     {
-        $abort = $request->user()->hasAnyPermission(['client_access', 'schedule_create', 'schedule_update']);
+        $abort = $request->user()->hasAnyPermission([
+            'client_access', 'schedule_create', 'schedule_update', 'schedule_show', 'vaccine_access'
+        ]);
         abort_if(!$abort, 403);
         $data = VaccinesListData::fromRequest($request);
         $vaccines = $service->list($data);
