@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pet_id');
             $table->unsignedBigInteger('schedule_id')->nullable()->default(null);
             $table->boolean('applied')->default(false);
+            $table->date('applied_at')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('vaccine_id')

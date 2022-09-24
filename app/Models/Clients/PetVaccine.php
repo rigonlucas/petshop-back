@@ -25,7 +25,8 @@ class PetVaccine extends BaseModel
         'vaccine_id',
         'pet_id',
         'schedule_id',
-        'applied'
+        'applied',
+        'applied_at'
     ];
 
     public function vaccine(): BelongsTo

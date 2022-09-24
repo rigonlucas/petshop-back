@@ -22,6 +22,7 @@ use App\Http\Controllers\Pet\PetListController;
 use App\Http\Controllers\Pet\PetShowController;
 use App\Http\Controllers\Pet\PetStoreController;
 use App\Http\Controllers\Pet\PetUpdateController;
+use App\Http\Controllers\Pet\Vaccine\PetVaccineStoreController;
 use App\Http\Controllers\Products\Export\ProductsExportController;
 use App\Http\Controllers\Products\Product\ProductDeleteController;
 use App\Http\Controllers\Products\Product\ProductListController;
@@ -204,6 +205,8 @@ Route::prefix('v1')->group(function () {
                     ->name('pets.delete');
 
                 Route::prefix('vaccines')->group(function () {
+                    Route::post('/', PetVaccineStoreController::class)
+                        ->name('pets.vaccine.store');
                 });
             });
         });
