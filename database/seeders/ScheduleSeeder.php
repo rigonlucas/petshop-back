@@ -16,11 +16,9 @@ class ScheduleSeeder extends Seeder
      */
     public function run()
     {
-        $account = Account::query()->find(1);
-        $account =  $account ?: Account::factory()->create();
         Schedule::factory()->count(50)->create([
             'status' => SchedulesStatusEnum::SCHEDULED->value,
-            'account_id' => $account->id
+            'account_id' => 1
         ]);
     }
 }

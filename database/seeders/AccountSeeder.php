@@ -23,7 +23,7 @@ class AccountSeeder extends Seeder
                 [
                     'email' => 'lucas@teste.com',
                     'account_id' => $account->id,
-                    'password' => Hash::make('123')
+                    'password' => Hash::make('123'),
                 ],
                 [
                     'email' => 'lauro@teste.com',

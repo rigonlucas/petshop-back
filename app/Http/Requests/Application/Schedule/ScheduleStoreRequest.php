@@ -37,6 +37,7 @@ class ScheduleStoreRequest extends FormRequest
             "description" => ['nullable', 'string', 'min:1', 'max:500'],
             "products" => ['nullable', 'array'],
             "recurrence" => ['nullable', 'array'],
+            "vaccines" => ['nullable', 'array'],
         ];
     }
 }

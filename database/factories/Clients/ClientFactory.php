@@ -4,10 +4,8 @@ namespace Database\Factories\Clients;
 
 use App\Models\Users\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product\Product>
- */
 class ClientFactory extends Factory
 {
     /**
@@ -20,6 +18,7 @@ class ClientFactory extends Factory
         $account = Account::query()->first();
         return [
             'account_id' => $account ?? Account::factory(),
+            'account_uid' => Str::uuid(),
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
             'phone' => $this->faker->phoneNumber(),

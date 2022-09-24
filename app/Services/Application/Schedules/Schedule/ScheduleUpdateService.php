@@ -4,7 +4,6 @@ namespace App\Services\Application\Schedules\Schedule;
 
 use App\Models\Schedules\Schedule;
 use App\Models\User;
-use App\Services\Application\Schedules\DTO\ScheduleUpdateData;
 use App\Services\Application\Schedules\Schedule\DTO\ScheduleData;
 use App\Services\Application\Schedules\Validations\ScheduleDateValidator;
 use App\Services\Application\Schedules\Validations\ScheduleValidator;

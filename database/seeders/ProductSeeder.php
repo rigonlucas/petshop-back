@@ -17,7 +17,7 @@ class ProductSeeder extends Seeder
         Product::factory()->count(50)->create();
         if (true) {
             $products = [];
-            for ($i = 0; $i < 40000; $i++) {
+            for ($i = 0; $i < 4000; $i++) {
                 $products [] = Product::factory()->make()->toArray();
             }
             foreach (array_chunk($products, 500) as $productsChunk) {

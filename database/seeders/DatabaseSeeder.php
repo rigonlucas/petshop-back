@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             MenuPermissionSeeder::class,
             UserPermissionSeeder::class,
+            VaccineSeeder::class,
+            PetVaccineSeeder::class
         ]);
     }
 }
