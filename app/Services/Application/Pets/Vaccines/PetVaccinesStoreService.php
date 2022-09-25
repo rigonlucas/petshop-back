@@ -2,10 +2,10 @@
 
 namespace App\Services\Application\Pets\Vaccines;
 
+use App\Models\Clients\Client;
 use App\Models\Clients\Pet;
 use App\Models\Clients\PetVaccine;
 use App\Rules\AccountHasEntityRule;
-use App\Services\Application\Pets\DTO\PetStoreData;
 use App\Services\Application\Pets\Vaccines\DTO\PetVaccineStoreData;
 use App\Services\BaseService;
 use Carbon\Carbon;
@@ -23,10 +23,10 @@ class PetVaccinesStoreService extends BaseService
     public function store(PetVaccineStoreData $data, int $accountId): Model|Builder
     {
         $this->validate($data, $accountId);
-        if ($data->applied_at) {
+        if (Carbon::canBeCreatedFromFormat($data->applied_at, 'd/m/Y')) {
             $data->applied_at = Carbon::createFromFormat('d/m/Y', $data->applied_at)->format('Y-m-d');
         }
-        return PetVaccine::query()->create($data->toArray());
+        return PetVaccine::query()->create($data->except('schedule_new', 'schedule_date')->toArray());
     }
 
     /**
@@ -43,6 +43,12 @@ class PetVaccinesStoreService extends BaseService
                     'min:1',
                     new AccountHasEntityRule(Pet::class, $accountId),
                 ],
+                'client_id' => [
+                    'required',
+                    'int',
+                    'min:1',
+                    new AccountHasEntityRule(Client::class, $accountId),
+                ],
                 'vaccine_id' => [
                     'required',
                     'numeric',
@@ -51,7 +57,9 @@ class PetVaccinesStoreService extends BaseService
                     'exists:vaccines,id'
                 ],
                 'applied' => ['required', 'boolean'],
-                'applied_at' => ['nullable', 'date_format:d/m/Y', 'before_or_equal:today']
+                'applied_at' => ['nullable', 'date_format:d/m/Y', 'before_or_equal:today'],
+                'schedule_new' => ['required','boolean'],
+                'schedule_date' => ['nullable', 'date_format:d/m/Y', 'after:today'],
             ]
         )->validate();
     }

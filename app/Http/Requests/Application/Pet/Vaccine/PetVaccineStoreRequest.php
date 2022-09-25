@@ -15,9 +15,12 @@ class PetVaccineStoreRequest extends FormRequest
     {
         return [
             'pet_id' => ['required', 'int', 'min:1',],
+            'client_id' => ['required', 'int', 'min:1',],
             'vaccine_id' => ['required', 'numeric', 'gt:0', 'min:1',],
             'applied' => ['required', 'boolean'],
-            'applied_at' => ['nullable', 'date_format:d/m/Y', 'before_or_equal:today']
+            'applied_at' => ['nullable', 'date_format:d/m/Y', 'before_or_equal:today'],
+            'schedule_new' => ['required','boolean'],
+            'schedule_date' => ['nullable', 'date_format:d/m/Y', 'after:today'],
         ];
     }
 }

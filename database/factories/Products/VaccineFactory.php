@@ -21,7 +21,7 @@ class VaccineFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text(500),
             'type' => VaccinesTypesEnum::random(),
-            'days_to_booster_dose' => random_int(3, 12)
+            'days_to_booster_dose' => random_int(200, 365)
         ];
     }
 }
