@@ -5,10 +5,11 @@ namespace Core\Generics\UseCases;
 use Core\Generics\Collections\DataCollection;
 use Core\Generics\Enums\Interfaces\CodeErrorNameEnum;
 use Core\Generics\Enums\ResponseEnum;
-use Core\Generics\Outputs\Interfaces\OutputInterface;
 use Core\Generics\Outputs\Errors\ErrorOutput;
+use Core\Generics\Outputs\Interfaces\OutputInterface;
 use Core\Generics\Outputs\StatusOutput;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 abstract class AbstractUseCase
 {
@@ -21,11 +22,13 @@ abstract class AbstractUseCase
     }
 
     protected function handleException(
-        \Throwable $exception,
+        Throwable $exception,
         string $prefixo,
         string $genericMessage,
         CodeErrorNameEnum $codeErrorNameEnum
     ): void {
+        $responseEnum = ResponseEnum::from($exception->getResponseEnum());
+        $codeErrorNameEnum = $codeErrorNameEnum->from($exception->getErrorCodeEnumValue());
         if ($exception instanceof UseCaseExceptionInterface) {
             $this->logError(
                 $exception,
@@ -35,11 +38,11 @@ abstract class AbstractUseCase
             );
             $this->output = new ErrorOutput(
                 new StatusOutput(
-                    $exception->getResponseEnum(),
-                    ResponseEnum::getCodeName($exception->getResponseEnum())
+                    $responseEnum,
+                    $responseEnum->getCodeName()
                 ),
                 $exception->getErrorCodeEnumValue(),
-                $codeErrorNameEnum->getErrorCode($codeErrorNameEnum, $exception->getErrorCodeEnumValue()),
+                $codeErrorNameEnum->getErrorCode(),
                 $exception instanceof ValidationException ? $exception->getValidationErrors() : []
             );
             return;
@@ -48,16 +51,16 @@ abstract class AbstractUseCase
         $this->logError($exception, $prefixo, $genericMessage);
         $this->output = new ErrorOutput(
             new StatusOutput(
-                ResponseEnum::INTERNAL_SERVER_ERROR->value,
-                ResponseEnum::getCodeName(ResponseEnum::INTERNAL_SERVER_ERROR->value)
+                $responseEnum,
+                $responseEnum->getCodeName()
             ),
             $genericMessage,
-            $codeErrorNameEnum->getErrorCode($codeErrorNameEnum, $genericMessage)
+            $codeErrorNameEnum->getErrorCode()
         );
     }
 
     protected function logError(
-        \Throwable $exception,
+        Throwable $exception,
         string $prefixo,
         string $logMessage,
         ?DataCollection $dataCollection = null
@@ -78,7 +81,7 @@ abstract class AbstractUseCase
 
         if (
             config('app.debug')
-            && !app()->runningUnitTests()
+            && app()->runningUnitTests()
             && !($exception instanceof ValidationException)
         ) {
             throw $exception;

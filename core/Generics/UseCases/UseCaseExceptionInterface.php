@@ -8,7 +8,7 @@ use Core\Generics\Enums\ResponseEnum;
 
 interface UseCaseExceptionInterface extends \Throwable
 {
-    public function getResponseEnum(): string;
+    public function getResponseEnum(): string|int;
 
     public function getErrorCodeEnumValue(): string;
 

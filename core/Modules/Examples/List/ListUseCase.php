@@ -43,8 +43,8 @@ class ListUseCase extends AbstractUseCase
             $this->handleException(
                 $exception,
                 '[' . self::LOG_NAME . '] ',
-                ErrorCodeEnum::ENTITY__EDITAR__GENERIC_EXCEPTION,
-                new ErrorCodeEnum()
+                ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION->value,
+                ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION
             );
         }
     }

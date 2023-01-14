@@ -5,11 +5,12 @@ namespace Core\Modules\Examples\List\Exceptions;
 use Core\Generics\Collections\HasDataCollection;
 use Core\Generics\Enums\ResponseEnum;
 use Core\Generics\UseCases\UseCaseExceptionInterface;
+use Core\Generics\UseCases\ValidationException;
 use Core\Modules\Examples\List\Enums\ErrorCodeEnum;
 use Exception;
 use Throwable;
 
-class EntityDatabaseException extends Exception implements UseCaseExceptionInterface
+class EntityValidationException extends Exception implements UseCaseExceptionInterface, ValidationException
 {
     use HasDataCollection;
 
@@ -19,18 +20,27 @@ class EntityDatabaseException extends Exception implements UseCaseExceptionInter
         int $code = 0
     ) {
         if (!$message) {
-            $message = ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION->value;
+            $message = ErrorCodeEnum::ENTITY__LIST__VALIDATION_EXCEPTION->value;
         }
         parent::__construct($message, $code, $previous);
     }
 
     public function getResponseEnum(): string|int
     {
-        return ResponseEnum::INTERNAL_SERVER_ERROR->value;
+        return ResponseEnum::UNPROCESSABLE_ENTITY->value;
     }
 
     public function getErrorCodeEnumValue(): string
     {
-        return ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION->value;
+        return ErrorCodeEnum::ENTITY__LIST__VALIDATION_EXCEPTION->value;
+    }
+
+    public function getValidationErrors(): array
+    {
+        return [
+            'senha' => [
+                'Senha incorreta..'
+            ]
+        ];
     }
 }

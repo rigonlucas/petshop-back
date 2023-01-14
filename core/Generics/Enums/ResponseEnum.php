@@ -80,4 +80,15 @@ enum ResponseEnum: int implements CodeNameEnum
             )
         );
     }
+
+    public function getCodeNameByValue(string|int $value): string
+    {
+        return ucwords(
+            str_replace(
+                '_',
+                ' ',
+                self::from($value)->name
+            )
+        );
+    }
 }
