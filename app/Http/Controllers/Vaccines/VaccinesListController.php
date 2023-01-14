@@ -8,6 +8,7 @@ use App\Services\Application\Vaccines\DTO\VaccinesListData;
 use App\Services\Application\Vaccines\VaccinesListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Cache;
 
 class VaccinesListController extends Controller
 {
@@ -18,7 +19,9 @@ class VaccinesListController extends Controller
         ]);
         abort_if(!$abort, 403);
         $data = VaccinesListData::fromRequest($request);
-        $vaccines = $service->list($data);
+        $vaccines = Cache::rememberForever('vaccines', function () use ($data, $service) {
+            return $service->list($data);
+        });
         return VaccineResource::collection($vaccines);
     }
 }

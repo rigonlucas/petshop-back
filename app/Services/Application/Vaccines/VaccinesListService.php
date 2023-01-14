@@ -11,7 +11,7 @@ use App\Services\Ordinations\ApplyOrdination;
 use App\Services\Ordinations\OrderBy;
 use App\Services\Traits\HasOrderBy;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Pagination\CursorPaginator;
+use Illuminate\Support\Collection;
 
 class VaccinesListService extends BaseService
 {
@@ -36,7 +36,7 @@ class VaccinesListService extends BaseService
         ];
     }
 
-    public function list(VaccinesListData $data): CursorPaginator
+    public function list(VaccinesListData $data): Collection
     {
         $query = Vaccine::query();
         $ordination = [
@@ -49,6 +49,6 @@ class VaccinesListService extends BaseService
         ApplyFilters::apply($query, $filters, $data->toArray());
         ApplyOrdination::apply($query, $ordination);
 
-        return $query->cursorPaginate($data->per_page);
+        return $query->get();
     }
 }
