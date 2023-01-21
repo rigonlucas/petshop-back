@@ -3,10 +3,11 @@
 namespace Database\Factories\Products;
 
 use App\Enums\VaccinesTypesEnum;
+use App\Models\Products\Vaccine;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Products\Vaccine>
+ * @extends Factory<Vaccine>
  */
 class VaccineFactory extends Factory
 {
@@ -21,7 +22,9 @@ class VaccineFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text(500),
             'type' => VaccinesTypesEnum::random(),
-            'days_to_booster_dose' => random_int(200, 365)
+            'number_first_shoot' => 1,
+            'number_first_shoot_days' => random_int(200, 365),
+            'days_to_booster_dose' => 60
         ];
     }
 }

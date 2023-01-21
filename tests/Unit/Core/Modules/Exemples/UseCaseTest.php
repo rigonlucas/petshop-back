@@ -7,6 +7,7 @@ use Core\Generics\Outputs\Errors\ErrorOutput;
 use Core\Generics\Outputs\StatusOutput;
 use Core\Generics\Pagination\PaginationInput;
 use Core\Modules\Examples\List\Collections\EntityCollection;
+use Core\Modules\Examples\List\Entities\Entity;
 use Core\Modules\Examples\List\Enums\ErrorCodeEnum;
 use Core\Modules\Examples\List\Exceptions\EntityDatabaseException;
 use Core\Modules\Examples\List\Exceptions\EntityValidationException;
@@ -29,13 +30,23 @@ class UseCaseTest extends TestCase
             $this->createMock(LoggerInterface::class),
             $repositoryMock
         );
-        $repositoryMock->expects(self::once())->method('list')->willReturn(
-            new EntityPagiantion(new EntityCollection(), 1, 1, 1, 1)
+        $entityCollection = new EntityCollection();
+        $entityCollection->add(
+            new Entity(
+                1,
+                'teste',
+                'emil@teste',
+                now(),
+                'foto.png'
+            )
         );
+        $repositoryMock->expects(self::once())
+            ->method('list')
+            ->willReturn(new EntityPagiantion($entityCollection, 1, 1, 1, 1));
 
         $usecase->execute(
-            new EntityInput('aa'),
-            new ConfigInput('', ''),
+            new EntityInput('email@email.com'),
+            new ConfigInput('public', 'usuario/foto'),
             new PaginationInput(1, 2)
         );
 
@@ -43,7 +54,7 @@ class UseCaseTest extends TestCase
         $this->assertEquals(
             new ListEntitiesOutput(
                 new StatusOutput(ResponseEnum::OK, ResponseEnum::OK->getCodeName()),
-                new EntityPagiantion(new EntityCollection(), 1, 1, 1, 1)
+                new EntityPagiantion($entityCollection, 1, 1, 1, 1)
             ),
             $output
         );

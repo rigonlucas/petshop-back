@@ -61,7 +61,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('v1')->group(function () {
-
     Route::post('/login', LoginController::class)
         ->name('api.login');
 
@@ -78,7 +77,6 @@ Route::prefix('v1')->group(function () {
         ->name('api.update-password');
 
     Route::middleware('auth:sanctum')->group(function () {
-
         Route::get('/logout', LogoutController::class)
             ->name('api.logout');
 
@@ -114,7 +112,6 @@ Route::prefix('v1')->group(function () {
                     ->name('schedules.delete');
 
                 Route::prefix('status')->group(function () {
-
                     Route::patch('scheduled', SchedulesOpenController::class)
                         ->name('schedules.status.open');
 
@@ -129,15 +126,11 @@ Route::prefix('v1')->group(function () {
 
                     Route::patch('finished', SchedulesFinishedController::class)
                         ->name('schedules.status.finished');
-
                 });
                 Route::prefix('history')->group(function () {
-
                     Route::prefix('/{scheduleId}')->group(function () {
-
                         Route::delete('/', ScheduleHistoryDeleteController::class)
                             ->name('schedule.history.delete');
-
                     });
 
                     Route::get('/', ScheduleHistoryIndexController::class)
@@ -145,17 +138,14 @@ Route::prefix('v1')->group(function () {
 
                     Route::post('/', ScheduleHistoryStoreController::class)
                         ->name('schedule.history.store');
-
                 });
                 Route::prefix('products')->group(function () {
-
                     Route::post('/', ScheduleProductsStoreController::class)
                         ->name('schedule.products.store');
 
                     Route::prefix('{scheduleProductId}')->group(function () {
                         Route::delete('/', ScheduleProductsDeleteController::class)
                             ->name('schedule.products.delete');
-
                     });
                 });
             });
@@ -244,10 +234,8 @@ Route::prefix('v1')->group(function () {
          * Breeds
          */
         Route::prefix('breeds')->group(function () {
-
             Route::get('/', BreedListController::class)
                 ->name('breeds.index');
-
         });
 
         /**
@@ -280,7 +268,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('vaccines')->group(function () {
-            Route::get('/', VaccinesListController::class);
+            Route::get('/', VaccinesListController::class)->name('vaccine.index');
         });
     });
 });

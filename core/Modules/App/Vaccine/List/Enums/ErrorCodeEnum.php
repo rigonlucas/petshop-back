@@ -1,16 +1,15 @@
 <?php
 
-namespace Core\Modules\Examples\List\Enums;
+namespace Core\Modules\App\Vaccine\List\Enums;
 
 use Core\Generics\Enums\Interfaces\CodeErrorNameEnum;
 
 enum ErrorCodeEnum: string implements CodeErrorNameEnum
 {
     case ENTITY__LIST__GENERIC_EXCEPTION = 'Generic error';
-    case ENTITY__LIST__VALIDATION_EXCEPTION = 'Validation error';
+    case ENTITY__LIST__DATA_BASE_EXCEPTION = 'Database error';
 
-    public function
-    getErrorCode(): string
+    public function getErrorCode(): string
     {
         return str_replace('__', '::', $this->name);
     }

@@ -9,7 +9,7 @@ class PaginationInput
     private ?int $total;
     private ?int $lastPage;
 
-    public function __construct(int $perPage = null, int $page = null, ?int $total = null, ?int $lastPage = null)
+    public function __construct(int $perPage = 15, int $page = 1, ?int $total = null, ?int $lastPage = null)
     {
         $this->perPage = $perPage;
         $this->page = $page;

@@ -1,16 +1,16 @@
 <?php
 
-namespace Core\Modules\Examples\List\Pagination;
+namespace Core\Modules\App\Vaccine\List\Pagination;
 
 use Core\Generics\Pagination\AbstractPagination;
-use Core\Modules\Examples\List\Collections\EntityCollection;
+use Core\Modules\App\Vaccine\List\Collections\vaccineCollection;
 
-class EntityPagiantion extends AbstractPagination
+class ListOfVaccinesPagiantion extends AbstractPagination
 {
-    private EntityCollection $entityCollection;
+    private vaccineCollection $entityCollection;
 
     public function __construct(
-        EntityCollection $entityCollection,
+        vaccineCollection $entityCollection,
         int $perPage,
         int $currentPage,
         ?int $total = null,
@@ -21,12 +21,12 @@ class EntityPagiantion extends AbstractPagination
         $this->entityCollection = $entityCollection;
     }
 
-    public function getEntityCollection(): EntityCollection
+    public function getEntityCollection(): vaccineCollection
     {
         return $this->entityCollection;
     }
 
-    public function setEntityCollection(EntityCollection $entityCollection): void
+    public function setEntityCollection(vaccineCollection $entityCollection): void
     {
         $this->entityCollection = $entityCollection;
     }
