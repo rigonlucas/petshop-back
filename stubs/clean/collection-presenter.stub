@@ -1,0 +1,29 @@
+<?php
+
+namespace {{ namespace }};
+
+class {{ class }}CollectionPresenter
+{
+    private {{ class }}Collection ${{ class }}Collection;
+    private array $presenter = [];
+
+    public function __construct({{ class }} ${{ class }}Collection)
+    {
+        $this->{{ class }}Collection = ${{ class }}Collection;
+    }
+
+    public function present(): self
+    {
+        foreach ($this->{{ class }}Collection->all() as $item) {
+            $this->presenter[] = [
+                'id' => $item->getId(),//exemplo
+            ];
+        }
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return $this->presenter;
+    }
+}

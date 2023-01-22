@@ -10,7 +10,7 @@ class MakeOutputPresenterCommand extends GeneratorCommand
 {
 
     protected $signature = 'make-clean:output-presenter {name}';
-    protected $description = 'Create a new output.';
+    protected $description = 'Create a new output presenter.';
     protected $type = 'Clean';
     private string $layerAlias = 'Presenters/Outputs';
 

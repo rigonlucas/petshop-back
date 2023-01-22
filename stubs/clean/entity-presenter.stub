@@ -16,12 +16,19 @@ class {{ class }}Presenter
 
     public function present(): self
     {
-        $this->presenter = (new AlgumOutroPresenter($this->pagination))->present()->toArray();
+        $this->presenter = [
+            'id' => $this->{{ class }}AlgumaCoisa->getId(),//exemplo
+        ];
         return $this;
     }
 
     public function toArray(): array
     {
         return $this->presenter;
+    }
+
+    public function getStatus(): StatusOutput
+    {
+        return $this->status;
     }
 }

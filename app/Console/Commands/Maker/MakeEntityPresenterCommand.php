@@ -6,12 +6,13 @@ use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
-class MakeSimplePresenterCommand extends GeneratorCommand
+class MakeEntityPresenterCommand extends GeneratorCommand
 {
-    protected $signature = 'make-clean:presenter {name}';
-    protected $description = 'Create a new presenter.';
+
+    protected $signature = 'make-clean:entity-presenter {name}';
+    protected $description = 'Create a new entity presenter.';
     protected $type = 'Clean';
-    private $layerAlias = 'Presenters';
+    private string $layerAlias = 'Presenters/Entities';
 
     public function handle()
     {
@@ -20,7 +21,7 @@ class MakeSimplePresenterCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/simple-presenter.stub');
+        return $this->resolveStubPath('/stubs/clean/entity-presenter.stub');
     }
 
     protected function resolveStubPath($stub)
@@ -33,8 +34,11 @@ class MakeSimplePresenterCommand extends GeneratorCommand
     protected function getPath($name)
     {
         $name = str_replace('\\', '/', Str::replaceFirst($this->rootNamespace(), '', $name));
-
-        return 'core/Modules/' . LayerPathOveride::overideLayerFolder($name, $this->layerAlias) . 'Presenter.php';
+        
+        return 'core/Modules/' . LayerPathOveride::overideLayerFolder(
+                $name,
+                $this->layerAlias
+            ) . 'Presenter.php';
     }
 
     protected function rootNamespace()

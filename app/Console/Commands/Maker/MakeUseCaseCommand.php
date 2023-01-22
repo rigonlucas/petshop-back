@@ -12,7 +12,8 @@ class MakeUseCaseCommand extends GeneratorCommand
         {name} 
         {--entities=*}
         {--collections=*}
-        {--gateways=*}';
+        {--gateways=*}
+        {--exceptions=*}';
     protected $description = 'Create a new Use case.';
     protected $type = 'Clean';
 
@@ -26,6 +27,7 @@ class MakeUseCaseCommand extends GeneratorCommand
         $entities = $this->getEntities();
         $collections = $this->getCollections();
         $gateways = $this->getGateways();
+        $exceptions = $this->getExceptions();
 
         foreach ($entities as $entity) {
             $this->call(
@@ -43,6 +45,13 @@ class MakeUseCaseCommand extends GeneratorCommand
             $this->call(
                 'make-clean:gateway',
                 ['name' => str_replace($arrayFoldersFileStruct[0], 'Gateways/' . ucfirst($gateway), $name)]
+            );
+        }
+
+        foreach ($exceptions as $exception) {
+            $this->call(
+                'make-clean:exception',
+                ['name' => str_replace($arrayFoldersFileStruct[0], 'Exceptions/' . ucfirst($exception), $name)]
             );
         }
 
@@ -95,6 +104,11 @@ class MakeUseCaseCommand extends GeneratorCommand
     public function getGateways(): array
     {
         return $this->option('gateways') ? explode(',', trim($this->option('gateways')[0])) : [];
+    }
+
+    private function getExceptions(): array
+    {
+        return $this->option('exceptions') ? explode(',', trim($this->option('exceptions')[0])) : [];
     }
 
     protected function getStub()

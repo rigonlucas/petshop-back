@@ -2,10 +2,7 @@
 
 namespace {{ namespace }};
 
-use Core\Generics\Outputs\Interfaces\OutputInterface;
-use Core\Generics\Outputs\StatusOutput;
-
-class {{ class }}OutputPresenter implements OutputInterface
+class {{ class }}OutputPresenter
 {
     private array $presenter = [];
     private {{ class }}Output $output;
@@ -35,10 +32,5 @@ class {{ class }}OutputPresenter implements OutputInterface
     public function toArray(): array
     {
         return $this->presenter;
-    }
-
-    public function getStatus(): StatusOutput
-    {
-        return $this->status;
     }
 }
