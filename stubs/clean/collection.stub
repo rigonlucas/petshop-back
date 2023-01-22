@@ -1,0 +1,24 @@
+<?php
+
+namespace {{ namespace }};
+
+
+class {{ class }}Collection
+{
+    private array $collector = [];
+
+    public function add({{ class }} ${{ class }}): void
+    {
+        $this->collector[] = ${{ class }};
+    }
+
+    public function all(): array
+    {
+        return $this->collector;
+    }
+
+    public function count(): int
+    {
+        return count($this->collector);
+    }
+}

@@ -1,0 +1,33 @@
+<?php
+
+namespace {{ namespace }};
+
+use Core\Generics\Outputs\Interfaces\OutputInterface;
+use Core\Generics\Outputs\StatusOutput;
+
+class {{ class }}Output implements OutputInterface
+{
+    private StatusOutput $status;
+    private AlumParametro $entityPagination;
+
+    public function __construct(StatusOutput $status, AlumParametro $entityPagination)
+    {
+        $this->status = $status;
+        $this->entityPagination = $entityPagination;
+    }
+
+    public function getStatus(): StatusOutput
+    {
+        return $this->status;
+    }
+
+    public function getPresenter(): {{ class }}OutputPresenter
+    {
+        return (new {{ class }}OutputPresenter($this, $this->getAlgumParametro()))->present();
+    }
+
+    public function getAlumParametro(): AlumParametro
+    {
+        return $this->AlumParametro;
+    }
+}

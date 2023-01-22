@@ -1,0 +1,34 @@
+<?php
+
+namespace {{ namespace }};
+
+use Core\Generics\Pagination\PaginationInput;
+use Core\Generics\UseCases\AbstractUseCase;
+use Exception;
+use Psr\Log\LoggerInterface;
+
+class {{ class }}UseCase extends AbstractUseCase
+{
+    private const LOG_NAME = 'Entity/List::AlgumaCoisa';
+
+    public function __construct(
+        LoggerInterface $logger,
+    ) {
+        $this->logger = $logger;
+    }
+
+    public function execute($input): void {
+        try {
+            $this->logger->info('[' . self::LOG_NAME . '] Init use case.');
+            $this->output = (new {{ class }}Ruleset($input))->apply();
+            $this->logger->info('[' . self::LOG_NAME . '] Finish use case.');
+        } catch (Exception $exception) {
+             $this->handleException(
+                 $exception,
+                 '[' . self::LOG_NAME . '] ',
+                 ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION->value,
+                 ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION
+             );
+         }
+    }
+}

@@ -1,0 +1,11 @@
+<?php
+
+namespace {{ namespace }};
+
+
+interface {{ class }}Input
+{
+    public function metodo(): {{ class }};
+
+    public function lista(): {{ class }}Collection;
+}

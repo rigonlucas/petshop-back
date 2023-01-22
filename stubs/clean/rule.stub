@@ -1,0 +1,17 @@
+<?php
+
+namespace {{ namespace }};
+
+
+class {{ class }}Rule
+{
+    public function __construct({{ class }}Input $input)
+    {
+        $this->input = $input;
+    }
+
+    public function apply(): void
+    {
+
+    }
+}

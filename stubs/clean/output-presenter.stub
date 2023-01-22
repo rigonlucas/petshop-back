@@ -1,0 +1,44 @@
+<?php
+
+namespace {{ namespace }};
+
+use Core\Generics\Outputs\Interfaces\OutputInterface;
+use Core\Generics\Outputs\StatusOutput;
+
+class {{ class }}OutputPresenter implements OutputInterface
+{
+    private array $presenter = [];
+    private {{ class }}Output $output;
+    private AlgumaCoisa $paginationCollectionEntity;
+
+    public function __construct({{ class }}Output $output, {{ class }}AlgumaCoisa $paginationCollectionEntity)
+    {
+        $this->paginationCollectionEntity = $paginationCollectionEntity;
+        $this->output = $output;
+    }
+
+    public function present(): self
+    {
+        $status = [
+            'status' => [
+                'code' => $this->output->getStatus()->getCode(),
+                'message' => $this->output->getStatus()->getMessage()
+            ],
+        ];
+        $this->presenter = array_merge(
+            $status,
+            (new AlgumOutroPresenter($this->pagination))->present()->toArray()
+        );
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return $this->presenter;
+    }
+
+    public function getStatus(): StatusOutput
+    {
+        return $this->status;
+    }
+}
