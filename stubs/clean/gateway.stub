@@ -3,7 +3,7 @@
 namespace {{ namespace }};
 
 
-interface {{ class }}Input
+interface {{ class }}Interface
 {
     public function metodo(): {{ class }};
 

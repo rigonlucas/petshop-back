@@ -41,7 +41,7 @@ class MakeUseCaseCommand extends GeneratorCommand
         }
         foreach ($gateways as $gateway) {
             $this->call(
-                'make-clean:collection',
+                'make-clean:gateway',
                 ['name' => str_replace($arrayFoldersFileStruct[0], 'Gateways/' . ucfirst($gateway), $name)]
             );
         }
@@ -92,10 +92,9 @@ class MakeUseCaseCommand extends GeneratorCommand
         return $this->option('collections') ? explode(',', trim($this->option('collections')[0])) : [];
     }
 
-    public function getGateways(): MakeUseCaseCommand
+    public function getGateways(): array
     {
-        $gateways = $this;
-        return $gateways;
+        return $this->option('gateways') ? explode(',', trim($this->option('gateways')[0])) : [];
     }
 
     protected function getStub()

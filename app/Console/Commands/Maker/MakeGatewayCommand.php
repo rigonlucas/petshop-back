@@ -9,10 +9,10 @@ use Illuminate\Support\Str;
 class MakeGatewayCommand extends GeneratorCommand
 {
 
-    protected $signature = 'make-clean:collection {name}';
+    protected $signature = 'make-clean:gateway {name}';
     protected $description = 'Create a new gateway.';
     protected $type = 'Clean';
-    private $layerAlias = 'Gateways';
+    private string $layerAlias = 'Gateways';
 
     public function handle()
     {
