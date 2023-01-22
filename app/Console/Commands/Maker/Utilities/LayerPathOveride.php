@@ -4,7 +4,7 @@ namespace App\Console\Commands\Maker\Utilities;
 
 class LayerPathOveride
 {
-    public static function overide(string $name, string $folderName): string
+    public static function overideLayerFolder(string $name, string $folderName): string
     {
         $foldersAndFile = explode('/', $name);
         $arrayStruct = array_reverse($foldersAndFile);
