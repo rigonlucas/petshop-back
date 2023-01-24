@@ -23,8 +23,8 @@ trait HasCustonNamespace
                 $stub
             );
         }
-        $replaceBaseNamespace = str_replace('\\' . $this->layerAlias, '', $this->getNamespace($name));
-        $stub = str_replace('{{namespaceBase}}', $replaceBaseNamespace, $stub);
+        $baseNamespace = str_replace('\\' . $this->layerAlias, '', $this->getNamespace($name));
+        $stub = str_replace('{{namespaceBase}}', $baseNamespace, $stub);
 
         return $this;
     }

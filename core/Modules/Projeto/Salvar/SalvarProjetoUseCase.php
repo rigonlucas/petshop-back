@@ -1,18 +1,18 @@
 <?php
 
-namespace {{ namespace }};
+namespace Core\Projeto\Salvar;
 
 use Core\Generics\UseCases\AbstractUseCase;
-use {{ namespace }}\Rulesets\{{ class }}Ruleset;
-use {{ namespace }}\Rules\{{ class }}Rule;
-use {{ namespace }}\Enums\ErrorCodeEnum;
-use {{ namespace }}\Inputs\{{ class }}Input;
+use Core\Projeto\Salvar\Enums\ErrorCodeEnum;
+use Core\Projeto\Salvar\Inputs\SalvarProjetoInput;
+use Core\Projeto\Salvar\Rules\SalvarProjetoRule;
+use Core\Projeto\Salvar\Rulesets\SalvarProjetoRuleset;
 use Exception;
 use Psr\Log\LoggerInterface;
 
-class {{ class }}UseCase extends AbstractUseCase
+class SalvarProjetoUseCase extends AbstractUseCase
 {
-    private const LOG_NAME = '{{ class }}::AlgumaCoisa';
+    private const LOG_NAME = 'SalvarProjeto::AlgumaCoisa';
 
     public function __construct(
         LoggerInterface $logger,
@@ -20,11 +20,11 @@ class {{ class }}UseCase extends AbstractUseCase
         $this->logger = $logger;
     }
 
-    public function execute({{ class }}Input $input): void {
+    public function execute(SalvarProjetoInput $input): void {
         try {
             $this->logger->info('[' . self::LOG_NAME . '] Init use case.');
-            $this->output = (new {{ class }}Ruleset(
-                new {{ class }}Rule ($input)
+            $this->output = (new SalvarProjetoRuleset(
+                new SalvarProjetoRule ($input)
             ))->apply();
             $this->logger->info('[' . self::LOG_NAME . '] Finish use case.');
         } catch (Exception $exception) {

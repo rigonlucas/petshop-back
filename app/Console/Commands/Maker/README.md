@@ -19,6 +19,7 @@ Crie todos os arquivos dos casos de uso em apenas um comando.
         * <b>Caminho</b> do usecase <mark>Projeto/Salvar/</mark>
         * <b>Nome do usecase</b> <mark>SalvarProjeto</mark>
         * Lembre-se, os sufixos das classes serão gerados automaticamente
+        * Ao criar a paginação já cria a classe de ordenação dinêmica
 
 ```shell
 php artisan make-clean:usecase Projeto/Salvar/SalvarProjeto 
@@ -26,6 +27,7 @@ php artisan make-clean:usecase Projeto/Salvar/SalvarProjeto
     --gateways=projeto,entidade
     --collections=atividades
     --exceptions=BuscarProjetoDatabase,EditalNaoEncontrado
+    --pagination=true
 ```
 
 # Criação das classes separadamente:

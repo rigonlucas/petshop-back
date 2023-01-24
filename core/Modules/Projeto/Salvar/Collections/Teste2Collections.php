@@ -1,16 +1,16 @@
 <?php
 
-namespace {{ namespace }};
+namespace Core\Projeto\Salvar\Collections;
 
-use {{namespaceBase}}\Entities\{{ class }};
+use Core\Projeto\Salvar\Entities\Teste2;
 
-class {{ class }}Collection
+class Teste2Collection
 {
     private array $collector = [];
 
-    public function add({{ class }} ${{ class }}): void
+    public function add(Teste2 $Teste2): void
     {
-        $this->collector[] = ${{ class }};
+        $this->collector[] = $Teste2;
     }
 
     public function all(): array

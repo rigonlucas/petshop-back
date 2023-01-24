@@ -94,6 +94,11 @@ class MakeUseCaseCommand extends GeneratorCommand
                 'make-clean:pagination',
                 ['name' => str_replace('#MY_FOLDER#', 'Pagination', $pathStubTemplate)]
             );
+
+            $this->call(
+                'make-clean:order',
+                ['name' => str_replace('#MY_FOLDER#', 'Resolvers', $pathStubTemplate)]
+            );
         }
 
         parent::handle();

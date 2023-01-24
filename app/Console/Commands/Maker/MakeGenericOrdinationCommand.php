@@ -7,15 +7,15 @@ use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
-class MakeCollectionCommand extends GeneratorCommand
+class MakeGenericOrdinationCommand extends GeneratorCommand
 {
     use HasCustonNamespace;
 
-    protected $signature = 'make-clean:collection {name}';
-    protected $description = 'Create a new collection.';
+    protected $signature = 'make-clean:order {name}';
+    protected $description = 'Create a new ordination.';
     protected $type = 'Clean';
     protected $hidden = true;
-    private string $layerAlias = 'Collections';
+    private string $layerAlias = 'Resolvers';
 
     public function handle()
     {
@@ -24,7 +24,7 @@ class MakeCollectionCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/collection.stub');
+        return $this->resolveStubPath('/stubs/clean/ordination.stub');
     }
 
     protected function resolveStubPath($stub)
@@ -41,7 +41,7 @@ class MakeCollectionCommand extends GeneratorCommand
             '/',
             Str::replaceFirst($this->rootNamespace(), '', $name)
         );
-        return 'core/Modules/' . LayerPathOveride::overideLayerFolder($name, $this->layerAlias) . 'Collections.php';
+        return 'core/Modules/' . LayerPathOveride::overideLayerFolder($name, $this->layerAlias) . 'Resolver.php';
     }
 
     protected function rootNamespace()
