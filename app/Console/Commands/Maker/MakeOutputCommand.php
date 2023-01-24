@@ -2,15 +2,19 @@
 
 namespace App\Console\Commands\Maker;
 
+use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeOutputCommand extends GeneratorCommand
 {
+    use HasCustonNamespace;
+
     protected $signature = 'make-clean:output {name}';
     protected $description = 'Create a new output.';
     protected $type = 'Clean';
+    protected $hidden = true;
     private string $layerAlias = 'Outputs';
 
     public function handle()

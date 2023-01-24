@@ -2,16 +2,19 @@
 
 namespace App\Console\Commands\Maker;
 
+use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeEntityPresenterCommand extends GeneratorCommand
 {
+    use HasCustonNamespace;
 
     protected $signature = 'make-clean:entity-presenter {name}';
     protected $description = 'Create a new entity presenter.';
     protected $type = 'Clean';
+    protected $hidden = true;
     private string $layerAlias = 'Presenters/Entities';
 
     public function handle()
@@ -34,7 +37,7 @@ class MakeEntityPresenterCommand extends GeneratorCommand
     protected function getPath($name)
     {
         $name = str_replace('\\', '/', Str::replaceFirst($this->rootNamespace(), '', $name));
-        
+
         return 'core/Modules/' . LayerPathOveride::overideLayerFolder(
                 $name,
                 $this->layerAlias

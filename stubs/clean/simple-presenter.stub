@@ -1,12 +1,10 @@
 <?php
 
-namespace {{ namespace }};
+namespace {{ namespace }}\Presenters\Outputs;
 
 class {{ class }}Presenter
 {
     private array $presenter = [];
-    private {{ class }}Output $output;
-    private AlgumaCoisa $paginationCollectionOuEntity;
 
     public function __construct({{ class }}Output $output, {{ class }}AlgumaCoisa $paginationCollectionOuEntity)
     {

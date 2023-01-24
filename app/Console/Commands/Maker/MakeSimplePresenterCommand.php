@@ -2,15 +2,19 @@
 
 namespace App\Console\Commands\Maker;
 
+use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeSimplePresenterCommand extends GeneratorCommand
 {
+    use HasCustonNamespace;
+
     protected $signature = 'make-clean:presenter {name}';
     protected $description = 'Create a new presenter.';
     protected $type = 'Clean';
+    protected $hidden = true;
     private $layerAlias = 'Presenters';
 
     public function handle()

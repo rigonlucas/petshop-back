@@ -2,16 +2,19 @@
 
 namespace App\Console\Commands\Maker;
 
+use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeOutputPresenterCommand extends GeneratorCommand
 {
+    use HasCustonNamespace;
 
     protected $signature = 'make-clean:output-presenter {name}';
     protected $description = 'Create a new output presenter.';
     protected $type = 'Clean';
+    protected $hidden = true;
     private string $layerAlias = 'Presenters/Outputs';
 
     public function handle()

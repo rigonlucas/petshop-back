@@ -1,12 +1,12 @@
 <?php
 
-namespace {{ namespace }};
+namespace Core\Projeto\Salvar\Outputs;
 
-use {{namespaceBase}}\Presenters\Outputs\{{ class }}OutputPresenter;
 use Core\Generics\Outputs\Interfaces\OutputInterface;
 use Core\Generics\Outputs\StatusOutput;
+use Core\Projeto\Salvar\Presenters\Outputs\SalvarProjetoOutputPresenter;
 
-class {{ class }}Output implements OutputInterface
+class SalvarProjetoOutput implements OutputInterface
 {
     private StatusOutput $status;
 
@@ -20,9 +20,9 @@ class {{ class }}Output implements OutputInterface
         return $this->status;
     }
 
-    public function getPresenter(): {{ class }}OutputPresenter
+    public function getPresenter(): SalvarProjetoOutputPresenter
     {
-        return (new {{ class }}OutputPresenter($this, /**parametro**/))->present();
+        return (new SalvarProjetoOutputPresenter($this, /**parametro**/))->present();
     }
 
     public function getAlumParametro(): AlumParametro

@@ -11,6 +11,7 @@ class MakeEnumErrorCodeCommand extends GeneratorCommand
     protected $signature = 'make-clean:enum-error {name}';
     protected $description = 'Create a new enum error.';
     protected $type = 'Clean';
+    protected $hidden = true;
     private string $layerAlias = 'Enums';
 
     public function handle()

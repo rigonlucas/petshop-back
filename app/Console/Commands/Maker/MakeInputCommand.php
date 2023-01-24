@@ -12,6 +12,7 @@ class MakeInputCommand extends GeneratorCommand
     protected $signature = 'make-clean:input {name}';
     protected $description = 'Create a new input.';
     protected $type = 'Clean';
+    protected $hidden = true;
     private string $layerAlias = 'Inputs';
 
     public function handle()

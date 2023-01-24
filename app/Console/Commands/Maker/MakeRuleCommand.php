@@ -2,16 +2,20 @@
 
 namespace App\Console\Commands\Maker;
 
+use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeRuleCommand extends GeneratorCommand
 {
+    use HasCustonNamespace;
+
     protected $signature = 'make-clean:rule {name}';
     protected $description = 'Create a new rule.';
     protected $type = 'Clean';
-    private string $layerAlias = 'Rule';
+    protected $hidden = true;
+    private string $layerAlias = 'Rules';
 
     public function handle()
     {

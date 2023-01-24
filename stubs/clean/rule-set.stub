@@ -5,6 +5,9 @@ namespace {{ namespace }};
 use Core\Generics\Enums\ResponseEnum;
 use Core\Generics\Outputs\StatusOutput;
 use Core\Generics\Pagination\PaginationInput;
+use {{namespaceBase}}\Rules\{{ class }}Rule;
+use {{namespaceBase}}\Outputs\{{ class }}Output;
+use {{namespaceBase}}\Enums\ErrorCodeEnum;
 
 class {{ class }}Ruleset
 {

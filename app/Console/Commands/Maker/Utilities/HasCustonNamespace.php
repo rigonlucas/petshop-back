@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Console\Commands\Maker\Utilities;
+
+trait HasCustonNamespace
+{
+    protected function replaceNamespace(&$stub, $name)
+    {
+        $searches = [
+            ['DummyNamespace', 'DummyRootNamespace', 'NamespacedDummyUserModel'],
+            ['{{ namespace }}', '{{ rootNamespace }}', '{{ namespacedUserModel }}'],
+            ['{{namespace}}', '{{rootNamespace}}', '{{namespacedUserModel}}', '{{nameSpaceArq}}'],
+        ];
+
+        foreach ($searches as $search) {
+            $stub = str_replace(
+                $search,
+                [
+                    $this->getNamespace($name),
+                    $this->rootNamespace(),
+                    $this->userProviderModel(),
+                ],
+                $stub
+            );
+        }
+        $replaceBaseNamespace = str_replace('\\' . $this->layerAlias, '', $this->getNamespace($name));
+        $stub = str_replace('{{namespaceBase}}', $replaceBaseNamespace, $stub);
+
+        return $this;
+    }
+}

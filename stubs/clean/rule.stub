@@ -1,7 +1,7 @@
 <?php
 
 namespace {{ namespace }};
-
+use {{namespaceBase}}\Inputs\{{ class }}Input;
 
 class {{ class }}Rule
 {

@@ -11,6 +11,7 @@ class MakeCollectionCommand extends GeneratorCommand
     protected $signature = 'make-clean:collection {name}';
     protected $description = 'Create a new collection.';
     protected $type = 'Clean';
+    protected $hidden = true;
     private string $layerAlias = 'Collections';
 
     public function handle()

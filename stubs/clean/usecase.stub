@@ -2,14 +2,16 @@
 
 namespace {{ namespace }};
 
-use Core\Generics\Pagination\PaginationInput;
 use Core\Generics\UseCases\AbstractUseCase;
+use {{ namespace }}\Rulesets\{{ class }}Ruleset;
+use {{ namespace }}\Enums\ErrorCodeEnum;
+use {{ namespace }}\Inputs\{{ class }}Input;
 use Exception;
 use Psr\Log\LoggerInterface;
 
 class {{ class }}UseCase extends AbstractUseCase
 {
-    private const LOG_NAME = 'Entity/List::AlgumaCoisa';
+    private const LOG_NAME = '{{ class }}::AlgumaCoisa';
 
     public function __construct(
         LoggerInterface $logger,
@@ -17,7 +19,7 @@ class {{ class }}UseCase extends AbstractUseCase
         $this->logger = $logger;
     }
 
-    public function execute($input): void {
+    public function execute({{ class }}Input $input): void {
         try {
             $this->logger->info('[' . self::LOG_NAME . '] Init use case.');
             $this->output = (new {{ class }}Ruleset($input))->apply();

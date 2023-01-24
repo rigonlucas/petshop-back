@@ -16,6 +16,7 @@ class MakeUseCaseCommand extends GeneratorCommand
         {--exceptions=*}';
     protected $description = 'Create a new Use case.';
     protected $type = 'Clean';
+    protected $hidden = true;
 
     public function handle()
     {
@@ -23,11 +24,11 @@ class MakeUseCaseCommand extends GeneratorCommand
 
         $arrayFoldersFileStruct = array_reverse(explode('/', $name));
         $pathStubTemplate = str_replace($arrayFoldersFileStruct[0], '#MY_FOLDER#/' . $arrayFoldersFileStruct[0], $name);
-
         $entities = $this->getEntities();
         $collections = $this->getCollections();
         $gateways = $this->getGateways();
         $exceptions = $this->getExceptions();
+        //dd(str_replace('#MY_FOLDER#/', '', $pathStubTemplate));//
 
         foreach ($entities as $entity) {
             $this->call(
@@ -65,7 +66,7 @@ class MakeUseCaseCommand extends GeneratorCommand
         );
         $this->call(
             'make-clean:output-presenter',
-            ['name' => str_replace('#MY_FOLDER#', 'Presenters/Outputs', $pathStubTemplate)]
+            ['name' => str_replace('#MY_FOLDER#/', '', $pathStubTemplate)]
         );
 
         $this->call(

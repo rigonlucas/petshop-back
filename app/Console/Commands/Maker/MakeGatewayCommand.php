@@ -12,6 +12,7 @@ class MakeGatewayCommand extends GeneratorCommand
     protected $signature = 'make-clean:gateway {name}';
     protected $description = 'Create a new gateway.';
     protected $type = 'Clean';
+    protected $hidden = true;
     private string $layerAlias = 'Gateways';
 
     public function handle()

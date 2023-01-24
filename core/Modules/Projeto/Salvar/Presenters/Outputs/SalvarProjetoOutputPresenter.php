@@ -1,15 +1,15 @@
 <?php
 
-namespace {{ namespace }}\Presenters\Outputs;
+namespace Core\Projeto\Salvar\Presenters\Outputs;
 
-use {{namespaceBase}}\Outputs\{{ class }}Output;
+use Core\Projeto\Salvar\Outputs\SalvarProjetoOutput;
 
-class {{ class }}OutputPresenter
+class SalvarProjetoOutputPresenter
 {
     private array $presenter = [];
-    private {{ class }}Output $output;
+    private SalvarProjetoOutput $output;
 
-    public function __construct({{ class }}Output $output /**, parametros**/)
+    public function __construct(SalvarProjetoOutput $output /**, parametros**/)
     {
         $this->output = $output;
     }

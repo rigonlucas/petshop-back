@@ -11,6 +11,7 @@ class MakeEntityCommand extends GeneratorCommand
     protected $signature = 'make-clean:entity {name}';
     protected $description = 'Create a new entity.';
     protected $type = 'Clean';
+    protected $hidden = true;
     private string $layerAlias = 'Entities';
 
     public function handle()
@@ -36,7 +37,7 @@ class MakeEntityCommand extends GeneratorCommand
 
         return 'core/Modules/' . LayerPathOveride::overideLayerFolder($name, $this->layerAlias) . '.php';
     }
-    
+
     protected function rootNamespace()
     {
         return 'Core\\';

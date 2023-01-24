@@ -1,16 +1,16 @@
 <?php
 
-namespace {{ namespace }};
+namespace Core\Projeto\Salvar\Exceptions;
 
 use Core\Generics\Collections\HasDataCollection;
 use Core\Generics\Enums\ResponseEnum;
 use Core\Generics\UseCases\UseCaseExceptionInterface;
 use Core\Generics\UseCases\ValidationException;
-use {{namespaceBase}}\Enums\ErrorCodeEnum;
+use Core\Projeto\Salvar\Enums\ErrorCodeEnum;
 use Exception;
 use Throwable;
 
-class {{ class }}Exception  extends Exception implements UseCaseExceptionInterface, ValidationException
+class EditalNaoEncontradoException  extends Exception implements UseCaseExceptionInterface, ValidationException
 {
   use HasDataCollection;
 
