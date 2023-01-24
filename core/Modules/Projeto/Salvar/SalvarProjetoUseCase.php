@@ -19,19 +19,18 @@ class SalvarProjetoUseCase extends AbstractUseCase
         $this->logger = $logger;
     }
 
-    public function execute(SalvarProjetoInput $input): void
-    {
+    public function execute(SalvarProjetoInput $input): void {
         try {
             $this->logger->info('[' . self::LOG_NAME . '] Init use case.');
             $this->output = (new SalvarProjetoRuleset($input))->apply();
             $this->logger->info('[' . self::LOG_NAME . '] Finish use case.');
         } catch (Exception $exception) {
-            $this->handleException(
-                $exception,
-                '[' . self::LOG_NAME . '] ',
-                ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION->value,
-                ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION
-            );
-        }
+             $this->handleException(
+                 $exception,
+                 '[' . self::LOG_NAME . '] ',
+                 ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION->value,
+                 ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION
+             );
+         }
     }
 }

@@ -13,7 +13,8 @@ class MakeUseCaseCommand extends GeneratorCommand
         {--entities=*}
         {--collections=*}
         {--gateways=*}
-        {--exceptions=*}';
+        {--exceptions=*}
+        {--pagination=}';
     protected $description = 'Create a new Use case.';
     protected $type = 'Clean';
     protected $hidden = true;
@@ -28,7 +29,6 @@ class MakeUseCaseCommand extends GeneratorCommand
         $collections = $this->getCollections();
         $gateways = $this->getGateways();
         $exceptions = $this->getExceptions();
-        //dd(str_replace('#MY_FOLDER#/', '', $pathStubTemplate));//
 
         foreach ($entities as $entity) {
             $this->call(
@@ -88,6 +88,13 @@ class MakeUseCaseCommand extends GeneratorCommand
             'make-clean:ruleset',
             ['name' => str_replace('#MY_FOLDER#', 'Rulesets', $pathStubTemplate)]
         );
+        $pagination = (bool)$this->option('pagination') ?? null;
+        if ($pagination) {
+            $this->call(
+                'make-clean:pagination',
+                ['name' => str_replace('#MY_FOLDER#', 'Pagination', $pathStubTemplate)]
+            );
+        }
 
         parent::handle();
     }
