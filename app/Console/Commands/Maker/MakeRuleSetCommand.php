@@ -43,7 +43,7 @@ class MakeRuleSetCommand extends GeneratorCommand
 
     protected function rootNamespace()
     {
-        return 'Core\\';
+        return 'Core\\Modules\\';
     }
 
     /*protected function replaceNamespace(&$stub, $name)

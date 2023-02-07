@@ -14,6 +14,7 @@ class MakeUseCaseCommand extends GeneratorCommand
         {--collections=*}
         {--gateways=*}
         {--exceptions=*}
+        {--rules=*}
         {--pagination=}';
     protected $description = 'Create a new Use case.';
     protected $type = 'Clean';
@@ -29,6 +30,7 @@ class MakeUseCaseCommand extends GeneratorCommand
         $collections = $this->getCollections();
         $gateways = $this->getGateways();
         $exceptions = $this->getExceptions();
+        $rules = $this->getRules();
 
         foreach ($entities as $entity) {
             $this->call(
@@ -53,6 +55,13 @@ class MakeUseCaseCommand extends GeneratorCommand
             $this->call(
                 'make-clean:exception',
                 ['name' => str_replace($arrayFoldersFileStruct[0], 'Exceptions/' . ucfirst($exception), $name)]
+            );
+        }
+
+        foreach ($rules as $rule) {
+            $this->call(
+                'make-clean:rule',
+                ['name' => str_replace($arrayFoldersFileStruct[0], 'Rules/' . ucfirst($rule), $name)]
             );
         }
 
@@ -124,6 +133,11 @@ class MakeUseCaseCommand extends GeneratorCommand
         return $this->option('exceptions') ? explode(',', trim($this->option('exceptions')[0])) : [];
     }
 
+    private function getRules()
+    {
+        return $this->option('rules') ? explode(',', trim($this->option('rules')[0])) : [];
+    }
+
     protected function getStub()
     {
         return $this->resolveStubPath('/stubs/clean/usecase.stub');
@@ -145,6 +159,6 @@ class MakeUseCaseCommand extends GeneratorCommand
 
     protected function rootNamespace()
     {
-        return 'Core\\';
+        return 'Core\\Modules\\';
     }
 }

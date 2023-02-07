@@ -28,6 +28,7 @@ php artisan make-clean:usecase Projeto/Salvar/SalvarProjeto
     --collections=atividades
     --exceptions=BuscarProjetoDatabase,EditalNaoEncontrado
     --pagination=true
+    --rules=BuscaAlgumaCoisaRule,BuscaAlgumaCoisa2Rule
 ```
 
 # Criação das classes separadamente:

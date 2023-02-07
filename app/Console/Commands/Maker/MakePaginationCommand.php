@@ -43,6 +43,6 @@ class MakePaginationCommand extends GeneratorCommand
 
     protected function rootNamespace()
     {
-        return 'Core\\';
+        return 'Core\\Modules\\';
     }
 }
