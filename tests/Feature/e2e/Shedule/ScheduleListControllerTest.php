@@ -19,7 +19,7 @@ class ScheduleListControllerTest extends TestCase
     public function test_schedule_list()
     {
         $user = User::factory()->create();
-        Schedule::factory()->create([
+        Schedule::factory()->count(2)->create([
             'account_id' => $user->account_id,
             'client_id' => Client::factory()->create([
                 'account_id' => $user->account_id
@@ -27,6 +27,7 @@ class ScheduleListControllerTest extends TestCase
             'pet_id' => Pet::factory()->create([
                 'account_id' => $user->account_id
             ]),
+            'user_id' => $user->id,
             'status' => SchedulesStatusEnum::SCHEDULED
         ]);
         $response = $this
@@ -37,33 +38,36 @@ class ScheduleListControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 [
-                    "id",
-                    "user_id",
-                    "client_id",
-                    "account_id",
-                    "pet_id",
-                    "type",
-                    "status",
-                    "start_at",
-                    "finish_at",
-                    "duration",
-                    "description",
-                    "created_at",
-                    "updated_at",
-                    "pet" => [
-                        "id",
-                        "name",
-                        "client_id",
+                    'id',
+                    'user_id',
+                    'client_id',
+                    'account_id',
+                    'pet_id',
+                    'type',
+                    'status',
+                    'start_at',
+                    'finish_at',
+                    'duration',
+                    'description',
+                    'created_at',
+                    'updated_at',
+                    'pet' => [
+                        'id',
+                        'name',
+                        'client_id',
                     ],
-                    "client" => [
-                        "id",
-                        "name",
-                        "email",
-                        "phone",
-                        "created_at",
-                        "updated_at",
+                    'client' => [
+                        'id',
+                        'name',
+                        'email',
+                        'phone',
+                        'created_at',
+                        'updated_at',
                     ],
-                    "user",
+                    'user' => [
+                        'id',
+                        'email',
+                    ],
                 ]
             ],
             'meta' => [

@@ -103,7 +103,7 @@ Route::prefix('v1')->group(function () {
 
             Route::prefix('{id}')->group(function () {
                 Route::get('/', ScheduleShowController::class)
-                    ->name('schedules.get');
+                    ->name('schedules.show');
 
                 Route::put('/', ScheduleUpdateController::class)
                     ->name('schedules.update');

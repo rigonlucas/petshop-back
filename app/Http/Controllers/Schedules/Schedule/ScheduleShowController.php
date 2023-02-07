@@ -15,7 +15,7 @@ class ScheduleShowController extends Controller
     {
         $data = ScheduleShowData::fromRequest($request);
         $schedule = $service->show($data, $id, $request->user()->account_id);
-        clock($schedule->toArray());
+
         return SchedulesResource::make($schedule);
     }
 }
