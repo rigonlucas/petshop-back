@@ -5,6 +5,7 @@ namespace App\Services\Application\Auth;
 use App\Exceptions\Auth\CredendialsWrongException;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+
 use function config;
 
 class LoginService
@@ -17,9 +18,9 @@ class LoginService
     {
         $user = User::query()
             ->where('email', '=', $email)
-            ->with(['account', 'roles', 'permissions'])
+            ->with(['account', 'roles'])
             ->first();
-        if(!$user || !Hash::check($password, $user->password)){
+        if (!$user || !Hash::check($password, $user->password)) {
             throw new CredendialsWrongException();
         }
         return [

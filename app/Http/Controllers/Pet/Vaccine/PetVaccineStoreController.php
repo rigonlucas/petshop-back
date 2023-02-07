@@ -10,7 +10,6 @@ use App\Services\Application\Pets\Vaccines\PetVaccinesStoreService;
 use App\Services\Application\Schedules\Schedule\Factories\DataScheduleFactory;
 use App\Services\Application\Schedules\Schedule\Factories\NextShotVaccineFactory;
 use App\Services\Application\Schedules\Schedule\ScheduleStoreService;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -22,7 +21,6 @@ class PetVaccineStoreController extends Controller
         PetVaccinesStoreService $servicePetVacineStore,
         ScheduleStoreService $serviceScheduleStore
     ): JsonResponse {
-        $this->authorize('client_create');
         $dataPetVaccine = PetVaccineStoreData::fromRequest($request);
         $result = DB::transaction(function () use ($servicePetVacineStore, $serviceScheduleStore, $dataPetVaccine, $request) {
             $scheduleResult = [];

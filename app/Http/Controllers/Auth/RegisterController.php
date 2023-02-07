@@ -20,7 +20,7 @@ class RegisterController extends Controller
             return $service->register($data);
         });
         $result = [
-            'user' => $user,
+            'us er' => $user,
             'token' => $user->createToken('user')->plainTextToken,
             'expire_at' => config('sanctum.expiration')
         ];

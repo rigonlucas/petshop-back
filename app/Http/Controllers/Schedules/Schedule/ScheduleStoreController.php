@@ -11,23 +11,14 @@ use App\Services\Application\Schedules\Schedule\DTO\RecurrenceData;
 use App\Services\Application\Schedules\Schedule\DTO\ScheduleData;
 use App\Services\Application\Schedules\Schedule\DTO\VaccineData;
 use App\Services\Application\Schedules\Schedule\ScheduleStoreService;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ScheduleStoreController extends Controller
 {
-    /**
-     * @param ScheduleStoreRequest $request
-     * @param ScheduleStoreService $service
-     * @return JsonResponse
-     * @throws AuthorizationException
-     */
     public function __invoke(ScheduleStoreRequest $request, ScheduleStoreService $service): JsonResponse
     {
-        $this->authorize('schedule_create');
         /** @var User $user */
         $user = $request->user();
         $data = ScheduleData::fromRequest($request);

@@ -37,6 +37,6 @@ class ScheduleListService extends BaseService
         ApplyFilters::apply($query, $filters, $data->toArray());
         $this->applyEagerLoadging($query, $data->include, $this->relationsAvailables);
 
-        return $query->simplePaginate($data->per_page);
+        return $query->paginate($data->per_page);
     }
 }

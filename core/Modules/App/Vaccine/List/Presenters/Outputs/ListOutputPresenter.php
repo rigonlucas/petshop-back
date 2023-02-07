@@ -20,16 +20,7 @@ class ListOutputPresenter
 
     public function present(): self
     {
-        $status = [
-            'status' => [
-                'code' => $this->output->getStatus()->getCode(),
-                'message' => $this->output->getStatus()->getMessage()
-            ],
-        ];
-        $this->presenter = array_merge(
-            $status,
-            (new PaginationPresenter($this->pagination))->present()->toArray()
-        );
+        $this->presenter = (new PaginationPresenter($this->pagination))->present()->toArray();
         return $this;
     }
 

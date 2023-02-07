@@ -32,18 +32,5 @@ class VaccinesListController extends Controller
             $useCase->getOutput()->getPresenter()->toArray(),
             $useCase->getOutput()->getStatus()->getCode()
         );
-        /*$abort = $request->user()->hasAnyPermission([
-            'client_access',
-            'schedule_create',
-            'schedule_update',
-            'schedule_show',
-            'vaccine_access'
-        ]);
-        abort_if(!$abort, 403);
-        $data = VaccinesListData::fromRequest($request);
-        $vaccines = Cache::rememberForever('vaccines', function () use ($data, $service) {
-            return $service->list($data);
-        });
-        return VaccineResource::collection($vaccines);*/
     }
 }

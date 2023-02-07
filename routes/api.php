@@ -251,20 +251,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('{id}')->group(function () {
                 Route::delete('change-status', ChangeUserStatusController::class)
                     ->name('account.change-status');
-
-                Route::prefix('permissions')->group(function () {
-                    Route::put('', UserPermissionsController::class)
-                        ->name('account.permission.sync');
-                });
             });
-        });
-
-        /**
-         * Permissions
-         */
-        Route::prefix('permissions')->group(function () {
-            Route::get('', PermissionsShowController::class)
-                ->name('permissions.index');
         });
 
         Route::prefix('vaccines')->group(function () {

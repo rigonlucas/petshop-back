@@ -20,7 +20,6 @@ class PetShowController extends Controller
      */
     public function __invoke(Request $request, int $id, PetShowService $service): PetResource
     {
-        $this->authorize('client_show');
         $data = PetShowData::fromRequest($request);
         $data->id = $id;
         $data->account_id = $request->user()->account_id;

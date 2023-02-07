@@ -14,13 +14,10 @@ class ScheduleFactory extends Factory
 {
     public function definition()
     {
-        $client = Client::factory()->has(Pet::factory()->count(1))->create([
-            'account_id' => 1
-        ]);
         return [
-            'account_id' => 1,
-            'client_id' => $client->id,
-            'pet_id' => $client->pets->first()->id,
+            'account_id' => Account::factory(),
+            'client_id' => Client::factory(),
+            'pet_id' => Pet::factory(),
             'user_id' => null,
             'type' => SchedulesTypesEnum::random(),
             'status' => SchedulesStatusEnum::random(),
