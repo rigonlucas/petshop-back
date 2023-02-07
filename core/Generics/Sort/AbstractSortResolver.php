@@ -2,9 +2,9 @@
 
 namespace Core\Modules\Generics\Ordination;
 
-use ColunaPadraoNaoDefinidaException;
+use DefaultColumnNotDefinedException;
 
-abstract class AbstractOrdinationResolver
+abstract class AbstractSortResolver
 {
     /**
      *  array relacional [alias => nome_da_coluna_na_tabela]
@@ -12,9 +12,9 @@ abstract class AbstractOrdinationResolver
      */
     protected array $colunas = [];
     protected string $direcaoPadrao = 'desc';
-    private OrdinationInput $ordinationInput;
+    private SortInput $ordinationInput;
 
-    public function __construct(OrdinationInput $ordinationInput)
+    public function __construct(SortInput $ordinationInput)
     {
         $this->ordinationInput = $ordinationInput;
     }
@@ -22,7 +22,7 @@ abstract class AbstractOrdinationResolver
     public function resolve(): self
     {
         if (is_null($this->colunaPadrao)) {
-            throw new ColunaPadraoNaoDefinidaException();
+            throw new DefaultColumnNotDefinedException();
         }
         $arrayDasColunas = array_keys($this->colunas);
         $indiceDaColuna = array_search($this->ordinationInput->getColuna(), $arrayDasColunas);
@@ -45,7 +45,7 @@ abstract class AbstractOrdinationResolver
      */
     abstract public function getColunaPadrao(): string;
 
-    public function getOrdinationInput(): OrdinationInput
+    public function getOrdinationInput(): SortInput
     {
         return $this->ordinationInput;
     }

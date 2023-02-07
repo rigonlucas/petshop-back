@@ -2,7 +2,7 @@
 
 namespace Core\Modules\Generics\Ordination;
 
-class OrdinationInput
+class SortInput
 {
     private string $direcao;
     private ?string $coluna;
