@@ -6,8 +6,8 @@ use Core\Generics\Enums\Interfaces\CodeErrorNameEnum;
 
 enum ErrorCodeEnum: string implements CodeErrorNameEnum
 {
-    case ENTITY__LIST__GENERIC_EXCEPTION = 'Generic error';
-    case ENTITY__LIST__DATA_BASE_EXCEPTION = 'Database error';
+    case VACCINES__LIST__GENERIC_EXCEPTION = 'Generic error';
+    case VACCINES__LIST__DATA_BASE_EXCEPTION = 'Database error';
 
     public function getErrorCode(): string
     {

@@ -5,12 +5,11 @@ namespace Core\Modules\App\Vaccine\List\Exceptions\Database;
 use Core\Generics\Collections\HasDataCollection;
 use Core\Generics\Enums\ResponseEnum;
 use Core\Generics\UseCases\UseCaseExceptionInterface;
-use Core\Generics\UseCases\ValidationException;
 use Core\Modules\App\Vaccine\List\Enums\ErrorCodeEnum;
 use Exception;
 use Throwable;
 
-class EntityValidationException extends Exception implements UseCaseExceptionInterface, ValidationException
+class EntityValidationException extends Exception implements UseCaseExceptionInterface
 {
     use HasDataCollection;
 
@@ -19,9 +18,7 @@ class EntityValidationException extends Exception implements UseCaseExceptionInt
         ?string $message = null,
         int $code = 0
     ) {
-        if (!$message) {
-            $message = ErrorCodeEnum::ENTITY__LIST__VALIDATION_EXCEPTION->value;
-        }
+        $message = $message ?? ErrorCodeEnum::VACCINES__LIST__DATA_BASE_EXCEPTION->value;
         parent::__construct($message, $code, $previous);
     }
 
@@ -32,15 +29,6 @@ class EntityValidationException extends Exception implements UseCaseExceptionInt
 
     public function getErrorCodeEnumValue(): string
     {
-        return ErrorCodeEnum::ENTITY__LIST__VALIDATION_EXCEPTION->value;
-    }
-
-    public function getValidationErrors(): array
-    {
-        return [
-            'senha' => [
-                'Senha incorreta..'
-            ]
-        ];
+        return ErrorCodeEnum::VACCINES__LIST__DATA_BASE_EXCEPTION->value;
     }
 }

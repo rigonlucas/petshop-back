@@ -18,9 +18,7 @@ class VaccineListDatabaseException extends Exception implements UseCaseException
         ?string $message = null,
         int $code = 0
     ) {
-        if (!$message) {
-            $message = ErrorCodeEnum::ENTITY__LIST__DATA_BASE_EXCEPTION->value;
-        }
+        $message = $message ?? ErrorCodeEnum::VACCINES__LIST__DATA_BASE_EXCEPTION->value;
         parent::__construct($message, $code, $previous);
     }
 
@@ -31,6 +29,6 @@ class VaccineListDatabaseException extends Exception implements UseCaseException
 
     public function getErrorCodeEnumValue(): string
     {
-        return ErrorCodeEnum::ENTITY__LIST__DATA_BASE_EXCEPTION->value;
+        return ErrorCodeEnum::VACCINES__LIST__DATA_BASE_EXCEPTION->value;
     }
 }

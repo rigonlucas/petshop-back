@@ -40,8 +40,8 @@ class ListVaccineUseCase extends AbstractUseCase
             $this->handleException(
                 $exception,
                 '[' . self::LOG_NAME . '] ',
-                ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION->value,
-                ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION
+                ErrorCodeEnum::VACCINES__LIST__GENERIC_EXCEPTION->value,
+                ErrorCodeEnum::VACCINES__LIST__GENERIC_EXCEPTION
             );
         }
     }
