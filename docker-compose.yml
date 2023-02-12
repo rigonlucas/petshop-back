@@ -3,7 +3,7 @@ version: '3'
 services:
     petshop.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.1
+            context: ./docker/8.1
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -46,9 +46,18 @@ services:
         networks:
             - sail
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+            test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
             retries: 3
             timeout: 5s
+    mongodb:
+        container_name: petshop_mongodb
+        image: mongo
+        ports:
+            - 27017:27017
+        logging:
+            driver: none
+        networks:
+            - sail
     redis:
         image: 'redis:alpine'
         ports:
@@ -58,7 +67,7 @@ services:
         networks:
             - sail
         healthcheck:
-            test: ["CMD", "redis-cli", "ping"]
+            test: [ "CMD", "redis-cli", "ping" ]
             retries: 3
             timeout: 5s
 #    meilisearch:

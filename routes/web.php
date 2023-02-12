@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\OnlyInLocalHost;
+use App\Models\Mongodb\BackgroundJobs;
 use App\Models\User;
 use App\Notifications\Auth\ForgotPasswordNotify;
 use Illuminate\Mail\Markdown;
@@ -18,12 +19,19 @@ use Illuminate\Support\Facades\Route;
 */
 Route::middleware(OnlyInLocalHost::class)
     ->prefix('local')
-    ->group(function (){
+    ->group(callback: function () {
         Route::get('test-email', function () {
             $message = (new ForgotPasswordNotify(User::query()->first(), 'aaaaa'))
                 ->toMail('example@gmail.com');
             $markdown = new Markdown(view(), config('mail.markdown'));
 
             return $markdown->render('vendor.notifications.email', $message->data());
+        });
+
+        Route::get('mongo', function () {
+            BackgroundJobs::query()->create(['AAAA' => 'teste']);
+            dd(
+                BackgroundJobs::all()
+            );
         });
     });
