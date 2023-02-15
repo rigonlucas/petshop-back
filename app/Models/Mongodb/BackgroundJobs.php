@@ -2,10 +2,9 @@
 
 namespace App\Models\Mongodb;
 
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-use Jenssegers\Mongodb\Eloquent\Model;
-
-class BackgroundJobs extends Model
+class   BackgroundJobs extends Eloquent
 {
     protected $connection = 'mongodb';
     protected $collection = 'background_jobs';
@@ -14,6 +13,8 @@ class BackgroundJobs extends Model
         'user_id',
         'account_id',
         'name',
+        'uuid',
+        'payload',
         'status',
         'created_at',
         'process_start_at',

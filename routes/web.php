@@ -1,11 +1,16 @@
 <?php
 
 use App\Http\Middleware\OnlyInLocalHost;
+use App\Jobs\Batches\Tests\ExecuteFinishJob;
+use App\Jobs\Batches\Tests\ExecuteOneJob;
+use App\Jobs\Batches\Tests\ExecuteTwoJob;
 use App\Models\Mongodb\BackgroundJobs;
 use App\Models\User;
 use App\Notifications\Auth\ForgotPasswordNotify;
 use Illuminate\Mail\Markdown;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +34,24 @@ Route::middleware(OnlyInLocalHost::class)
         });
 
         Route::get('mongo', function () {
-            BackgroundJobs::query()->create(['AAAA' => 'teste']);
+            //BackgroundJobs::query()->create(['AAAA' => 'teste']);
+            BackgroundJobs::query()->delete();
             dd(
-                BackgroundJobs::all()
+                BackgroundJobs::query()->count(),
+                BackgroundJobs::query()
+                    ->where('uuid', '=', 'b47dbc98-0986-4c3c-b567-c6b64c686e05')
+                    ->first()
+                    ?->toArray()
             );
+        });
+
+        Route::get('jobs-batch', function () {
+            $uuid = Str::uuid();
+            $jobs = [
+                new ExecuteOneJob($uuid),
+                new ExecuteTwoJob($uuid),
+                new ExecuteFinishJob($uuid)
+            ];
+            Bus::batch($jobs)->dispatch();
         });
     });
