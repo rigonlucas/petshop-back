@@ -25,6 +25,10 @@ use Illuminate\Support\Str;
 Route::middleware(OnlyInLocalHost::class)
     ->prefix('local')
     ->group(callback: function () {
+        Route::get('/', function () {
+            return view('welcome');
+        });
+        
         Route::get('test-email', function () {
             $message = (new ForgotPasswordNotify(User::query()->first(), 'aaaaa'))
                 ->toMail('example@gmail.com');
@@ -35,6 +39,7 @@ Route::middleware(OnlyInLocalHost::class)
 
         Route::get('mongo', function () {
             //BackgroundJobs::query()->create(['AAAA' => 'teste']);
+
             BackgroundJobs::query()->delete();
             dd(
                 BackgroundJobs::query()->count(),
