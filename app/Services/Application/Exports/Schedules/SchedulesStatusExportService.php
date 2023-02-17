@@ -6,14 +6,11 @@ use App\Enums\Exports\StorageExportEnum;
 use App\Enums\SchedulesStatusEnum;
 use App\Enums\SchedulesTypesEnum;
 use App\Models\User;
-use App\Notifications\Schedules\ExportScheduleNotify;
 use App\Repository\Application\Exports\Schedules\SchedulesByStatusRepository;
 use App\Repository\interfaces\ExportQueryInterface;
-use App\Services\Application\Exports\ExportationManager\CreateManagerFilesService;
 use App\Services\BaseService;
 use App\Services\Interfaces\Export\ExportInterface;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class SchedulesStatusExportService extends BaseService implements ExportInterface
@@ -34,30 +31,21 @@ class SchedulesStatusExportService extends BaseService implements ExportInterfac
         'finish_at'
     ];
 
-    public function export(User $user, SchedulesStatusEnum $enumStatus): void
+    public function export(User $user, SchedulesStatusEnum $enumStatus): array
     {
         $schedulesQuery = new SchedulesByStatusRepository($user, $enumStatus);
         $output = $this->setHeaders();
         $output = $this->createFile($schedulesQuery, $output);
-        $filePath = $this->getFileGenerator($user, $output);
-        if ($filePath) {
-            Notification::route('mail', $user->email)->notify(new ExportScheduleNotify($user, $filePath));
-            CreateManagerFilesService::create(
-                $user,
-                $this->shortNameClass(),
-                $filePath
-            );
-        }
+        return $this->getFileGenerator($user, $output);
     }
 
     public function setHeaders(): mixed
     {
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=csv_export.csv');
-
         $output = fopen('php://temp/maxmemory:' . (5 * 1024 * 1024), 'r+');
 
-        if (ob_get_contents()) ob_end_clean();
+        if (ob_get_contents()) {
+            ob_end_clean();
+        }
 
         fputcsv($output, $this->header_args);
 
@@ -87,18 +75,21 @@ class SchedulesStatusExportService extends BaseService implements ExportInterfac
         return $output;
     }
 
-    public function getFileGenerator(User $user, mixed $output): string
+    public function getFileGenerator(User $user, mixed $output): array
     {
-        $path = StorageExportEnum::SCHEDULES_PATH->pathFileGenerator(
-            $user->account->uuid,
-            StorageExportEnum::SCHEDULES_FILE_NAME_BASE,
-            'csv'
-        );
-        Storage::disk('public')->put(
-            $path,
+        $zipFile = StorageExportEnum::SCHEDULES_FILE_NAME_BASE->getFileName();
+        $path = StorageExportEnum::SCHEDULES_PATH->getPath($user->account->uuid);
+
+        Storage::disk(StorageExportEnum::PRIVATE_DISK->value)->put(
+            $path . '/' . $zipFile . '.csv',
             $output
         );
+        fclose($output);
 
-        return $path;
+        return [
+            'path' => $path,
+            'file_name' => $zipFile . '.csv',
+            'disk' => StorageExportEnum::PRIVATE_DISK->value
+        ];
     }
 }

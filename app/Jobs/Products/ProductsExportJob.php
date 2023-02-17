@@ -5,13 +5,13 @@ namespace App\Jobs\Products;
 use App\Models\User;
 use App\Services\Application\Exports\Products\ProductsExportService;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class ProductsExportJob implements ShouldQueue
+class ProductsExportJob implements ShouldQueue, ShouldBeUniqueUntilProcessing
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -36,5 +36,10 @@ class ProductsExportJob implements ShouldQueue
     public function handle(ProductsExportService $service): void
     {
         $service->export($this->user);
+    }
+
+    public function uniqueId()
+    {
+        return $this->user->id;
     }
 }

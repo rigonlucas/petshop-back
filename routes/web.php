@@ -1,16 +1,13 @@
 <?php
 
+use App\Http\Controllers\Downloads\FilesDownloadController;
+use App\Http\Controllers\Jobs\Tests\JobTestController;
 use App\Http\Middleware\OnlyInLocalHost;
-use App\Jobs\Batches\Tests\ExecuteFinishJob;
-use App\Jobs\Batches\Tests\ExecuteOneJob;
-use App\Jobs\Batches\Tests\ExecuteTwoJob;
-use App\Models\Mongodb\BackgroundJobs;
+use App\Models\Mongodb\ExportsJob;
 use App\Models\User;
 use App\Notifications\Auth\ForgotPasswordNotify;
 use Illuminate\Mail\Markdown;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +19,16 @@ use Illuminate\Support\Str;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('files/download/', FilesDownloadController::class)->name('files.download');
+
+
 Route::middleware(OnlyInLocalHost::class)
     ->prefix('local')
     ->group(callback: function () {
         Route::get('/', function () {
             return view('welcome');
         });
-        
+
         Route::get('test-email', function () {
             $message = (new ForgotPasswordNotify(User::query()->first(), 'aaaaa'))
                 ->toMail('example@gmail.com');
@@ -37,26 +37,29 @@ Route::middleware(OnlyInLocalHost::class)
             return $markdown->render('vendor.notifications.email', $message->data());
         });
 
-        Route::get('mongo', function () {
-            //BackgroundJobs::query()->create(['AAAA' => 'teste']);
-
-            BackgroundJobs::query()->delete();
+        Route::get('mongo-delete', function () {
+            ExportsJob::query()->delete();
             dd(
-                BackgroundJobs::query()->count(),
-                BackgroundJobs::query()
+                ExportsJob::query()->count(),
+                ExportsJob::query()
                     ->where('uuid', '=', 'b47dbc98-0986-4c3c-b567-c6b64c686e05')
                     ->first()
                     ?->toArray()
             );
         });
 
-        Route::get('jobs-batch', function () {
-            $uuid = Str::uuid();
-            $jobs = [
-                new ExecuteOneJob($uuid),
-                new ExecuteTwoJob($uuid),
-                new ExecuteFinishJob($uuid)
-            ];
-            Bus::batch($jobs)->dispatch();
+
+        Route::get('mongo-test', function () {
+            ExportsJob::query()->create(['AAAA' => 'teste']);
+
+            dd(
+                ExportsJob::query()->count(),
+                ExportsJob::query()
+                    ->where('uuid', '=', 'b47dbc98-0986-4c3c-b567-c6b64c686e05')
+                    ->first()
+                    ?->toArray()
+            );
         });
+
+        Route::get('jobs-batch', [JobTestController::class, 'test_batches']);
     });

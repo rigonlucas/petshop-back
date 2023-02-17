@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Accounts\ChangeUserStatusController;
+use App\Http\Controllers\Accounts\Managers\ExportsManagerController;
 use App\Http\Controllers\Accounts\UserCreateController;
 use App\Http\Controllers\Accounts\UserPermissionsController;
 use App\Http\Controllers\Accounts\UsersOfAccountController;
@@ -16,7 +17,6 @@ use App\Http\Controllers\Clients\ClientListController;
 use App\Http\Controllers\Clients\ClientShowController;
 use App\Http\Controllers\Clients\ClientStoreController;
 use App\Http\Controllers\Clients\ClientUpdateController;
-use App\Http\Controllers\Permissions\PermissionsShowController;
 use App\Http\Controllers\Pet\PetDeleteController;
 use App\Http\Controllers\Pet\PetListController;
 use App\Http\Controllers\Pet\PetShowController;
@@ -256,6 +256,12 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('vaccines')->group(function () {
             Route::get('/', VaccinesListController::class)->name('vaccine.index');
+        });
+
+
+        Route::prefix('managers')->group(function () {
+            Route::get('exports/all', [ExportsManagerController::class, 'myExports'])
+                ->name('managers.exports');
         });
     });
 });

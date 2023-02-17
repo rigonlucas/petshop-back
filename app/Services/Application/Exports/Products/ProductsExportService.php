@@ -5,14 +5,10 @@ namespace App\Services\Application\Exports\Products;
 use App\Enums\Exports\StorageExportEnum;
 use App\Enums\ProductsEnum;
 use App\Models\User;
-use App\Notifications\Products\ExportProductsNotify;
 use App\Repository\Application\Exports\Products\ProductsRepository;
-use App\Repository\Application\Exports\Schedules\SchedulesByStatusRepository;
 use App\Repository\interfaces\ExportQueryInterface;
-use App\Services\Application\Exports\ExportationManager\CreateManagerFilesService;
 use App\Services\BaseService;
 use App\Services\Interfaces\Export\ExportInterface;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class ProductsExportService extends BaseService implements ExportInterface
@@ -28,38 +24,29 @@ class ProductsExportService extends BaseService implements ExportInterface
         'descrição',
     ];
 
-    public function export(User $user): void
+    public function export(User $user): array
     {
-        $productsQuery =  new ProductsRepository($user);
-        $output = $this->setHeaders();
-        $output = $this->createFile($productsQuery, $output);
-        $filePath = $this->getFileGenerator($user, $output);
-        if ($filePath) {
-            Notification::route('mail' , $user->email)->notify(new ExportProductsNotify($user, $filePath));
-            CreateManagerFilesService::create(
-                $user,
-                $this->shortNameClass(),
-                $filePath
-            );
-        }
+        $productsQuery = new ProductsRepository($user);
+        $outputBuffer = $this->setHeaders();
+        $outputBuffer = $this->createFile($productsQuery, $outputBuffer);
+        return $this->getFileGenerator($user, $outputBuffer);
     }
 
     public function setHeaders(): mixed
     {
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=csv_export.csv');
+        $outputBuffer = fopen('php://temp/maxmemory:' . (5 * 1024 * 1024), 'r+');
 
-        $output = fopen('php://temp/maxmemory:'. (5*1024*1024), 'r+');
+        if (ob_get_contents()) {
+            ob_end_clean();
+        }
+        fputcsv($outputBuffer, $this->header_args);
 
-        if (ob_get_contents()) ob_end_clean();
-        fputcsv($output, $this->header_args);
-
-        return $output;
+        return $outputBuffer;
     }
 
-    public function createFile(ExportQueryInterface $exportQuery, mixed $output): mixed
+    public function createFile(ExportQueryInterface $exportQuery, mixed $outputBuffer): mixed
     {
-        foreach($exportQuery->getQuery()->cursor() AS $product){
+        foreach ($exportQuery->getQuery()->cursor() as $product) {
             $dados = [
                 'id' => $product->id,
                 'nome' => $product->name,
@@ -70,23 +57,26 @@ class ProductsExportService extends BaseService implements ExportInterface
                 'preço' => $product->price,
                 'descrição' => $product->description,
             ];
-            fputcsv($output, $dados);
+            fputcsv($outputBuffer, $dados);
         }
-        return $output;
+        return $outputBuffer;
     }
 
-    public function getFileGenerator(User $user, mixed $output): string
+    public function getFileGenerator(User $user, mixed $outputBuffer): array
     {
-        $file = StorageExportEnum::PRODUCTS_PATH->pathFileGenerator(
-            $user->account->uuid,
-            StorageExportEnum::PRODUCTS_FILE_NAME_BASE,
-            'csv'
-        );
-        Storage::disk('public')->put(
-            $file,
-            $output
-        );
+        $zipFile = StorageExportEnum::PRODUCTS_FILE_NAME_BASE->getFileName();
+        $path = StorageExportEnum::PRODUCTS_PATH->getPath($user->account->uuid);
 
-        return $file;
+        Storage::disk(StorageExportEnum::PRIVATE_DISK->value)->put(
+            $path . '/' . $zipFile . '.csv',
+            $outputBuffer
+        );
+        fclose($outputBuffer);
+
+        return [
+            'path' => $path,
+            'file_name' => $zipFile . '.csv',
+            'disk' => StorageExportEnum::PRIVATE_DISK->value
+        ];
     }
 }

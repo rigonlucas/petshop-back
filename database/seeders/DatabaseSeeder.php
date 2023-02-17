@@ -17,9 +17,6 @@ class DatabaseSeeder extends Seeder
             AccountSeeder::class,
             ProductSeeder::class,
             ClientSeeder::class,
-            PermissionSeeder::class,
-            MenuPermissionSeeder::class,
-            UserPermissionSeeder::class,
             VaccineSeeder::class,
             PetVaccineSeeder::class
         ]);

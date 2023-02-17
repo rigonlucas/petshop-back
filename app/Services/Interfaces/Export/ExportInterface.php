@@ -11,5 +11,5 @@ interface ExportInterface
 
     public function createFile(ExportQueryInterface $exportQuery, mixed $output): mixed;
 
-    public function getFileGenerator(User $user, mixed $output): string;
+    public function getFileGenerator(User $user, mixed $output): array;
 }

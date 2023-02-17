@@ -4,10 +4,14 @@ namespace App\Models\Mongodb;
 
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class   BackgroundJobs extends Eloquent
+class ExportsJob extends Eloquent
 {
     protected $connection = 'mongodb';
-    protected $collection = 'background_jobs';
+    protected $collection = 'exports_jobs';
+
+    protected $casts = [
+        'created_at' => 'date'
+    ];
 
     protected $fillable = [
         'user_id',
@@ -16,8 +20,8 @@ class   BackgroundJobs extends Eloquent
         'uuid',
         'payload',
         'status',
-        'created_at',
-        'process_start_at',
+        'file_type',
+        'main',
         'finished_at',
         'errors'
     ];
