@@ -20,6 +20,7 @@ class ExportsJob extends Eloquent
         'uuid',
         'payload',
         'status',
+        'file_group',
         'file_type',
         'main',
         'finished_at',

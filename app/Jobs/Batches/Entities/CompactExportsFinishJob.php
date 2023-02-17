@@ -14,6 +14,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use MongoDB\BSON\UTCDateTime;
 use ZipArchive;
 
 class CompactExportsFinishJob implements ShouldQueue
@@ -64,31 +65,59 @@ class CompactExportsFinishJob implements ShouldQueue
         }
         $zip->close();
 
+        $zipExpires = now()->addDays(10);
         $url = Storage::disk(StorageExportEnum::PRIVATE_DISK->value)->temporaryUrl(
             $generatedPath . $zipFile . '.zip',
-            now()->addDays(5)
+            $zipExpires
         );
 
         Notification::route('mail', $this->user->email)
             ->notify(new ExportFinishedNotify($this->uuid, $this->user, $url));
 
-        $payload = ExportsJob::query()
-            ->select('_id', 'name', 'file_type')
+        $jobs = ExportsJob::query()
+            ->select('_id', 'name', 'file_type', 'payload')
             ->where('uuid', '=', $this->uuid)
-            ->get()
-            ->toArray();
+            ->whereNull('main')
+            ->toBase()
+            ->get();
+        $exportedFiles = [];
+        foreach ($jobs as $job) {
+            $payload = $job['payload'];
+            if (isset($payload)) {
+                $wasDeleted = Storage::disk($payload['disk'])
+                    ->delete($payload['path'] . $payload['file_name']);
+                if ($wasDeleted) {
+                    $exportedFiles [] = [
+                        'name' => $job['name'],
+                        'file_name' => $payload['file_name'],
+                        'temporary_url' => [
+                            'url' => $url,
+                            'expires_at' => new UTCDateTime($zipExpires)
+                        ]
+                    ];
+                    ExportsJob::query()->where('_id', '=', $job['_id'])->delete();
+                }
+            }
+        }
+
+        $payloadZip = [
+            'path' => $path,
+            'file_name' => $zipFile . '.zip',
+            'disk' => StorageExportEnum::PRIVATE_DISK->value,
+        ];
 
         ExportsJob::query()->create([
             'name' => $this->title,
             'status' => 'FINISHED',
             'finish_job' => true,
-            'payload' => $payload,
+            'payload' => $payloadZip,
+            'file_group' => $exportedFiles,
             'uuid' => $this->uuid,
             'user_id' => $this->user->id,
             'main' => true,
             'file_type' => 'zip',
             'account_id' => $this->user->account_id,
-            'finished_at' => now()
+            'finished_at' => new UTCDateTime(now())
         ]);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\Auth\ForgotPasswordNotify;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Route;
+use MongoDB\BSON\UTCDateTime;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,10 @@ Route::middleware(OnlyInLocalHost::class)
 
 
         Route::get('mongo-test', function () {
+            dd(
+                new UTCDateTime(now()),
+                ExportsJob::query()->first(),
+            );
             ExportsJob::query()->create(['AAAA' => 'teste']);
 
             dd(

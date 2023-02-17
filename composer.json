@@ -18,7 +18,8 @@
     "laravel/tinker": "^2",
     "predis/predis": "^2",
     "spatie/data-transfer-object": "^3",
-    "ext-zip": "*"
+    "ext-zip": "*",
+    "ext-mongodb": "*"
   },
   "require-dev": {
     "fakerphp/faker": "^1",
