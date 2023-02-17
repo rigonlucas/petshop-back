@@ -1,0 +1,21 @@
+<?php
+
+namespace {{ namespace }};
+
+use Core\Modules\Generics\Ordination\AbstractSortingResolver;
+
+class {{ class }}Resolver extends AbstractSortingResolver
+{
+    /**
+    * Mapeamento [campo na request => tabela.coluna
+    **/
+    protected array $colunas = [
+        'exmplo_request_name' => 'tabela_x.data_cadastro',
+    ];
+    protected ?string $colunaPadrao = 'usuario_ocorrencia.data';
+
+    public function getColunaPadrao(): string
+    {
+        return $this->colunaPadrao;
+    }
+}

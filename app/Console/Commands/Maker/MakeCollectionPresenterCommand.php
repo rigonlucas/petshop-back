@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands\Maker;
 
-use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
+use App\Console\Commands\Maker\Utilities\HasCustomNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeCollectionPresenterCommand extends GeneratorCommand
 {
-    use HasCustonNamespace;
+    use HasCustomNamespace;
 
-    protected $signature = 'make-clean:collection-presenter {name}';
+    protected $signature = 'make-arch:collection-presenter {name}';
     protected $description = 'Create a new collection presenter.';
-    protected $type = 'Clean';
+    protected $type = 'Collection presenter';
     protected $hidden = true;
     private string $layerAlias = 'Presenters/Collections';
 
@@ -24,7 +24,7 @@ class MakeCollectionPresenterCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/collection-presenter.stub');
+        return $this->resolveStubPath('/templates/clean/collection-presenter.stub');
     }
 
     protected function resolveStubPath($stub)

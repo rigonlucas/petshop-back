@@ -1,0 +1,34 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{namespaceBase}}\Enums\FileDataEnum;
+use {{namespaceBase}}\Inputs\{{ class }}Input;
+use Core\Modules\Exports\Generics\Generators\CSV\CreateBufferGenerator;
+
+class CriarArquivoCSVRule
+{
+    //headers do csv
+    private array $headers = [
+        'ID',
+    ];
+    private {{ class }}Input $input;
+
+    public function __construct(
+        {{ class }}Input $input
+    ) {
+        $this->input = $input;
+    }
+
+    /**
+     * O PHP 7.4 ainda não tem a tipagem do resource para atribuir no retorno do método
+     * Ao atualizar para a versão 8.x podemos tipar o retorno do método
+     *
+     * @return false|resource
+     */
+    public function apply()
+    {
+        $tempFileName = FileDataEnum::BASE_FILE_NAME . $this->input->getOrganizacaoId() . '.csv';
+        return (new CreateBufferGenerator())->generate($tempFileName, $this->headers);
+    }
+}

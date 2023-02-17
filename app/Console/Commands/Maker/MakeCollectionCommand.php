@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands\Maker;
 
-use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
+use App\Console\Commands\Maker\Utilities\HasCustomNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeCollectionCommand extends GeneratorCommand
 {
-    use HasCustonNamespace;
+    use HasCustomNamespace;
 
-    protected $signature = 'make-clean:collection {name}';
+    protected $signature = 'make-arch:collection {name}';
     protected $description = 'Create a new collection.';
-    protected $type = 'Clean';
+    protected $type = 'Collection';
     protected $hidden = true;
     private string $layerAlias = 'Collections';
 
@@ -24,7 +24,7 @@ class MakeCollectionCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/collection.stub');
+        return $this->resolveStubPath('/templates/clean/collection.stub');
     }
 
     protected function resolveStubPath($stub)
@@ -41,7 +41,7 @@ class MakeCollectionCommand extends GeneratorCommand
             '/',
             Str::replaceFirst($this->rootNamespace(), '', $name)
         );
-        return 'core/Modules/' . LayerPathOveride::overideLayerFolder($name, $this->layerAlias) . 'Collections.php';
+        return 'core/Modules/' . LayerPathOveride::overideLayerFolder($name, $this->layerAlias) . 'Collection.php';
     }
 
     protected function rootNamespace()

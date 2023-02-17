@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands\Maker;
 
-use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
+use App\Console\Commands\Maker\Utilities\HasCustomNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeRuleCommand extends GeneratorCommand
 {
-    use HasCustonNamespace;
+    use HasCustomNamespace;
 
-    protected $signature = 'make-clean:rule {name}';
+    protected $signature = 'make-arch:rule {name}';
     protected $description = 'Create a new rule.';
-    protected $type = 'Clean';
+    protected $type = 'Rule';
     protected $hidden = true;
     private string $layerAlias = 'Rules';
 
@@ -24,7 +24,7 @@ class MakeRuleCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/rule.stub');
+        return $this->resolveStubPath('/templates/clean/rule.stub');
     }
 
 

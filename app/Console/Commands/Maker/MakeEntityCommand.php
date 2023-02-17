@@ -8,9 +8,9 @@ use Illuminate\Support\Str;
 
 class MakeEntityCommand extends GeneratorCommand
 {
-    protected $signature = 'make-clean:entity {name}';
+    protected $signature = 'make-arch:entity {name}';
     protected $description = 'Create a new entity.';
-    protected $type = 'Clean';
+    protected $type = 'Entidade';
     protected $hidden = true;
     private string $layerAlias = 'Entities';
 
@@ -21,7 +21,7 @@ class MakeEntityCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/entity.stub');
+        return $this->resolveStubPath('/templates/clean/entity.stub');
     }
 
     protected function resolveStubPath($stub)

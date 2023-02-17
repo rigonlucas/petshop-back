@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Maker;
+namespace App\Console\Commands\Maker\Exportacao;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
@@ -8,14 +8,12 @@ use Illuminate\Support\Str;
 class MakeUseCaseCommand extends GeneratorCommand
 {
 
-    protected $signature = 'make-arch:usecase 
+    protected $signature = 'make-arch:exportacao 
         {name} 
         {--entities=*}
         {--collections=*}
         {--gateways=*}
-        {--exceptions=*}
-        {--rules=*}
-        {--pagination=}';
+        {--exceptions=*}';
     protected $description = 'Create a new Use case.';
     protected $type = 'Caso de uso';
     protected $hidden = true;
@@ -30,7 +28,6 @@ class MakeUseCaseCommand extends GeneratorCommand
         $collections = $this->getCollections();
         $gateways = $this->getGateways();
         $exceptions = $this->getExceptions();
-        $rules = $this->getRules();
 
         foreach ($entities as $entity) {
             $this->call(
@@ -58,24 +55,41 @@ class MakeUseCaseCommand extends GeneratorCommand
             );
         }
 
-        foreach ($rules as $rule) {
-            $this->call(
-                'make-arch:rule',
-                ['name' => str_replace($arrayFoldersFileStruct[0], 'Rules/' . ucfirst($rule), $name)]
-            );
-        }
+        $this->call(
+            'make-arch:exportacao-output',
+            ['name' => str_replace('#MY_FOLDER#/', '', $pathStubTemplate)]
+        );
 
         $this->call(
             'make-arch:exception',
             ['name' => str_replace('#MY_FOLDER#', 'Exceptions', $pathStubTemplate)]
         );
-        $this->call(
-            'make-arch:output',
-            ['name' => str_replace('#MY_FOLDER#', 'Outputs', $pathStubTemplate)]
-        );
+
         $this->call(
             'make-arch:output-presenter',
             ['name' => str_replace('#MY_FOLDER#/', '', $pathStubTemplate)]
+        );
+
+        $this->call(
+            'make-arch:exportacao-conteudo-rule',
+            ['name' => str_replace('#MY_FOLDER#', 'Rules', $pathStubTemplate)]
+        );
+        $this->call(
+            'make-arch:exportacao-cria-rule',
+            ['name' => str_replace('#MY_FOLDER#', 'Rules', $pathStubTemplate)]
+        );
+        $this->call(
+            'make-arch:exportacao-salva-rule',
+            ['name' => str_replace('#MY_FOLDER#', 'Rules', $pathStubTemplate)]
+        );
+        $this->call(
+            'make-arch:exportacao-ruleset',
+            ['name' => str_replace('#MY_FOLDER#', 'Rulesets', $pathStubTemplate)]
+        );
+
+        $this->call(
+            'make-arch:exportacao-row',
+            ['name' => str_replace('#MY_FOLDER#', 'Presenters', $pathStubTemplate)]
         );
 
         $this->call(
@@ -84,31 +98,19 @@ class MakeUseCaseCommand extends GeneratorCommand
         );
 
         $this->call(
+            'make-arch:exportacao-file-enum',
+            ['name' => str_replace($arrayFoldersFileStruct[0], 'Enums/', $name)]
+        );
+
+        $this->call(
+            'make-arch:gateway',
+            ['name' => str_replace($arrayFoldersFileStruct[0], 'Gateways/Repository', $name)]
+        );
+
+        $this->call(
             'make-arch:input',
             ['name' => str_replace('#MY_FOLDER#', 'Inputs', $pathStubTemplate)]
         );
-
-        $this->call(
-            'make-arch:rule',
-            ['name' => str_replace('#MY_FOLDER#', 'Rules', $pathStubTemplate)]
-        );
-
-        $this->call(
-            'make-arch:ruleset',
-            ['name' => str_replace('#MY_FOLDER#', 'Rulesets', $pathStubTemplate)]
-        );
-        $pagination = (bool)$this->option('pagination') ?? null;
-        if ($pagination) {
-            $this->call(
-                'make-arch:pagination',
-                ['name' => str_replace('#MY_FOLDER#', 'Pagination', $pathStubTemplate)]
-            );
-
-            $this->call(
-                'make-arch:sort',
-                ['name' => str_replace('#MY_FOLDER#', 'Resolvers', $pathStubTemplate)]
-            );
-        }
 
         parent::handle();
     }
@@ -133,14 +135,9 @@ class MakeUseCaseCommand extends GeneratorCommand
         return $this->option('exceptions') ? explode(',', trim($this->option('exceptions')[0])) : [];
     }
 
-    private function getRules()
-    {
-        return $this->option('rules') ? explode(',', trim($this->option('rules')[0])) : [];
-    }
-
     protected function getStub()
     {
-        return $this->resolveStubPath('/templates/clean/usecase.stub');
+        return $this->resolveStubPath('/templates/clean/exportacao/usecase.stub');
     }
 
     protected function resolveStubPath($stub)

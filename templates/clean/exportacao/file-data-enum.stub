@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ namespace }};
+
+class FileDataEnum
+{
+    public const DISK = 'public';
+    public const BASE_PATH = 'temporario';
+    public const BASE_FILE_NAME = 'Nome do arquivo';
+}

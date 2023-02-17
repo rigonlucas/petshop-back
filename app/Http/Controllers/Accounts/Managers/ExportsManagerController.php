@@ -11,7 +11,7 @@ class ExportsManagerController extends Controller
     public function myExports(): Paginator
     {
         return ExportsJob::query()
-            ->select('_id', 'name', 'file_group', 'uuid', 'created_at')
+            ->select('_id', 'name', 'file_group', 'temporary_url', 'uuid', 'created_at')
             ->where('main', '=', true)
             ->where('user_id', '=', auth()->id())
             ->simplePaginate(10);

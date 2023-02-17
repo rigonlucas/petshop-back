@@ -89,11 +89,7 @@ class CompactExportsFinishJob implements ShouldQueue
                 if ($wasDeleted) {
                     $exportedFiles [] = [
                         'name' => $job['name'],
-                        'file_name' => $payload['file_name'],
-                        'temporary_url' => [
-                            'url' => $url,
-                            'expires_at' => new UTCDateTime($zipExpires)
-                        ]
+                        'file_name' => $payload['file_name']
                     ];
                     ExportsJob::query()->where('_id', '=', $job['_id'])->delete();
                 }
@@ -111,6 +107,10 @@ class CompactExportsFinishJob implements ShouldQueue
             'status' => 'FINISHED',
             'finish_job' => true,
             'payload' => $payloadZip,
+            'temporary_url' => [
+                'url' => $url,
+                'expires_at' => new UTCDateTime($zipExpires)
+            ],
             'file_group' => $exportedFiles,
             'uuid' => $this->uuid,
             'user_id' => $this->user->id,

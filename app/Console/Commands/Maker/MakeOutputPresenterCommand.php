@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands\Maker;
 
-use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
+use App\Console\Commands\Maker\Utilities\HasCustomNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeOutputPresenterCommand extends GeneratorCommand
 {
-    use HasCustonNamespace;
+    use HasCustomNamespace;
 
-    protected $signature = 'make-clean:output-presenter {name}';
+    protected $signature = 'make-arch:output-presenter {name}';
     protected $description = 'Create a new output presenter.';
-    protected $type = 'Clean';
+    protected $type = 'Output presenter';
     protected $hidden = true;
     private string $layerAlias = 'Presenters/Outputs';
 
@@ -24,7 +24,7 @@ class MakeOutputPresenterCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/output-presenter.stub');
+        return $this->resolveStubPath('/templates/clean/output-presenter.stub');
     }
 
     protected function resolveStubPath($stub)

@@ -1,0 +1,32 @@
+<?php
+
+namespace {{ namespace }}\Presenters\Outputs;
+
+use {{namespaceBase}}\Outputs\{{ class }}Output;
+use {{namespaceBase}}\Collections\{{ class }}Collection;
+
+class {{ class }}CollectionPresenter
+{
+    private AlgumaClasseCollection $algumaClasseCollection;//subistitua
+    private array $presenter = [];
+
+    public function __construct(/**tipagem**/ $output, AlgumaClasseCollection $algumaClasseCollection)
+    {
+        $this->algumaClasseCollection = $algumaClasseCollection;
+    }
+
+    public function present(): self
+    {
+        foreach ($this->{{ class }}Collection->all() as $item) {
+            $this->presenter[] = [
+                //'id' => $item->getId(),//exemplo
+            ];
+        }
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return $this->presenter;
+    }
+}

@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Console\Commands\Maker;
+namespace App\Console\Commands\Maker\Exportacao;
 
-use App\Console\Commands\Maker\Utilities\LayerPathOveride;
+use App\Console\Commands\Maker\Utilities\HasCustomNamespace;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
-class MakeInputCommand extends GeneratorCommand
+class MakeFileEnumsCommand extends GeneratorCommand
 {
+    use HasCustomNamespace;
 
-    protected $signature = 'make-arch:input {name}';
-    protected $description = 'Create a new input.';
-    protected $type = 'Input';
+    protected $signature = 'make-arch:exportacao-file-enum {name}';
+    protected $description = 'Create a new output.';
+    protected $type = 'Enums';
     protected $hidden = true;
-    private string $layerAlias = 'Inputs';
+    private string $layerAlias = 'Enums';
 
     public function handle()
     {
@@ -22,7 +23,7 @@ class MakeInputCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/templates/clean/input.stub');
+        return $this->resolveStubPath('/templates/clean/exportacao/file-data-enum.stub');
     }
 
     protected function resolveStubPath($stub)
@@ -35,8 +36,10 @@ class MakeInputCommand extends GeneratorCommand
     protected function getPath($name)
     {
         $name = str_replace('\\', '/', Str::replaceFirst($this->rootNamespace(), '', $name));
+        $arr = explode('/', $name);
+        array_pop($arr);
 
-        return 'core/Modules/' . LayerPathOveride::overideLayerFolder($name, $this->layerAlias) . 'Input.php';
+        return 'core/Modules/' . implode('/', $arr) . '/FileDataEnum.php';
     }
 
     protected function rootNamespace()

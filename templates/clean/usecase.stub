@@ -1,0 +1,39 @@
+<?php
+
+namespace {{ namespace }};
+
+use Core\Modules\Generics\UseCases\AbstractUseCase;
+use {{ namespace }}\Rulesets\{{ class }}Ruleset;
+use {{ namespace }}\Rules\{{ class }}Rule;
+use {{ namespace }}\Enums\ErrorCodeEnum;
+use {{ namespace }}\Inputs\{{ class }}Input;
+use Exception;
+use Psr\Log\LoggerInterface;
+
+class {{ class }}UseCase extends AbstractUseCase
+{
+    private const LOG_NAME = @todo: Inserir a constante do useCase Ex: ‘'/pasta/pasta/{{ class }}UseCase::AçãoTomada'’;
+
+    public function __construct(
+        LoggerInterface $logger,
+    ) {
+        $this->logger = $logger;
+    }
+
+    public function execute({{ class }}Input $input): void {
+        try {
+            $this->logger->info('[' . self::LOG_NAME . '] Init use case.');
+            $this->output = (new {{ class }}Ruleset(
+                new {{ class }}Rule ($input)
+            ))->apply();
+            $this->logger->info('[' . self::LOG_NAME . '] Finish use case.');
+        } catch (Exception $exception) {
+             $this->handleException(
+                 $exception,
+                 '[' . self::LOG_NAME . '] ',
+                 ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION,
+                 new ErrorCodeEnum()
+             );
+         }
+    }
+}

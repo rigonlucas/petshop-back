@@ -1,0 +1,41 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{namespaceBase}}\Gateways\RepositoryInterface;
+use {{namespaceBase}}\Inputs\{{ class }}Input;
+use {{namespaceBase}}\Presenters\CSVPresenter;
+
+class AdicionaConteudoNoCSVRule
+{
+    private {{ class }}Input $input;
+    private RepositoryInterface $repositoryInterface;
+    private $csvBuffer;
+
+    public function __construct(
+        {{ class }}Input $input,
+        RepositoryInterface $repositoryInterface
+    ) {
+        $this->input = $input;
+        $this->repositoryInterface = $repositoryInterface;
+    }
+
+    public function __invoke($csvBuffer): self
+    {
+        $this->csvBuffer = $csvBuffer;
+        return $this;
+    }
+
+    public function apply()
+    {
+        /**
+         * @var Objeto $objeto
+         * Este foreach é um generator/interator
+         */
+        foreach ($this->repositoryInterface->buscar($this->input) as $objeto) {
+            $adapter = new CSVPresenter($objeto);
+            fputcsv($this->csvBuffer, $adapter->present()->toArray());
+        }
+        return $this->csvBuffer;
+    }
+}

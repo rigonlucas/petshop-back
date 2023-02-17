@@ -1,0 +1,33 @@
+<?php
+
+namespace {{ namespace }};
+
+use Core\Modules\Generics\Enums\ResponseEnum;
+use Core\Modules\Generics\Outputs\StatusOutput;
+use Core\Modules\Generics\Pagination\PaginationInput;
+use {{namespaceBase}}\Rules\{{ class }}Rule;
+use {{namespaceBase}}\Outputs\{{ class }}Output;
+use {{namespaceBase}}\Enums\ErrorCodeEnum;
+
+class {{ class }}Ruleset
+{
+    private {{ class }}Rule ${{ class }}Rule;
+
+    public function __construct(
+        {{ class }}Rule ${{ class }}Rule
+    ) {
+        $this->{{ class }}Rule = ${{ class }}Rule;
+    }
+
+    public function apply(): {{ class }}Output
+    {
+        // chamar rules
+        return new {{ class }}Output(
+            new StatusOutput(
+                ResponseEnum::OK,
+                ResponseEnum::OK->getCodeName()
+            ),
+            //$AlumParametro
+        );
+    }
+}

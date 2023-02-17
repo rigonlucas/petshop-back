@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Maker;
+namespace App\Console\Commands\Maker\Exportacao;
 
 use App\Console\Commands\Maker\Utilities\HasCustomNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
@@ -11,7 +11,7 @@ class MakeRuleSetCommand extends GeneratorCommand
 {
     use HasCustomNamespace;
 
-    protected $signature = 'make-arch:ruleset {name}';
+    protected $signature = 'make-arch:exportacao-ruleset {name}';
     protected $description = 'Create a new rule.';
     protected $type = 'Ruleset';
     protected $hidden = true;
@@ -24,7 +24,7 @@ class MakeRuleSetCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/templates/clean/rule-set.stub');
+        return $this->resolveStubPath('/templates/clean/exportacao/rule-set.stub');
     }
 
     protected function resolveStubPath($stub)

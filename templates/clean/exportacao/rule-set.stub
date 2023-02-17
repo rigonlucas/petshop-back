@@ -1,0 +1,41 @@
+<?php
+
+namespace {{ namespace }};
+
+use Core\Modules\Generics\Enums\ResponseEnum;
+use Core\Modules\Generics\Outputs\StatusOutput;
+use {{namespaceBase}}\Rules\AdicionaConteudoNoCSVRule;
+use {{namespaceBase}}\Rules\CriarArquivoCSVRule;
+use {{namespaceBase}}\Rules\SalvaCSVExportacaoRule;
+use {{namespaceBase}}\Outputs\{{ class }}Output;
+
+class {{ class }}Ruleset
+{
+    private CriarArquivoCSVRule $criarArquivoCSVRule;
+    private AdicionaConteudoNoCSVRule $adicionaConteudoRule;
+    private SalvaCSVExportacaoRule $salvaCSVExportacaoRule;
+
+    public function __construct(
+        AdicionaConteudoNoCSVRule $adicionaConteudoRule,
+        CriarArquivoCSVRule $criarArquivoCSVRule,
+        SalvaCSVExportacaoRule $salvaCSVExportacaoRule
+    ) {
+        $this->salvaCSVExportacaoRule = $salvaCSVExportacaoRule;
+        $this->adicionaConteudoRule = $adicionaConteudoRule;
+        $this->criarArquivoCSVRule = $criarArquivoCSVRule;
+    }
+
+    public function apply(): {{ class }}Output
+    {
+        $phpFileOpenResource = $this->criarArquivoCSVRule->apply();
+        $phpFileOpenResource = ($this->adicionaConteudoRule)($phpFileOpenResource)->apply();
+        $exportacao = ($this->salvaCSVExportacaoRule)($phpFileOpenResource)->apply();
+        return new {{ class }}Output(
+            new StatusOutput(
+                ResponseEnum::CREATED,
+                'Created'
+            ),
+            $exportacao
+        );
+    }
+}

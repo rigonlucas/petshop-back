@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands\Maker;
 
-use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
+use App\Console\Commands\Maker\Utilities\HasCustomNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeOutputCommand extends GeneratorCommand
 {
-    use HasCustonNamespace;
+    use HasCustomNamespace;
 
-    protected $signature = 'make-clean:output {name}';
+    protected $signature = 'make-arch:output {name}';
     protected $description = 'Create a new output.';
-    protected $type = 'Clean';
+    protected $type = 'Output';
     protected $hidden = true;
     private string $layerAlias = 'Outputs';
 
@@ -24,7 +24,7 @@ class MakeOutputCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/output.stub');
+        return $this->resolveStubPath('/templates/clean/output.stub');
     }
 
     protected function resolveStubPath($stub)

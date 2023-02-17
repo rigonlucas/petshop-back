@@ -8,9 +8,9 @@ use Illuminate\Support\Str;
 
 class MakeEnumErrorCodeCommand extends GeneratorCommand
 {
-    protected $signature = 'make-clean:enum-error {name}';
+    protected $signature = 'make-arch:enum-error {name}';
     protected $description = 'Create a new enum error.';
-    protected $type = 'Clean';
+    protected $type = 'Enum error code';
     protected $hidden = true;
     private string $layerAlias = 'Enums';
 
@@ -21,7 +21,7 @@ class MakeEnumErrorCodeCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/enum-error.stub');
+        return $this->resolveStubPath('/templates/clean/enum-error.stub');
     }
 
     protected function resolveStubPath($stub)

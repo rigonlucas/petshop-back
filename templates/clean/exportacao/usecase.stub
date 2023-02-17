@@ -1,0 +1,63 @@
+<?php
+
+namespace {{ namespace }};
+
+use Core\Dependencies\StorageInterface;
+use Core\Dependencies\UniqueStringInterface;
+use Core\Modules\Generics\UseCases\AbstractUseCase;
+use {{ namespace }}\Rulesets\{{ class }}Ruleset;
+use {{ namespace }}\Gateways\RepositoryInterface;
+use {{ namespace }}\Rules\AdicionaConteudoNoCSVRule;
+use {{ namespace }}\Rules\CriarArquivoCSVRule;
+use {{ namespace }}\Rules\SalvaCSVExportacaoRule;
+use {{ namespace }}\Enums\ErrorCodeEnum;
+use {{ namespace }}\Inputs\{{ class }}Input;
+use Exception;
+use Psr\Log\LoggerInterface;
+
+class {{ class }}UseCase extends AbstractUseCase
+{
+    private const LOG_NAME = @todo: Inserir a constante do useCase Ex: ‘'/pasta/pasta/{{ class }}UseCase::AçãoTomada'’;
+
+    private StorageInterface $storageInterface;
+    private UniqueStringInterface $uniqueString;
+    private RepositoryInterface $repositoryInterface;
+
+    public function __construct(
+        LoggerInterface $logger,
+        RepositoryInterface $repositoryInterface,
+        StorageInterface $storageInterface,
+        UniqueStringInterface $uniqueString
+    ) {
+        $this->logger = $logger;
+        $this->repositoryInterface = $repositoryInterface;
+        $this->storageInterface = $storageInterface;
+        $this->uniqueString = $uniqueString;
+    }
+
+    public function execute({{ class }}Input $input): void {
+        try {
+            $this->logger->info('[' . self::LOG_NAME . '] Init use case.');
+            $this->output = (new {{ class }}Ruleset(
+                new AdicionaConteudoNoCSVRule(
+                    $input,
+                    $this->repositoryInterface
+                ),
+                new CriarArquivoCSVRule($input),
+                new SalvaCSVExportacaoRule(
+                    $input->getOrganizacaoId(),
+                    $this->storageInterface,
+                    $this->uniqueString
+                )
+            ))->apply();
+            $this->logger->info('[' . self::LOG_NAME . '] Finish use case.');
+        } catch (Exception $exception) {
+             $this->handleException(
+                 $exception,
+                 '[' . self::LOG_NAME . '] ',
+                 ErrorCodeEnum::ENTITY__LIST__GENERIC_EXCEPTION,
+                 new ErrorCodeEnum()
+             );
+         }
+    }
+}

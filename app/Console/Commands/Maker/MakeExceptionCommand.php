@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands\Maker;
 
-use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
+use App\Console\Commands\Maker\Utilities\HasCustomNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeExceptionCommand extends GeneratorCommand
 {
-    use HasCustonNamespace;
+    use HasCustomNamespace;
 
-    protected $signature = 'make-clean:exception {name}';
+    protected $signature = 'make-arch:exception {name}';
     protected $description = 'Create a new Service.';
-    protected $type = 'Clean';
+    protected $type = 'Exception';
     protected $hidden = true;
     private string $layerAlias = 'Exceptions';
 
@@ -24,7 +24,7 @@ class MakeExceptionCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/exception.stub');
+        return $this->resolveStubPath('/templates/clean/exception.stub');
     }
 
     protected function resolveStubPath($stub)

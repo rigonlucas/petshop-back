@@ -1,0 +1,18 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{namespaceBase}}\Inputs\{{ class }}Input;
+
+class {{ class }}Rule
+{
+    public function __construct({{ class }}Input $input)
+    {
+        $this->input = $input;
+    }
+
+    public function apply(): void
+    {
+
+    }
+}

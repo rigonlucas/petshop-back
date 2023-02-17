@@ -8,9 +8,9 @@ use Illuminate\Support\Str;
 
 class MakePaginationCommand extends GeneratorCommand
 {
-    protected $signature = 'make-clean:pagination {name}';
+    protected $signature = 'make-arch:pagination {name}';
     protected $description = 'Create a new pagination.';
-    protected $type = 'Clean';
+    protected $type = 'Pagiantion';
     protected $hidden = true;
     private string $layerAlias = 'Pagination';
 
@@ -21,7 +21,7 @@ class MakePaginationCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/pagination.stub');
+        return $this->resolveStubPath('/templates/clean/pagination.stub');
     }
 
     protected function resolveStubPath($stub)

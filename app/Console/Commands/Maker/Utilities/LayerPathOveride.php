@@ -11,7 +11,7 @@ class LayerPathOveride
         if ($arrayStruct[1] != $folderName) {
             return str_replace($arrayStruct[0], $folderName, $name) . '/' . $arrayStruct[0];
         }
-        
+
         return $name;
     }
 }

@@ -1,0 +1,35 @@
+<?php
+
+namespace {{ namespace }}\Outputs;
+
+use {{namespaceBase}}\Presenters\Outputs\{{ class }}OutputPresenter;
+use Core\Modules\Exports\Generics\Entities\Exportacao;
+use Core\Modules\Generics\Outputs\Interfaces\OutputInterface;
+use Core\Modules\Generics\Outputs\StatusOutput;
+
+class {{ class }}Output implements OutputInterface
+{
+    private StatusOutput $status;
+    private Exportacao $exportacao;
+
+    public function __construct(StatusOutput $status, Exportacao $exportacao)
+    {
+        $this->status = $status;
+        $this->exportacao = $exportacao;
+    }
+
+    public function getStatus(): StatusOutput
+    {
+        return $this->status;
+    }
+
+    public function getPresenter(): {{ class }}OutputPresenter
+    {
+        return (new {{ class }}OutputPresenter($this))->present();
+    }
+
+    public function getExportacao(): Exportacao
+    {
+        return $this->exportacao;
+    }
+}

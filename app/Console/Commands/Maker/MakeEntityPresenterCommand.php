@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands\Maker;
 
-use App\Console\Commands\Maker\Utilities\HasCustonNamespace;
+use App\Console\Commands\Maker\Utilities\HasCustomNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class MakeEntityPresenterCommand extends GeneratorCommand
 {
-    use HasCustonNamespace;
+    use HasCustomNamespace;
 
-    protected $signature = 'make-clean:entity-presenter {name}';
+    protected $signature = 'make-arch:entity-presenter {name}';
     protected $description = 'Create a new entity presenter.';
-    protected $type = 'Clean';
+    protected $type = 'Entidade presenter';
     protected $hidden = true;
     private string $layerAlias = 'Presenters/Entities';
 
@@ -24,7 +24,7 @@ class MakeEntityPresenterCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/entity-presenter.stub');
+        return $this->resolveStubPath('/templates/clean/entity-presenter.stub');
     }
 
     protected function resolveStubPath($stub)

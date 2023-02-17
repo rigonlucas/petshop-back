@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ namespace }};
+
+use Core\Modules\Generics\Enums\Interfaces\CodeErrorNameEnum;
+
+class ErrorCodeEnum implements CodeErrorNameEnum
+{
+    public const ENTITY__{{ class }}__GENERIC_EXCEPTION = 'Generic error';
+    public const ENTITY__{{ class }}__DATA_BASE_EXCEPTION = 'Database error';
+
+    public function getErrorCode($class, $value): string
+    {
+        return str_replace('__', '::', array_flip((new \ReflectionClass($class))->getConstants())[$value]);
+    }
+}

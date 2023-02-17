@@ -9,9 +9,9 @@ use Illuminate\Support\Str;
 class MakeGatewayCommand extends GeneratorCommand
 {
 
-    protected $signature = 'make-clean:gateway {name}';
+    protected $signature = 'make-arch:gateway {name}';
     protected $description = 'Create a new gateway.';
-    protected $type = 'Clean';
+    protected $type = 'Gateway';
     protected $hidden = true;
     private string $layerAlias = 'Gateways';
 
@@ -22,7 +22,7 @@ class MakeGatewayCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/clean/gateway.stub');
+        return $this->resolveStubPath('/templates/clean/gateway.stub');
     }
 
     protected function resolveStubPath($stub)

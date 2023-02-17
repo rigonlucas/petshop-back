@@ -4,7 +4,7 @@
 
 Comando básico:
 
-* artisan make-clean:{{COMANDO}} /Projeto/Salvar/SalvarProejto
+* artisan make-arch:{{COMANDO}} /Projeto/Salvar/SalvarProejto
 * A criação dos arquivos considera o caminho básico:
     * core/Modules/
 
@@ -22,7 +22,24 @@ Crie todos os arquivos dos casos de uso em apenas um comando.
         * Ao criar a paginação já cria a classe de ordenação dinêmica
 
 ```shell
-php artisan make-clean:usecase Projeto/Salvar/SalvarProjeto 
+php artisan make-arch:usecase Projeto/Salvar/SalvarProjeto 
+    --entities=projeto,edital 
+    --gateways=projeto,entidade
+    --collections=atividades
+    --exceptions=BuscarProjetoDatabase,EditalNaoEncontrado
+    --pagination=true
+    --rules=BuscaAlgumaCoisaRule,BuscaAlgumaCoisa2Rule
+```
+
+## Exemplos de utilizalção
+
+Crie todos os arquivos dos casos de uso de EXPORTAÇÃO em apenas um comando.
+
+* Possui todos os recursos do principal
+* Segue um padrão de exportação já definido
+
+```shell
+php artisan make-arch:exportacao Projeto/Salvar/SalvarProjeto 
     --entities=projeto,edital 
     --gateways=projeto,entidade
     --collections=atividades
@@ -41,11 +58,11 @@ Você pode criar cada layer da arquitetura separadamente
     * <b>Projeto/Salvar/Entities/Projeto.php</b>
 
 ```shell
-php artisan make-clean:entity Projeto/Salvar/Entities/Projeto
+php artisan make-arch:entity Projeto/Salvar/Entities/Projeto
 
 ou
 
-php artisan make-clean:entity Projeto/Salvar/Projeto 
+php artisan make-arch:entity Projeto/Salvar/Projeto 
 ```
 
 ### Criar collection
@@ -54,9 +71,9 @@ php artisan make-clean:entity Projeto/Salvar/Projeto
     * <b>Projeto/Salvar/Collections/ProjetoCollection.php</b>
 
 ```shell
-php artisan make-clean:collection Projeto/Salvar/Projeto
+php artisan make-arch:collection Projeto/Salvar/Projeto
 
-php artisan make-clean:collection Projeto/Salvar/Collections/Projeto  
+php artisan make-arch:collection Projeto/Salvar/Collections/Projeto  
 ```
 
 ### Criar Enum error
@@ -65,11 +82,24 @@ php artisan make-clean:collection Projeto/Salvar/Collections/Projeto
     * <b>Projeto/Salvar/Collections/ErrorCodeEnum.php</b>
 
 ```shell
-php artisan make-clean:enum-error Projeto/Salvar/Enums/
+php artisan make-arch:enum-error Projeto/Salvar/Enums/
 
 ou
 
-php artisan make-clean:enum-error Projeto/Salvar/
+php artisan make-arch:enum-error Projeto/Salvar/
+```
+
+### Criar Enum error
+
+* Ordenação:
+    * <b>Projeto/Salvar/Resolvers/OrdenacaoDaListaResolver.php</b>
+
+```shell
+php artisan make-arch:enum-error Projeto/Salvar/Resolvers/OrdenacaoDaLista
+
+ou
+
+php artisan make-arch:enum-error Projeto/Salvar/OrdenacaoDaLista
 ```
 
 ### Criar Exception
@@ -78,11 +108,11 @@ php artisan make-clean:enum-error Projeto/Salvar/
     * <b>Projeto/Salvar/Exceptions/BuscaProjetoDatabaseException.php</b>
 
 ```shell
-php artisan make-clean:exception Projeto/Salvar/BuscaProjetoDatabase 
+php artisan make-arch:exception Projeto/Salvar/BuscaProjetoDatabase 
 
 ou
 
-php artisan make-clean:exception Projeto/Salvar/Exceptions/BuscaProjetoDatabase 
+php artisan make-arch:exception Projeto/Salvar/Exceptions/BuscaProjetoDatabase 
 ```
 
 ### Criar gateways
@@ -91,11 +121,11 @@ php artisan make-clean:exception Projeto/Salvar/Exceptions/BuscaProjetoDatabase
     * <b>Projeto/Salvar/Gateways/ProjetoInterface.php</b>
 
 ```shell
-php artisan make-clean:gateway Projeto/Salvar/Projeto 
+php artisan make-arch:gateway Projeto/Salvar/Projeto 
 
 ou
 
-php artisan make-clean:gateway Projeto/Salvar/Gateways/Projeto 
+php artisan make-arch:gateway Projeto/Salvar/Gateways/Projeto 
 ```
 
 ### Criar output
@@ -104,11 +134,11 @@ php artisan make-clean:gateway Projeto/Salvar/Gateways/Projeto
     * <b>Projeto/Salvar/Outputs/ProjetoOutput.php</b>
 
 ```shell
-php artisan make-clean:output Projeto/Salvar/Projeto 
+php artisan make-arch:output Projeto/Salvar/Projeto 
 
 ou
 
-php artisan make-clean:output Projeto/Salvar/Outputs/Projeto 
+php artisan make-arch:output Projeto/Salvar/Outputs/Projeto 
 ```
 
 ### Criar presenter simples
@@ -117,11 +147,11 @@ php artisan make-clean:output Projeto/Salvar/Outputs/Projeto
     * <b>Projeto/Salvar/Presenters/SalvarProjetoPresenter.php</b>
 
 ```shell
-php artisan make-clean:presenter Projeto/Salvar/SalvarProjeto
+php artisan make-arch:presenter Projeto/Salvar/SalvarProjeto
 
 ou
 
-php artisan make-clean:presenter Projeto/Salvar/SalvarProjeto/Presenters
+php artisan make-arch:presenter Projeto/Salvar/SalvarProjeto/Presenters
 ```
 
 ### Criar rule
@@ -130,11 +160,11 @@ php artisan make-clean:presenter Projeto/Salvar/SalvarProjeto/Presenters
     * <b>Projeto/Salvar/Rules/SalvarProjetoRule.php</b>
 
 ```shell
-php artisan make-clean:rule Projeto/Salvar/SalvarProjeto 
+php artisan make-arch:rule Projeto/Salvar/SalvarProjeto 
 
 ou
 
-php artisan make-clean:rule Projeto/Salvar/Rules/SalvarProjeto
+php artisan make-arch:rule Projeto/Salvar/Rules/SalvarProjeto
 
 ```
 
@@ -144,9 +174,9 @@ php artisan make-clean:rule Projeto/Salvar/Rules/SalvarProjeto
     * <b>Projeto/Salvar/Rulesets/SalvarProjetoRuleset.php</b>
 
 ```shell
-php artisan make-clean:ruleset Projeto/Salvar/SalvarProjeto 
+php artisan make-arch:ruleset Projeto/Salvar/SalvarProjeto 
 
 ou
 
-php artisan make-clean:ruleset Projeto/Salvar/Ruleset/SalvarProjeto 
+php artisan make-arch:ruleset Projeto/Salvar/Ruleset/SalvarProjeto 
 ```

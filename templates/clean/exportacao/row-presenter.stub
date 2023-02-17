@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ namespace }};
+
+class CSVPresenter
+{
+    private Objeto $objeto;
+    private array $row = [];
+
+    public function __construct(Objeto $objeto)
+    {
+        $this->objeto = $objeto;
+    }
+
+    public function present(): self
+    {
+        $this->row = [
+            'id' => $this->objeto->getId(),
+        ];
+
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return array_values($this->row);
+    }
+}

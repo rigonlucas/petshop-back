@@ -1,0 +1,47 @@
+<?php
+
+namespace {{ namespace }};
+
+use Core\Dependencies\StorageInterface;
+use Core\Dependencies\UniqueStringInterface;
+use {{namespaceBase}}\Enums\FileDataEnum;
+use Core\Modules\Exports\Generics\Entities\Exportacao;
+use Core\Modules\Exports\Generics\Generators\CSV\CreatePathStorageGenerator;
+
+class SalvaCSVExportacaoRule
+{
+    private int $organizacaoId;
+    private $phpFileOutputBuffer;
+    private StorageInterface $storageInterface;
+    private UniqueStringInterface $uniqueString;
+
+    public function __construct(
+        int $organizacaoId,
+        StorageInterface $storageInterface,
+        UniqueStringInterface $uniqueString
+    ) {
+        $this->organizacaoId = $organizacaoId;
+        $this->storageInterface = $storageInterface;
+        $this->uniqueString = $uniqueString;
+    }
+
+    public function __invoke($phpFileOutputBuffer): self
+    {
+        $this->phpFileOutputBuffer = $phpFileOutputBuffer;
+        return $this;
+    }
+
+    public function apply(): Exportacao
+    {
+        $arquivo = (new CreatePathStorageGenerator())->generate(
+            FileDataEnum::BASE_PATH,
+            FileDataEnum::BASE_FILE_NAME,
+            $this->organizacaoId,
+            $this->uniqueString->getUnique()
+        );
+        $this->storageInterface->setDisk(FileDataEnum::DISK)->put($arquivo, $this->phpFileOutputBuffer);
+        fclose($this->phpFileOutputBuffer);
+        return (new Exportacao($arquivo, FileDataEnum::BASE_FILE_NAME, $this->organizacaoId))
+            ->setStorageDisk(FileDataEnum::DISK);
+    }
+}

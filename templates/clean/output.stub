@@ -1,0 +1,32 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{namespaceBase}}\Presenters\Outputs\{{ class }}OutputPresenter;
+use Core\Modules\Generics\Outputs\Interfaces\OutputInterface;
+use Core\Modules\Generics\Outputs\StatusOutput;
+
+class {{ class }}Output implements OutputInterface
+{
+    private StatusOutput $status;
+
+    public function __construct(StatusOutput $status /**, parametros**/)
+    {
+        $this->status = $status;
+    }
+
+    public function getStatus(): StatusOutput
+    {
+        return $this->status;
+    }
+
+    public function getPresenter(): {{ class }}OutputPresenter
+    {
+        return (new {{ class }}OutputPresenter($this, /**parametro**/))->present();
+    }
+
+    public function getAlumParametro(): AlumParametro
+    {
+        return $this->AlumParametro;
+    }
+}

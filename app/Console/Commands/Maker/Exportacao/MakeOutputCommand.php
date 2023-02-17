@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Console\Commands\Maker;
+namespace App\Console\Commands\Maker\Exportacao;
 
+use App\Console\Commands\Maker\Utilities\HasCustomNamespace;
 use App\Console\Commands\Maker\Utilities\LayerPathOveride;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
-class MakeInputCommand extends GeneratorCommand
+class MakeOutputCommand extends GeneratorCommand
 {
+    use HasCustomNamespace;
 
-    protected $signature = 'make-arch:input {name}';
-    protected $description = 'Create a new input.';
-    protected $type = 'Input';
+    protected $signature = 'make-arch:exportacao-output {name}';
+    protected $description = 'Create a new output.';
+    protected $type = 'Output';
     protected $hidden = true;
-    private string $layerAlias = 'Inputs';
+    private string $layerAlias = 'Outputs';
 
     public function handle()
     {
@@ -22,7 +24,7 @@ class MakeInputCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath('/templates/clean/input.stub');
+        return $this->resolveStubPath('/templates/clean/exportacao/output-exportacao.stub');
     }
 
     protected function resolveStubPath($stub)
@@ -36,7 +38,7 @@ class MakeInputCommand extends GeneratorCommand
     {
         $name = str_replace('\\', '/', Str::replaceFirst($this->rootNamespace(), '', $name));
 
-        return 'core/Modules/' . LayerPathOveride::overideLayerFolder($name, $this->layerAlias) . 'Input.php';
+        return 'core/Modules/' . LayerPathOveride::overideLayerFolder($name, $this->layerAlias) . 'Output.php';
     }
 
     protected function rootNamespace()
