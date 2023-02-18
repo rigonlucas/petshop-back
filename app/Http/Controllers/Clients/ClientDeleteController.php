@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Clients;
 
+use App\Actions\Application\Clients\ClientDeleteAction;
+use App\Actions\Application\Clients\DTO\ClientDeleteData;
 use App\Http\Controllers\Controller;
-use App\Services\Application\Clients\ClientDeleteService;
-use App\Services\Application\Clients\DTO\ClientDeleteData;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -13,10 +13,10 @@ class ClientDeleteController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @param ClientDeleteService $service
+     * @param ClientDeleteAction $service
      * @return Response
      */
-    public function __invoke(Request $request, int $id, ClientDeleteService $service): Response
+    public function __invoke(Request $request, int $id, ClientDeleteAction $service): Response
     {
         $data = new ClientDeleteData();
         $data->id = $id;

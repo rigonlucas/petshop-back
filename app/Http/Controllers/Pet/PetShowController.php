@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Pet;
 
+use App\Actions\Application\Pets\DTO\PetShowData;
+use App\Actions\Application\Pets\PetShowAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Pet\PetResource;
-use App\Services\Application\Pets\DTO\PetShowData;
-use App\Services\Application\Pets\PetShowService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
@@ -14,11 +14,11 @@ class PetShowController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @param PetShowService $service
+     * @param PetShowAction $service
      * @return PetResource
      * @throws AuthorizationException
      */
-    public function __invoke(Request $request, int $id, PetShowService $service): PetResource
+    public function __invoke(Request $request, int $id, PetShowAction $service): PetResource
     {
         $data = PetShowData::fromRequest($request);
         $data->id = $id;

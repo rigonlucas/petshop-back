@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Products;
 
+use App\Actions\Application\Exports\Products\ProductsExportAction;
 use App\Models\User;
-use App\Services\Application\Exports\Products\ProductsExportService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,10 +30,10 @@ class ProductsExportJob implements ShouldQueue, ShouldBeUniqueUntilProcessing
     /**
      * Execute the job.
      *
-     * @param ProductsExportService $service
+     * @param ProductsExportAction $service
      * @return void
      */
-    public function handle(ProductsExportService $service): void
+    public function handle(ProductsExportAction $service): void
     {
         $service->export($this->user);
     }

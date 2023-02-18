@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Accounts;
 
+use App\Actions\Application\Accounts\DTO\UserCreateData;
+use App\Actions\Application\Accounts\UserCreateAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Account\UserCreateRequest;
 use App\Http\Resources\User\UserResource;
-use App\Services\Application\Accounts\DTO\UserCreateData;
-use App\Services\Application\Accounts\UserCreateService;
 use Illuminate\Http\JsonResponse;
 
 class UserCreateController extends Controller
 {
-    public function __invoke(UserCreateRequest $request, UserCreateService $service): JsonResponse
+    public function __invoke(UserCreateRequest $request, UserCreateAction $service): JsonResponse
     {
         $data = UserCreateData::fromRequest($request);
         $accountUser = $service->create($data, $request->user());

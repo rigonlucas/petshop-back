@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Pet\Vaccine;
 
+use App\Actions\Application\Pets\Vaccines\DTO\PetVaccineStoreData;
+use App\Actions\Application\Pets\Vaccines\PetVaccinesStoreAction;
+use App\Actions\Application\Schedules\Schedule\Factories\DataScheduleFactory;
+use App\Actions\Application\Schedules\Schedule\Factories\NextShotVaccineFactory;
+use App\Actions\Application\Schedules\Schedule\ScheduleStoreAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Pet\Vaccine\PetVaccineStoreRequest;
 use App\Models\Products\Vaccine;
-use App\Services\Application\Pets\Vaccines\DTO\PetVaccineStoreData;
-use App\Services\Application\Pets\Vaccines\PetVaccinesStoreService;
-use App\Services\Application\Schedules\Schedule\Factories\DataScheduleFactory;
-use App\Services\Application\Schedules\Schedule\Factories\NextShotVaccineFactory;
-use App\Services\Application\Schedules\Schedule\ScheduleStoreService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -18,8 +18,8 @@ class PetVaccineStoreController extends Controller
 {
     public function __invoke(
         PetVaccineStoreRequest $request,
-        PetVaccinesStoreService $servicePetVacineStore,
-        ScheduleStoreService $serviceScheduleStore
+        PetVaccinesStoreAction $servicePetVacineStore,
+        ScheduleStoreAction $serviceScheduleStore
     ): JsonResponse {
         $dataPetVaccine = PetVaccineStoreData::fromRequest($request);
         $result = DB::transaction(function () use ($servicePetVacineStore, $serviceScheduleStore, $dataPetVaccine, $request) {

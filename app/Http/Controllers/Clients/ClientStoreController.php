@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Clients;
 
+use App\Actions\Application\Clients\ClientStoreAction;
+use App\Actions\Application\Clients\DTO\ClientStoreData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Client\ClientStoreRequest;
-use App\Services\Application\Clients\ClientStoreService;
-use App\Services\Application\Clients\DTO\ClientStoreData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -14,10 +14,10 @@ class ClientStoreController extends Controller
 {
     /**
      * @param ClientStoreRequest $request
-     * @param ClientStoreService $service
+     * @param ClientStoreAction $service
      * @return JsonResponse
      */
-    public function __invoke(ClientStoreRequest $request, ClientStoreService $service)
+    public function __invoke(ClientStoreRequest $request, ClientStoreAction $service)
     {
         $data = ClientStoreData::fromRequest($request);
         $data->account_id = $request->user()->account_id;

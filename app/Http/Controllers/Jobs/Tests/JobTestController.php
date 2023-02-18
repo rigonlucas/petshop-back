@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Jobs\Tests;
 
+use App\Enums\Exports\StatusJobEnum;
 use App\Http\Controllers\Controller;
 use App\Jobs\Batches\Entities\CompactExportsFinishJob;
 use App\Jobs\Batches\Entities\ExportProductsJob;
@@ -19,7 +20,7 @@ class JobTestController extends Controller
         $user = User::query()->with('account:id,uuid')->first();
         ExportsJob::query()->create([
             'name' => 'Exportação de arquivos inciada',
-            'status' => 'PROCESSING',
+            'status' => StatusJobEnum::PROCESSING->value,
             'uuid' => $uuid->toString(),
             'user_id' => $user->id,
             'main' => true,

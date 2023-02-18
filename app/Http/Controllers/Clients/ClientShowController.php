@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Clients;
 
+use App\Actions\Application\Clients\ClientShowAction;
+use App\Actions\Application\Clients\DTO\ClientShowData;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Client\ClientResource;
-use App\Services\Application\Clients\ClientShowService;
-use App\Services\Application\Clients\DTO\ClientShowData;
 use Illuminate\Http\Request;
 
 class ClientShowController extends Controller
@@ -13,10 +13,10 @@ class ClientShowController extends Controller
     /**
      * @param Request $request
      * @param int $id
-     * @param ClientShowService $service
+     * @param ClientShowAction $service
      * @return ClientResource
      */
-    public function __invoke(Request $request, int $id, ClientShowService $service): ClientResource
+    public function __invoke(Request $request, int $id, ClientShowAction $service): ClientResource
     {
         $data = ClientShowData::fromRequest($request);
         $data->id = $id;

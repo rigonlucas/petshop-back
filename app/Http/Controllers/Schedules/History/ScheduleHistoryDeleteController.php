@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Schedules\History;
 
+use App\Actions\Application\Schedules\History\DTO\ScheduleHistoryDeleteData;
+use App\Actions\Application\Schedules\History\ScheduleHistoryDeleteAction;
 use App\Http\Controllers\Controller;
-use App\Services\Application\Schedules\History\DTO\ScheduleHistoryDeleteData;
-use App\Services\Application\Schedules\History\ScheduleHistoryDeleteService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -14,7 +14,7 @@ class ScheduleHistoryDeleteController extends Controller
         Request $request,
         int $id,
         int $scheduleHistoryId,
-        ScheduleHistoryDeleteService $service
+        ScheduleHistoryDeleteAction $service
     ): Response {
         $data = new ScheduleHistoryDeleteData();
         $data->schedule_history_id = $scheduleHistoryId;

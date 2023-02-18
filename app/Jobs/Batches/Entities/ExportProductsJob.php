@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Batches\Entities;
 
+use App\Actions\Application\Exports\Products\ProductsExportAction;
 use App\Models\Mongodb\ExportsJob;
-use App\Services\Application\Exports\Products\ProductsExportService;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
@@ -39,7 +39,7 @@ class ExportProductsJob implements ShouldQueue, ShouldBeUniqueUntilProcessing
      */
     public function handle()
     {
-        $service = new ProductsExportService();
+        $service = new ProductsExportAction();
         $file = $service->export($this->user);
         ExportsJob::query()->create([
             'name' => $this->title,

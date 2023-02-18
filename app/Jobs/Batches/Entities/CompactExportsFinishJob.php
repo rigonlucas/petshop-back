@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Batches\Entities;
 
+use App\Enums\Exports\StatusJobEnum;
 use App\Enums\Exports\StorageExportEnum;
 use App\Models\Mongodb\ExportsJob;
 use App\Notifications\Export\ExportFinishedNotify;
@@ -109,8 +110,7 @@ class CompactExportsFinishJob implements ShouldQueue
             ->where('main', '=', true)
             ->update([
                 'name' => $this->title,
-                'status' => 'FINISHED',
-                'finish_job' => true,
+                'status' => StatusJobEnum::FINISHED->value,
                 'payload' => $payloadZip,
                 'temporary_url' => [
                     'url' => $url,

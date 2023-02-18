@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Schedules\Products;
 
+use App\Actions\Application\Schedules\Products\DTO\ScheduleProductDeleteData;
+use App\Actions\Application\Schedules\Products\ScheduleProductDeleteAction;
 use App\Http\Controllers\Controller;
-use App\Services\Application\Schedules\Products\DTO\ScheduleProductDeleteData;
-use App\Services\Application\Schedules\Products\ScheduleProductDeleteService;
 use Illuminate\Http\Request;
 
 class ScheduleProductsDeleteController extends Controller
@@ -13,7 +13,7 @@ class ScheduleProductsDeleteController extends Controller
         Request $request,
         int $id,
         int $scheduleProductId,
-        ScheduleProductDeleteService $service
+        ScheduleProductDeleteAction $service
     ) {
         $data = new ScheduleProductDeleteData();
         $data->schedule_id = $id;

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Pet;
 
+use App\Actions\Application\Pets\DTO\PetListData;
+use App\Actions\Application\Pets\PetListAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Pet\PetResource;
-use App\Services\Application\Pets\DTO\PetListData;
-use App\Services\Application\Pets\PetListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -13,10 +13,10 @@ class PetListController extends Controller
 {
     /**
      * @param Request $request
-     * @param PetListService $service
+     * @param PetListAction $service
      * @return AnonymousResourceCollection
      */
-    public function __invoke(Request $request, PetListService $service): AnonymousResourceCollection
+    public function __invoke(Request $request, PetListAction $service): AnonymousResourceCollection
     {
         $data = PetListData::fromRequest($request);
 

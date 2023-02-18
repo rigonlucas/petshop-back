@@ -2,9 +2,9 @@
 
 namespace App\Jobs\Batches\Entities;
 
+use App\Actions\Application\Exports\Schedules\SchedulesStatusExportAction;
 use App\Enums\SchedulesStatusEnum;
 use App\Models\Mongodb\ExportsJob;
-use App\Services\Application\Exports\Schedules\SchedulesStatusExportService;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
@@ -43,7 +43,7 @@ class ExportSchedulesJob implements ShouldQueue, ShouldBeUniqueUntilProcessing
      */
     public function handle()
     {
-        $service = new SchedulesStatusExportService();
+        $service = new SchedulesStatusExportAction();
         $file = $service->export($this->user, $this->enum);
         ExportsJob::query()->create([
             'name' => $this->title,

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Products\Product;
 
+use App\Actions\Application\Products\DTO\ProductUpdateData;
+use App\Actions\Application\Products\ProductUpdateAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Product\ProductStoreRequest;
-use App\Services\Application\Products\DTO\ProductUpdateData;
-use App\Services\Application\Products\ProductUpdateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -15,10 +15,10 @@ class ProductUpdateController extends Controller
     /**
      * @param ProductStoreRequest $request
      * @param int $id
-     * @param ProductUpdateService $service
+     * @param ProductUpdateAction $service
      * @return JsonResponse
      */
-    public function __invoke(ProductStoreRequest $request, int $id, ProductUpdateService $service): JsonResponse
+    public function __invoke(ProductStoreRequest $request, int $id, ProductUpdateAction $service): JsonResponse
     {
         $data = ProductUpdateData::fromRequest($request);
         $data->id = $id;

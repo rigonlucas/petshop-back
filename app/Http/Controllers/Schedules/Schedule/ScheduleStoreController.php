@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Schedules\Schedule;
 
+use App\Actions\Application\Schedules\Schedule\CreateRecurrenceAction;
+use App\Actions\Application\Schedules\Schedule\CreateVaccineAction;
+use App\Actions\Application\Schedules\Schedule\DTO\RecurrenceData;
+use App\Actions\Application\Schedules\Schedule\DTO\ScheduleData;
+use App\Actions\Application\Schedules\Schedule\DTO\VaccineData;
+use App\Actions\Application\Schedules\Schedule\ScheduleStoreAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Schedule\ScheduleStoreRequest;
 use App\Models\User;
-use App\Services\Application\Schedules\Schedule\CreateRecurrenceService;
-use App\Services\Application\Schedules\Schedule\CreateVaccineService;
-use App\Services\Application\Schedules\Schedule\DTO\RecurrenceData;
-use App\Services\Application\Schedules\Schedule\DTO\ScheduleData;
-use App\Services\Application\Schedules\Schedule\DTO\VaccineData;
-use App\Services\Application\Schedules\Schedule\ScheduleStoreService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ScheduleStoreController extends Controller
 {
-    public function __invoke(ScheduleStoreRequest $request, ScheduleStoreService $service): JsonResponse
+    public function __invoke(ScheduleStoreRequest $request, ScheduleStoreAction $service): JsonResponse
     {
         /** @var User $user */
         $user = $request->user();
@@ -31,16 +31,16 @@ class ScheduleStoreController extends Controller
             if (!empty($recurrencies)) {
                 $recurrenciesData = RecurrenceData::arrayOf($recurrencies);
 
-                /** @var CreateRecurrenceService $recurrenceService */
-                $recurrenceService = app(CreateRecurrenceService::class);
+                /** @var CreateRecurrenceAction $recurrenceService */
+                $recurrenceService = app(CreateRecurrenceAction::class);
                 $recurrenceService->create($schedule, $recurrenciesData, $user);
             }
 
             if (!empty($vaccines)) {
                 $vaccinesData = VaccineData::arrayOf($vaccines);
 
-                /** @var CreateVaccineService $vaccineService */
-                $vaccineService = app(CreateVaccineService::class);
+                /** @var CreateVaccineAction $vaccineService */
+                $vaccineService = app(CreateVaccineAction::class);
                 $vaccineService->create($schedule, $vaccinesData);
             }
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Schedules\Products;
 
+use App\Actions\Application\Schedules\Products\DTO\ScheduleProductsStoreData;
+use App\Actions\Application\Schedules\Products\ScheduleProductsStoreAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\Schedule\Products\ScheduleProductsStoreRequest;
-use App\Services\Application\Schedules\Products\DTO\ScheduleProductsStoreData;
-use App\Services\Application\Schedules\Products\ScheduleProductsStoreService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -14,7 +14,7 @@ class ScheduleProductsStoreController extends Controller
     public function __invoke(
         ScheduleProductsStoreRequest $request,
         int $id,
-        ScheduleProductsStoreService $service
+        ScheduleProductsStoreAction $service
     ): JsonResponse
     {
         $data = ScheduleProductsStoreData::fromRequest($request);

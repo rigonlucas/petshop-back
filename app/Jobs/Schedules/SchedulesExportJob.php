@@ -2,9 +2,9 @@
 
 namespace App\Jobs\Schedules;
 
+use App\Actions\Application\Exports\Schedules\SchedulesStatusExportAction;
 use App\Enums\SchedulesStatusEnum;
 use App\Models\User;
-use App\Services\Application\Exports\Schedules\SchedulesStatusExportService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,7 +15,7 @@ class SchedulesExportJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private SchedulesStatusExportService $service;
+    private SchedulesStatusExportAction $service;
 
     /**
      * Create a new job instance.
@@ -29,10 +29,10 @@ class SchedulesExportJob implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param SchedulesStatusExportService $service
+     * @param SchedulesStatusExportAction $service
      * @return void
      */
-    public function handle(SchedulesStatusExportService $service): void
+    public function handle(SchedulesStatusExportAction $service): void
     {
         $service->export($this->user, $this->enum);
     }

@@ -58,7 +58,7 @@ enum StorageExportEnum: string
     /**
      * Path
      */
-    case PRODUCTS_PATH = 'accounts/:ACCOUNT_ID:/products/';
+    case PRODUCTS_PATH = 'accounts/:ACCOUNT_ID:/products/ ';
     case SCHEDULES_PATH = 'accounts/:ACCOUNT_ID:/schedules/';
     case COMPACT_FILE_PATH = 'accounts/:ACCOUNT_ID:/zips/';
 }

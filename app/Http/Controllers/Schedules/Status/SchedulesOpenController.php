@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Schedules\Status;
 
+use App\Actions\Application\Schedules\Schedule\DTO\ScheduleStatusData;
+use App\Actions\Application\Schedules\Status\ScheduledAction;
 use App\Http\Controllers\Controller;
-use App\Services\Application\Schedules\Schedule\DTO\ScheduleStatusData;
-use App\Services\Application\Schedules\Status\ScheduledService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class SchedulesOpenController extends Controller
 {
-    public function __invoke(Request $request, int $id, ScheduledService $service): JsonResponse
+    public function __invoke(Request $request, int $id, ScheduledAction $service): JsonResponse
     {
         $this->authorize('schedule_edit');
         $data = new ScheduleStatusData();
