@@ -9,10 +9,6 @@ class ExportsJob extends Eloquent
     protected $connection = 'mongodb';
     protected $collection = 'exports_jobs';
 
-    protected $casts = [
-        'created_at' => 'date'
-    ];
-
     protected $fillable = [
         'user_id',
         'account_id',

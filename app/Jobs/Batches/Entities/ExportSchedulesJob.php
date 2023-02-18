@@ -32,7 +32,7 @@ class ExportSchedulesJob implements ShouldQueue, ShouldBeUniqueUntilProcessing
     public function __construct(
         private string $uuid,
         private readonly Model $user,
-        private readonly SchedulesStatusEnum $enum
+        private readonly ?SchedulesStatusEnum $enum = null
     ) {
     }
 

@@ -14,6 +14,7 @@ class ExportsManagerController extends Controller
             ->select('_id', 'name', 'file_group', 'temporary_url', 'uuid', 'created_at')
             ->where('main', '=', true)
             ->where('user_id', '=', auth()->id())
+            ->orderByDesc('created_at')
             ->simplePaginate(10);
     }
 }

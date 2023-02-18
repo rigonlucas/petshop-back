@@ -12,7 +12,7 @@ class SchedulesByStatusRepository implements ExportQueryInterface
 {
     private Builder $query;
 
-    public function __construct(User $user, SchedulesStatusEnum $enumStatus)
+    public function __construct(User $user, ?SchedulesStatusEnum $enumStatus)
     {
         $this->query = DB::table('schedules')
             ->select([
@@ -42,7 +42,7 @@ class SchedulesByStatusRepository implements ExportQueryInterface
             ->join('clients', 'schedules.client_id', '=', 'clients.id')
             ->leftJoin('users', 'schedules.user_id', '=', 'users.id')
             ->where('schedules.account_id', '=', $user->account_id)
-            ->where('schedules.status', '=', $enumStatus->value)
+            ->when($enumStatus, fn($query) => $query->where('schedules.status', '=', $enumStatus->value))
             ->groupBy('schedules.id');
     }
 

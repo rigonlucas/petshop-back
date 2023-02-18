@@ -31,7 +31,7 @@ class SchedulesStatusExportService extends BaseService implements ExportInterfac
         'finish_at'
     ];
 
-    public function export(User $user, SchedulesStatusEnum $enumStatus): array
+    public function export(User $user, ?SchedulesStatusEnum $enumStatus): array
     {
         $schedulesQuery = new SchedulesByStatusRepository($user, $enumStatus);
         $output = $this->setHeaders();

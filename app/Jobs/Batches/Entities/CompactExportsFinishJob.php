@@ -52,7 +52,9 @@ class CompactExportsFinishJob implements ShouldQueue
         $zip = new ZipArchive();
 
         if ($zip->open($fullFilePath, ZipArchive::CREATE) === true) {
-            $files = ExportsJob::query()->where('uuid', '=', $this->uuid)->get();
+            $files = ExportsJob::query()
+                ->whereNull('main')
+                ->where('uuid', '=', $this->uuid)->get();
             foreach ($files as $file) {
                 if ($file) {
                     $zip->addFile(
@@ -102,22 +104,25 @@ class CompactExportsFinishJob implements ShouldQueue
             'disk' => StorageExportEnum::PRIVATE_DISK->value,
         ];
 
-        ExportsJob::query()->create([
-            'name' => $this->title,
-            'status' => 'FINISHED',
-            'finish_job' => true,
-            'payload' => $payloadZip,
-            'temporary_url' => [
-                'url' => $url,
-                'expires_at' => new UTCDateTime($zipExpires)
-            ],
-            'file_group' => $exportedFiles,
-            'uuid' => $this->uuid,
-            'user_id' => $this->user->id,
-            'main' => true,
-            'file_type' => 'zip',
-            'account_id' => $this->user->account_id,
-            'finished_at' => new UTCDateTime(now())
-        ]);
+        ExportsJob::query()
+            ->where('uuid', '=', $this->uuid)
+            ->where('main', '=', true)
+            ->update([
+                'name' => $this->title,
+                'status' => 'FINISHED',
+                'finish_job' => true,
+                'payload' => $payloadZip,
+                'temporary_url' => [
+                    'url' => $url,
+                    'expires_at' => new UTCDateTime($zipExpires)
+                ],
+                'file_group' => $exportedFiles,
+                'uuid' => $this->uuid,
+                'user_id' => $this->user->id,
+                'main' => true,
+                'file_type' => 'zip',
+                'account_id' => $this->user->account_id,
+                'finished_at' => new UTCDateTime(now())
+            ]);
     }
 }
