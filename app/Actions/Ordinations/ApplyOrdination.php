@@ -13,10 +13,12 @@ class ApplyOrdination
             if (!($order instanceof OrdinationInterface)) {
                 throw new InvalidArgumentException('Ordenação não implementa interface');
             }
-            $order->orderBy($builder,
+            $order->orderBy(
+                $builder,
                 empty($orderName)
                     ? $builder->getModel()->getFillable()[0]
-                    : $orderName);
+                    : $orderName
+            );
         }
 
     }
