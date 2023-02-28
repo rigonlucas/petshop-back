@@ -30,7 +30,6 @@ class ExportSchedulesJob implements ShouldQueue, ShouldBeUniqueUntilProcessing
      * @return void
      */
     public function __construct(
-        private string $uuid,
         private readonly Model $user,
         private readonly ?SchedulesStatusEnum $enum = null
     ) {
@@ -48,7 +47,7 @@ class ExportSchedulesJob implements ShouldQueue, ShouldBeUniqueUntilProcessing
         ExportsJob::query()->create([
             'name' => $this->title,
             'payload' => $file,
-            'uuid' => $this->uuid,
+            'uuid' => $this->batchId,
             'user_id' => $this->user->id,
             'account_id' => $this->user->account_id,
             'file_type' => 'csv',

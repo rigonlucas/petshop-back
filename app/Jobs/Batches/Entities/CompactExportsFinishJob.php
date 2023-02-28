@@ -28,8 +28,9 @@ class CompactExportsFinishJob implements ShouldQueue
 
     private string $basePath;
     private string $title = 'Zip dos arquivos exportados';
+    private mixed $jobs;
 
-    public function __construct(private string $uuid, private readonly Model $user)
+    public function __construct(private string $uuid, private readonly Model $user, private readonly bool $hasFailures)
     {
         $this->basePath = storage_path() . '/app/' . StorageExportEnum::PRIVATE_DISK->value . '/';
     }
@@ -41,6 +42,16 @@ class CompactExportsFinishJob implements ShouldQueue
      */
     public function handle()
     {
+        $this->jobs = ExportsJob::query()
+            ->select('_id', 'name', 'file_type', 'payload')
+            ->where('uuid', '=', $this->uuid)
+            ->toBase()
+            ->get();
+        if ($this->hasFailures) {
+            $this->deleteFiles();
+            $this->updateFailedJob();
+            return;
+        }
         $zipFile = StorageExportEnum::COMPACT_FILE_NAME_BASE->getFileName();
         $generatedPath = StorageExportEnum::COMPACT_FILE_PATH->getPath($this->user->account->uuid);
         $path = $this->basePath . $generatedPath;
@@ -77,14 +88,47 @@ class CompactExportsFinishJob implements ShouldQueue
         Notification::route('mail', $this->user->email)
             ->notify(new ExportFinishedNotify($this->uuid, $this->user, $url));
 
-        $jobs = ExportsJob::query()
-            ->select('_id', 'name', 'file_type', 'payload')
-            ->where('uuid', '=', $this->uuid)
-            ->whereNull('main')
-            ->toBase()
-            ->get();
+        $exportedFiles = $this->deleteFiles();
+
+        $payloadZip = [
+            'path' => $path,
+            'file_name' => $zipFile . '.zip',
+            'disk' => StorageExportEnum::PRIVATE_DISK->value,
+        ];
+
+        ExportsJob::query()
+            ->create([
+                'name' => $this->title,
+                'status' => StatusJobEnum::FINISHED->value,
+                'payload' => $payloadZip,
+                'temporary_url' => [
+                    'url' => $url,
+                    'expires_at' => new UTCDateTime($zipExpires)
+                ],
+                'file_group' => $exportedFiles,
+                'uuid' => $this->uuid,
+                'user_id' => $this->user->id,
+                'main' => true,
+                'file_type' => 'zip',
+                'has_error' => false,
+                'account_id' => $this->user->account_id,
+                'finished_at' => new UTCDateTime(now())
+            ]);
+    }
+
+    public function failed($exception = null)
+    {
+        $this->updateFailedJob();
+        $this->deleteFiles();
+    }
+
+    /**
+     * @return array
+     */
+    public function deleteFiles(): array
+    {
         $exportedFiles = [];
-        foreach ($jobs as $job) {
+        foreach ($this->jobs as $job) {
             $payload = $job['payload'];
             if (isset($payload)) {
                 $wasDeleted = Storage::disk($payload['disk'])
@@ -98,29 +142,23 @@ class CompactExportsFinishJob implements ShouldQueue
                 }
             }
         }
+        return $exportedFiles;
+    }
 
-        $payloadZip = [
-            'path' => $path,
-            'file_name' => $zipFile . '.zip',
-            'disk' => StorageExportEnum::PRIVATE_DISK->value,
-        ];
-
+    /**
+     * @return void
+     */
+    public function updateFailedJob(): void
+    {
         ExportsJob::query()
-            ->where('uuid', '=', $this->uuid)
-            ->where('main', '=', true)
-            ->update([
+            ->create([
                 'name' => $this->title,
-                'status' => StatusJobEnum::FINISHED->value,
-                'payload' => $payloadZip,
-                'temporary_url' => [
-                    'url' => $url,
-                    'expires_at' => new UTCDateTime($zipExpires)
-                ],
-                'file_group' => $exportedFiles,
+                'status' => StatusJobEnum::ERROR->value,
                 'uuid' => $this->uuid,
                 'user_id' => $this->user->id,
                 'main' => true,
-                'file_type' => 'zip',
+                'has_error' => true,
+                'file_type' => 'error',
                 'account_id' => $this->user->account_id,
                 'finished_at' => new UTCDateTime(now())
             ]);

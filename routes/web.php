@@ -43,6 +43,7 @@ Route::middleware(OnlyInLocalHost::class)
             dd(
                 ExportsJob::query()->count(),
                 ExportsJob::query()
+                    ->whereDate('finished_at', '>', '2023-02-27')
                     ->where('uuid', '=', 'b47dbc98-0986-4c3c-b567-c6b64c686e05')
                     ->first()
                     ?->toArray()

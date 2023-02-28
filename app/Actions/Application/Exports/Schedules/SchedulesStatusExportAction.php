@@ -67,9 +67,9 @@ class SchedulesStatusExportAction extends BaseAction implements ExportInterface
                 'user_name' => $schedule->user_name,
                 'type' => SchedulesTypesEnum::from($schedule->type)->name,
                 'status' => SchedulesStatusEnum::from($schedule->status)->name,
-                'start_at' => Carbon::createFromFormat('Y-m-d h:i:s', $schedule->start_at)->format('d/m/Y h:i:s'),
+                'start_at' => Carbon::createFromFormat('Y-m-d H:i:s', $schedule->start_at)->format('d/m/Y H:i:s'),
                 'duration' => $schedule->duration,
-                'finish_at' => Carbon::createFromFormat('Y-m-d h:i:s', $schedule->finish_at)->format('d/m/Y h:i:s'),
+                'finish_at' => Carbon::createFromFormat('Y-m-d H:i:s', $schedule->finish_at)->format('d/m/Y H:i:s'),
             ];
             fputcsv($output, $dados);
         }
