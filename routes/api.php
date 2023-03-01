@@ -263,5 +263,10 @@ Route::prefix('v1')->group(function () {
             Route::get('exports/all', [ExportsManagerController::class, 'myExports'])
                 ->name('managers.exports');
         });
+
+        Route::prefix('exports')->group(function () {
+            Route::get('all', [ExportsManagerController::class, 'exportAll'])
+                ->name('exports.all');
+        });
     });
 });

@@ -16,6 +16,7 @@ class ExportsJob extends Eloquent
         'uuid',
         'payload',
         'temporary_url',
+        'has_error',
         'status',
         'file_group',
         'file_type',
